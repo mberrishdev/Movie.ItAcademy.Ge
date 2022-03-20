@@ -9,6 +9,7 @@ namespace Movie.BO.Web.MVC.Infrastracture.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
     }

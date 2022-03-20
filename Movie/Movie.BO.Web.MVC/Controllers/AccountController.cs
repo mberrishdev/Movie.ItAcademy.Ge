@@ -1,9 +1,14 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Account;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
@@ -27,6 +32,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Register([FromForm] RegisterModel model)
         {
@@ -46,19 +52,32 @@ namespace Movie.BO.Web.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LogInModel model)
         {
+
             if (!ModelState.IsValid)
                 return View();
 
 
-            SignInStatus result = await _accountService.LoginAsync(model.Adapt<Services.Models.User.LogInModel>());
+            (SignInStatus Status, string Email) result = await _accountService.LoginAsync(model.Adapt<Services.Models.User.LogInModel>());
 
-            if (result == SignInStatus.Success)
+            if (result.Status == SignInStatus.Success)
                 return RedirectToAction("", "");
 
 
             ModelState.AddModelError("", "Username or password is incorrect");
 
-            return View();    
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, model.UserName),
+                new Claim(ClaimTypes.Email, result.Email),
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                principal, new AuthenticationProperties() { IsPersistent = model.RememberMe });
+
+            return View();
         }
 
         public async Task<IActionResult> LogOut()

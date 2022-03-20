@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Movie.BO.Services
 {
-    public enum MovieStatus
+    public enum RoomStatus
     {
         New,
         Active,

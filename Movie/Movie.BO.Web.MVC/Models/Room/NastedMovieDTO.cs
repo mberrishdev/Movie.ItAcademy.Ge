@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.BO.Services.Models
+﻿namespace Movie.BO.Web.MVC.Models.Room
 {
-    public class Movie
+    public class NastedMovieDTO
     {
-        public Guid RoomId { get; set; }
         public string Name { get; set; }
         public string Gener { get; set; }
         public string Director { get; set; }

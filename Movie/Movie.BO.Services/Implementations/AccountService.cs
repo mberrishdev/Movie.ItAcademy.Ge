@@ -36,9 +36,9 @@ namespace Movie.BO.Services.Implementations
             return result.Errors;
         }
 
-        public async Task<SignInStatus> LoginAsync(LogInModel model)
+        public async Task<(SignInStatus Status, string Email)> LoginAsync(LogInModel model)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
 
             if (user != null)
             {
@@ -46,11 +46,12 @@ namespace Movie.BO.Services.Implementations
 
                 if (signInResult.Succeeded)
                 {
-                    return SignInStatus.Success;
+                    return (SignInStatus.Success, user.Email);
                 }
             }
 
-            return SignInStatus.Failure;
+
+            return (SignInStatus.Failure, "");
         }
 
         public async Task LogOutAsync()

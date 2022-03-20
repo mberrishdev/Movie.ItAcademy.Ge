@@ -1,16 +1,15 @@
-﻿@page
-@using Movie.BO.Web.MVC.Models.Account
+﻿@using Movie.BO.Web.MVC.Models.Account
 @model LogInModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Login";
 }
 
 <h1>@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-4">
         <section>
-            <form asp-action="Login">
+            <form asp-action="Login" method="post">
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>

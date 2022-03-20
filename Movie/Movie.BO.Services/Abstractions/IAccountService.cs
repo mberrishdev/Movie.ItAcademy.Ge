@@ -11,7 +11,7 @@ namespace Movie.BO.Services.Abstractions
     public interface IAccountService
     {
         Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model);
-        Task<SignInStatus> LoginAsync(LogInModel model);
+        Task<(SignInStatus Status, string Email)> LoginAsync(LogInModel model);
         Task LogOutAsync();
     }
 

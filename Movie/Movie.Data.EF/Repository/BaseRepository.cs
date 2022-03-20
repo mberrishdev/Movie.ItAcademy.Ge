@@ -14,7 +14,7 @@ namespace Movie.Data.EF.Repository
         private readonly DbContext _context;
         private readonly DbSet<T> _dbSet;
 
-        public BaseRepository(MovieDbContext context)
+        public BaseRepository(MovieDBContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

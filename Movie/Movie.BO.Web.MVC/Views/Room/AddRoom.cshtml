@@ -1,0 +1,38 @@
+﻿@using Movie.BO.Web.MVC.Models.Room
+@model RoomCreateModel
+@{
+    ViewData["Title"] = "Add Room";
+}
+
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+            <form asp-action="AddRoom" method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="PremierTime"></label>
+                    <input asp-for="PremierTime" class="form-control" type="datetime"/>
+                    <span asp-validation-for="PremierTime" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="RoomUserCapacity"></label>
+                    <input asp-for="RoomUserCapacity" class="form-control" type="number"/>
+                    <span asp-validation-for="RoomUserCapacity" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price"></label>
+                    <input asp-for="Price" class="form-control" type="number"/>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Currency"></label>
+                    <input asp-for="Currency" class="form-control"/>
+                    <span asp-validation-for="Currency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Add Room</button>
+                </div>
+            </form>
+    </div>
+</div>

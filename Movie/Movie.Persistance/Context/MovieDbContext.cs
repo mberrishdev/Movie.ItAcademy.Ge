@@ -1,24 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Movie.Persistance.Context
 {
-    public class MovieDbContext : DbContext
+    public class MovieDBContext : IdentityDbContext
     {
-        public MovieDbContext(DbContextOptions<MovieDbContext> options) : base(options)
+        public MovieDBContext(DbContextOptions<MovieDBContext> options) : base(options)
         {
         }
 
-
         public DbSet<Domain.POCO.Movie> Movies { get; set; }
-
-
+        public DbSet<Domain.POCO.Room> Rooms { get; set; }
+        public DbSet<Domain.POCO.Booking> Bookings { get; set; }
+        public DbSet<Domain.POCO.Payment> Payments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MovieDbContext).Assembly);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(MovieDBContext).Assembly);
         }
+
     }
 }

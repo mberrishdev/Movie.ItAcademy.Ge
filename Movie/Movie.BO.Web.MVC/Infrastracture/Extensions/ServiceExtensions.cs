@@ -10,6 +10,7 @@ namespace Movie.BO.Web.MVC.Infrastracture.Extensions
         {
             services.RegisterMaps(); 
             services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IUserRolesService, UserRolesService>();
             services.AddScoped<IRoleManagerService, RoleManagerService>();
             services.AddScoped<IAccountService, AccountService>();

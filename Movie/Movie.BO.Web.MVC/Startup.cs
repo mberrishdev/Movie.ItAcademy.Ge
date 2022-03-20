@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movie.BO.Web.MVC.Infrastracture.Extensions;
+using Movie.BO.Web.MVC.Infrastracture.Middlewares;
 using Movie.Persistance;
 using Movie.Persistance.Context;
 using System;
@@ -33,21 +34,18 @@ namespace Movie.BO.Web.MVC
 
             services.AddServices();
 
-            services.AddDbContext<MovieIdentityDBContext>(options =>
+
+            services.AddDbContext<MovieDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
             });
 
-            services.AddDbContext<MovieDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
-            });
             services.AddIdentity<IdentityUser, IdentityRole>(option =>
             {
                 option.Password.RequireDigit = true;
                 option.Password.RequiredLength = 8;
                 option.Password.RequireUppercase = true;
-            }).AddEntityFrameworkStores<MovieIdentityDBContext>();
+            }).AddEntityFrameworkStores<MovieDBContext>();
 
         }
 
@@ -64,12 +62,17 @@ namespace Movie.BO.Web.MVC
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

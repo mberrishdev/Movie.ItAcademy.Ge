@@ -9,8 +9,8 @@ using Movie.Persistance.Context;
 
 namespace Movie.Persistance.Migrations
 {
-    [DbContext(typeof(MovieIdentityDBContext))]
-    [Migration("20220319193115_FirstMigration")]
+    [DbContext(typeof(MovieDBContext))]
+    [Migration("20220320124950_FirstMigration")]
     partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -217,6 +217,106 @@ namespace Movie.Persistance.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Movie.Domain.POCO.Booking", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("UniqueIdentifier");
+
+                    b.Property<DateTime>("BookedDT")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("MovieId")
+                        .HasColumnType("UniqueIdentifier");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("UniqueIdentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("Movie.Domain.POCO.Movie", b =>
+                {
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("UniqueIdentifier");
+
+                    b.Property<string>("BannerUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Director")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gener")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("IMDBReiting")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("RoomId");
+
+                    b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("Movie.Domain.POCO.Payment", b =>
+                {
+                    b.Property<Guid>("BookingId")
+                        .HasColumnType("UniqueIdentifier");
+
+                    b.Property<DateTime>("PayemntDT")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("UniqueIdentifier");
+
+                    b.HasKey("BookingId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("Movie.Domain.POCO.Room", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PremierTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("RoomUserCapacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Rooms");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -266,6 +366,38 @@ namespace Movie.Persistance.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Movie.Domain.POCO.Movie", b =>
+                {
+                    b.HasOne("Movie.Domain.POCO.Room", "Room")
+                        .WithOne("Movie")
+                        .HasForeignKey("Movie.Domain.POCO.Movie", "RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Room");
+                });
+
+            modelBuilder.Entity("Movie.Domain.POCO.Payment", b =>
+                {
+                    b.HasOne("Movie.Domain.POCO.Booking", "Booking")
+                        .WithOne("Payment")
+                        .HasForeignKey("Movie.Domain.POCO.Payment", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Booking");
+                });
+
+            modelBuilder.Entity("Movie.Domain.POCO.Booking", b =>
+                {
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("Movie.Domain.POCO.Room", b =>
+                {
+                    b.Navigation("Movie");
                 });
 #pragma warning restore 612, 618
         }

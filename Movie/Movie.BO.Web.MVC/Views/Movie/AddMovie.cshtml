@@ -4,13 +4,17 @@
     ViewData["Title"] = "AddMovie";
 }
 
-
 <h1>@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-4">
             <form asp-action="AddMovie" method="post">
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="RoomId"></label>
+                    <input asp-for="RoomId" class="form-control" />
+                    <span asp-validation-for="RoomId" class="text-danger"></span>
+                </div>
                 <div class="form-group">
                     <label asp-for="Name"></label>
                     <input asp-for="Name" class="form-control" />
@@ -20,7 +24,7 @@
                     <label asp-for="Gener"></label>
                     <input asp-for="Gener" class="form-control" />
                     <span asp-validation-for="Gener" class="text-danger"></span>
-                </div
+                </div>
                 <div class="form-group">
                     <label asp-for="Director"></label>
                     <input asp-for="Director" class="form-control" />
@@ -32,24 +36,9 @@
                     <span asp-validation-for="IMDBReiting" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="PremierTime"></label>
-                    <input asp-for="PremierTime" class="form-control" type="datetime"/>
-                    <span asp-validation-for="PremierTime" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Description"></label>
                     <input asp-for="Description" class="form-control"/>
                     <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Price"></label>
-                    <input asp-for="Price" class="form-control" type="number"/>
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Currency"></label>
-                    <input asp-for="Currency" class="form-control"/>
-                    <span asp-validation-for="Currency" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="BannerUrl"></label>

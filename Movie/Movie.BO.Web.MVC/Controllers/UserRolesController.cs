@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class UserRolesController : Controller
     {
         private readonly IUserRolesService _userRolesService;

@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services;
 using Movie.BO.Services.Abstractions;
@@ -23,68 +24,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> MovieDetails(Guid id)
-        {
-            var result = await _movieService.GetMovieAsync(id);
-
-            if (result == null)
-                return NotFound();
-
-            var movie = result.Adapt<MovieDTO>();
-
-            return View(movie);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ActivateMovie(Guid id)
-        {
-            await _movieService.ChangeMovieStatusAsync(id, MovieStatus.Active);
-
-            return RedirectToAction("MovieDetails", new
-            {
-                id = id,
-            });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> InActivateMovie(Guid id)
-        {
-            await _movieService.ChangeMovieStatusAsync(id, MovieStatus.InActive);
-
-            return RedirectToAction("MovieDetails", new
-            {
-                id = id,
-            });
-        }
-
-
-        public async Task<IActionResult> Movies()
-        {
-            var result = await _movieService.GetAllMoviesAsync();
-
-            if (result == null)
-                return NotFound();
-
-            var movies = result.Adapt<List<MovieDTO>>();
-
-            return View(movies);
-
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetMovie(Guid id)
-        {
-            await _movieService.GetMovieAsync(id);
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllMovies()
-        {
-            await _movieService.GetAllMoviesAsync();
-            return View();
-        }
-
+        //[Authorize(Roles = "Moderator")]
         [HttpPost]
         public async Task<IActionResult> AddMovie(MovieCreateModel movie)
         {
@@ -95,6 +35,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(movie);
         }
 
+        [Authorize(Roles = "Moderator")]
         [HttpPost]
         public async Task<IActionResult> UpdateMovie(MovieDTO movie)
         {
@@ -103,16 +44,6 @@ namespace Movie.BO.Web.MVC.Controllers
 
             await _movieService.UpdateMovieAsync(movie.Adapt<Services.Models.Movie>());
             return View(movie);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteMovie(Guid id)
-        {
-            if (!ModelState.IsValid)
-                return View();
-
-            await _movieService.DeleteMovieAsync(id);
-            return RedirectToAction("Movies");
         }
     }
 }
