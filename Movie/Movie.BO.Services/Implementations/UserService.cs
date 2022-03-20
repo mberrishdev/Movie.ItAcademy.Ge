@@ -28,14 +28,5 @@ namespace Movie.BO.Services.Implementations
                 Email = user.Email
             }).ToList();
         }
-
-        public async Task GetUserBookings(Guid id)
-        {
-            IdentityUser user = await _userManager.FindByIdAsync(id.ToString());
-
-            if (user != null)
-            {
-            }
-        }
     }
 }

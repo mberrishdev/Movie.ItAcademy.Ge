@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Movie.Data;
+using Movie.Data.EF;
 using Movie.Data.EF.Repository;
 
 namespace Movie.BO.Web.MVC.Infrastracture.Extensions
@@ -10,6 +11,8 @@ namespace Movie.BO.Web.MVC.Infrastracture.Extensions
         {
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IBookingRepository, BookingRepository>();
+
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
     }

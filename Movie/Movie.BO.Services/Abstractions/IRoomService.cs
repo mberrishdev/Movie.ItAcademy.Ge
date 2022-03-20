@@ -1,4 +1,5 @@
 ﻿using Movie.BO.Services.Models;
+using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

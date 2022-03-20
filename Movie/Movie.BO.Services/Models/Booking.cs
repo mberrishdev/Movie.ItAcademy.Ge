@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Movie.Domain.POCO
+namespace Movie.BO.Services.Models
 {
     public class Booking
     {
@@ -10,9 +10,7 @@ namespace Movie.Domain.POCO
         public Guid UserId { get; set; }
         public Guid MovieId { get; set; }
         public DateTime BookedDT { get; set; }
-        public string PaymentStatus { get; set; }   
+        public string PaymentStatus { get; set; }
         public string Status { get; set; }
-
-        public Payment Payment { get; set; }
     }
 }

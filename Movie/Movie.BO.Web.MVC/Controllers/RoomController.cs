@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Room;
+using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

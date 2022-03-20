@@ -1,10 +1,7 @@
 ﻿using Mapster;
 using Movie.BO.Services.Abstractions;
 using Movie.Data;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-
 namespace Movie.BO.Services.Implementations
 {
     public class MovieService : IMovieService

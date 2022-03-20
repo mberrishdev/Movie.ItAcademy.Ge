@@ -2,9 +2,9 @@
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Models;
 using Movie.Data;
+using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Services.Implementations
@@ -29,7 +29,7 @@ namespace Movie.BO.Services.Implementations
 
         public async Task<Room> GetRoomWithMovieAsync(Guid id)
         {
-            Domain.POCO.Room result =  await _roomRepository.GetRoomWithMovieAsync(id);
+            Domain.POCO.Room result = await _roomRepository.GetRoomWithMovieAsync(id);
 
             return result.Adapt<Room>();
         }

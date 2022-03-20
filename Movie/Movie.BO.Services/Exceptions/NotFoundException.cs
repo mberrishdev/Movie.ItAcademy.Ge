@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Movie.Services.Exceptions;
 
 namespace Movie.BO.Services.Exceptions
 {
-    public class NotFoundException:BaseException
+    public class NotFoundException : BaseException
     {
         public NotFoundException(string message) : base(message)
         {

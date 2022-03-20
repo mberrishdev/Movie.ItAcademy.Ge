@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 
-namespace Movie.BO.Services.Exceptions
+namespace Movie.Services.Exceptions
 {
     public class BaseException : Exception
     {

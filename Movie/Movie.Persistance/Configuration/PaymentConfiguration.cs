@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Movie.Domain.POCO;
 
 namespace Movie.Persistance.Configuration
 {
-    public class PaymentConfiguration : IEntityTypeConfiguration<Domain.POCO.Payment>
+    public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
     {
-        public void Configure(EntityTypeBuilder<Domain.POCO.Payment> builder)
+        public void Configure(EntityTypeBuilder<Payment> builder)
         {
             builder.HasKey(x => x.BookingId);
             builder.Property(x => x.BookingId).HasColumnType("UniqueIdentifier");

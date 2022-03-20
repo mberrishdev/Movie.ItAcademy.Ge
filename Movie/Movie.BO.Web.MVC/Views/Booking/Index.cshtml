@@ -1,0 +1,48 @@
+﻿@using Movie.BO.Web.MVC.Models;
+@model IEnumerable<BookingDTO>
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Booked DateTime</th>
+            <th>Payment Status</th>
+            <th>Status</th>
+            <th>User Detail</th>
+            <th>Movie Detail</th>
+            <th>Payment Detail</th>
+            <th>Cancel booking </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var booking in Model)
+        {
+            <tr>
+
+                <td>
+                    <p class="pull-right">@booking.BookedDT</p>
+                </td>
+                <td>
+                    <p class="pull-right">@booking.PaymentStatus</p>
+                </td>
+                <td>
+                    <p class="pull-right">@booking.Status</p>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Room" asp-action="RoomDetails" asp-route-id="@booking.UserId">User Detail</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Room" asp-action="RoomDetails" asp-route-id="@booking.MovieId">Movie Detail</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Room" asp-action="RoomDetails" asp-route-id="@booking.Id">Payment Detail</a>
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Movie" asp-action="MovieDetails" asp-route-id="@booking.Id">Cancel booking</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+

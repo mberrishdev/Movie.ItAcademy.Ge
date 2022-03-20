@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movie.Data.EF.Repository
+namespace Movie.Data.EF
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {

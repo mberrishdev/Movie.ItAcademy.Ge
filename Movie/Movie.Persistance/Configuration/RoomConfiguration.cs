@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Movie.Domain.POCO;
 
 namespace Movie.Persistance.Configuration
 {
-    public class RoomConfiguration : IEntityTypeConfiguration<Domain.POCO.Room>
+    public class RoomConfiguration : IEntityTypeConfiguration<Room>
     {
-        public void Configure(EntityTypeBuilder<Domain.POCO.Room> builder)
+        public void Configure(EntityTypeBuilder<Room> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -17,7 +18,7 @@ namespace Movie.Persistance.Configuration
             builder.Property(x => x.Status).IsRequired();
 
             builder.HasOne(a => a.Movie).WithOne(b => b.Room)
-                .HasForeignKey<Movie.Domain.POCO.Movie>(e => e.RoomId);
+                .HasForeignKey<Domain.POCO.Movie>(e => e.RoomId);
         }
     }
 }
