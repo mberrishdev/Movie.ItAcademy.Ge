@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Movie.Persistance;
+using Movie.Persistance.Context;
 
 namespace Movie.Persistance.Migrations
 {
-    [DbContext(typeof(MovieDBContext))]
+    [DbContext(typeof(MovieIdentityDBContext))]
     [Migration("20220319193115_FirstMigration")]
     partial class FirstMigration
     {

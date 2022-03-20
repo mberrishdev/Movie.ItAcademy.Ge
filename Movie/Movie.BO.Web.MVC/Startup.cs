@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Movie.BO.Web.MVC.Infrastracture.Extensions;
 using Movie.Persistance;
+using Movie.Persistance.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,17 +31,23 @@ namespace Movie.BO.Web.MVC
             services.AddControllersWithViews();
             services.AddMvc();
 
-            services.AddDbContext<MovieDBContext>(options =>
+            services.AddServices();
+
+            services.AddDbContext<MovieIdentityDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
             });
 
+            services.AddDbContext<MovieDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
+            });
             services.AddIdentity<IdentityUser, IdentityRole>(option =>
             {
                 option.Password.RequireDigit = true;
                 option.Password.RequiredLength = 8;
                 option.Password.RequireUppercase = true;
-            }).AddEntityFrameworkStores<MovieDBContext>();
+            }).AddEntityFrameworkStores<MovieIdentityDBContext>();
 
         }
 

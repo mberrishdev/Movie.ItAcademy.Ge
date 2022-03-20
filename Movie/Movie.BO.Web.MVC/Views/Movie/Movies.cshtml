@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Movie.BO.Web.MVC.Models.Movie.MovieDTO>
+
+@foreach (var m in Model)
+{
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            <img src="@m.BannerUrl"  height="60px" width="40px" alt="">
+            <div class="caption">
+                <h3 class="pull-right">@m.Name</h3>
+                <h3>
+                    <a asp-controller="Movie" asp-action="MovieDetails" asp-route-id="@m.Id">Detail</a>
+                </h3>
+                <p>@m.Status</p>
+            </div>
+        </div>
+    </div>
+}
+

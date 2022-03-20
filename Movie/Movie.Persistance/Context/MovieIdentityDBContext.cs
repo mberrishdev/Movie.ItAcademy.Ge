@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Movie.Persistance
+namespace Movie.Persistance.Context
 {
-    public class MovieDBContext : IdentityDbContext
+    public class MovieIdentityDBContext : IdentityDbContext
     {
-        public MovieDBContext(DbContextOptions<MovieDBContext> options) : base(options)
+        public MovieIdentityDBContext(DbContextOptions<MovieIdentityDBContext> options) : base(options)
         {
-
         }
+
     }
 }

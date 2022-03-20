@@ -30,6 +30,7 @@ namespace Movie.BO.Web.MVC.Infrastracture.Middlewares
                 await HandleExceptionAsync(context, ex);
             }
         }
+
         private async Task HandleBaseExceptionAsync(HttpContext context, BaseException ex)
         {
             var error = ex.ApiError;
