@@ -33,7 +33,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(rooms);
         }
 
-        [HttpPost]
+
         public async Task<IActionResult> CancellBooking(Guid id)
         {
             await _bookingService.ChangeBookingStatus(id, BookingStatus.CancelledByModerator);

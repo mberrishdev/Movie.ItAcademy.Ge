@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,12 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movie.BO.Web.MVC.Infrastracture.Extensions;
 using Movie.BO.Web.MVC.Infrastracture.Middlewares;
-using Movie.Persistance;
 using Movie.Persistance.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC
 {
@@ -40,12 +34,17 @@ namespace Movie.BO.Web.MVC
                 options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>(option =>
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<MovieDBContext>();
+
+            services.AddAuthorization(opts =>
             {
-                option.Password.RequireDigit = true;
-                option.Password.RequiredLength = 8;
-                option.Password.RequireUppercase = true;
-            }).AddEntityFrameworkStores<MovieDBContext>();
+                opts.AddPolicy("AspManager", policy =>
+                {
+                    policy.RequireRole("Test");
+                    //policy.RequireClaim("Coding-Skill", "ASP.NET Core MVC");
+                });
+            });
 
         }
 

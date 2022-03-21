@@ -11,10 +11,10 @@ namespace Movie.Persistance.Configuration
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnType("UniqueIdentifier");
             builder.Property(x => x.UserId).HasColumnType("UniqueIdentifier").IsRequired();
-            builder.Property(x => x.MovieId).HasColumnType("UniqueIdentifier").IsRequired();
+            builder.Property(x => x.RoomId).HasColumnType("UniqueIdentifier").IsRequired();
             builder.Property(x => x.BookedDT).IsRequired();
             builder.Property(x => x.PaymentStatus).IsRequired().HasMaxLength(15);
-            builder.Property(x => x.Status).IsRequired().HasMaxLength(15); ;
+            builder.Property(x => x.Status).IsRequired().HasMaxLength(25); ;
 
 
             builder.HasOne(a => a.Payment).WithOne(b => b.Booking)

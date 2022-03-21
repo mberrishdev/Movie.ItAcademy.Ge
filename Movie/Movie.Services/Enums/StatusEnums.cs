@@ -4,6 +4,11 @@ using System.Text;
 
 namespace Movie.Services.Enums
 {
+    public enum SignInStatus
+    {
+        Success,
+        Failure
+    }
     public enum RoomStatus
     {
         New,

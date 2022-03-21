@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Models.User;
+using Movie.Services.Abstractions;
+using Movie.Services.Enums;
+using Movie.Services.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,15 +29,28 @@ namespace Movie.BO.Services.Implementations
 
         public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model)
         {
-            var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
 
+            string userName = model.UserName;
+            var user = new IdentityUser
+            {
+                UserName = userName,
+                Email = model.Email,
+            };
+            var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
-            }
+                await _userManager.AddToRoleAsync(user, Roles.Moderator.ToString());
 
-            return result.Errors;
+                //var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
+                //var result = await _userManager.CreateAsync(user, model.Password);
+
+                //if (result.Succeeded)
+                //{
+                //    _logger.LogInformation("User created a new account with password.");
+                //}
+            }
+                return result.Errors;
         }
 
         public async Task<(SignInStatus Status, string Email)> LoginAsync(LogInModel model)

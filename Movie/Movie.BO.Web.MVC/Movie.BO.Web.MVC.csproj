@@ -31,7 +31,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Movie.BO.Services\Movie.BO.Services.csproj" />
     <ProjectReference Include="..\Movie.Data.EF\Movie.Data.EF.csproj" />
-    <ProjectReference Include="..\Movie.Domain\Movie.Domain.csproj" />
     <ProjectReference Include="..\Movie.Persistance\Movie.Persistance.csproj" />
   </ItemGroup>
 

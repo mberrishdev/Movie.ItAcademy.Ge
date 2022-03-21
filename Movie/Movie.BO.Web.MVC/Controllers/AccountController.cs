@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Account;
+using Movie.Services.Abstractions;
+using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -39,7 +41,7 @@ namespace Movie.BO.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _accountService.RegisterAsync(model.Adapt<Services.Models.User.RegisterModel>());
+            var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
 
             foreach (var error in result)
             {
@@ -57,7 +59,7 @@ namespace Movie.BO.Web.MVC.Controllers
                 return View();
 
 
-            (SignInStatus Status, string Email) result = await _accountService.LoginAsync(model.Adapt<Services.Models.User.LogInModel>());
+            (SignInStatus Status, string Email) result = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>());
 
             if (result.Status == SignInStatus.Success)
                 return RedirectToAction("", "");

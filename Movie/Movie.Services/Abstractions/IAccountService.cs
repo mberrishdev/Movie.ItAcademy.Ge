@@ -1,23 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Movie.BO.Services.Implementations;
-using Movie.BO.Services.Models.User;
+using Movie.Services.Enums;
+using Movie.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Movie.BO.Services.Abstractions
+namespace Movie.Services.Abstractions
 {
     public interface IAccountService
     {
         Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model);
         Task<(SignInStatus Status, string Email)> LoginAsync(LogInModel model);
         Task LogOutAsync();
-    }
-
-    public enum SignInStatus
-    {
-        Success,
-        Failure
     }
 }

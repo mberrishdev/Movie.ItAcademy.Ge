@@ -15,12 +15,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Domain", "Movie.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Persistance", "Movie.Persistance\Movie.Persistance.csproj", "{80105581-2388-4260-BB8E-5D36AC16F019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Services", "Movie.Services\Movie.Services.csproj", "{A83A78C1-106D-416E-B98C-47A5EF671405}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Services", "Movie.Services\Movie.Services.csproj", "{A83A78C1-106D-416E-B98C-47A5EF671405}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9F057DC5-440D-4361-A6DC-B9FC1DF884AC}"
 	ProjectSection(SolutionItems) = preProject
 		TODO.txt = TODO.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Web.MVC", "Movie.Web.MVC\Movie.Web.MVC.csproj", "{198CB34D-7976-4019-9363-E9AE96E12845}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Web.Services", "Movie.Web.Services\Movie.Web.Services.csproj", "{7B729DB8-D4F7-4BC4-A11B-F5E2A6E2F33C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +60,14 @@ Global
 		{A83A78C1-106D-416E-B98C-47A5EF671405}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A83A78C1-106D-416E-B98C-47A5EF671405}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A83A78C1-106D-416E-B98C-47A5EF671405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{198CB34D-7976-4019-9363-E9AE96E12845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{198CB34D-7976-4019-9363-E9AE96E12845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{198CB34D-7976-4019-9363-E9AE96E12845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{198CB34D-7976-4019-9363-E9AE96E12845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B729DB8-D4F7-4BC4-A11B-F5E2A6E2F33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B729DB8-D4F7-4BC4-A11B-F5E2A6E2F33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B729DB8-D4F7-4BC4-A11B-F5E2A6E2F33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B729DB8-D4F7-4BC4-A11B-F5E2A6E2F33C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

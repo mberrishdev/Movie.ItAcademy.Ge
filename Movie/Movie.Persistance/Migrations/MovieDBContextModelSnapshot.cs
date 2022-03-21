@@ -224,18 +224,18 @@ namespace Movie.Persistance.Migrations
                     b.Property<DateTime>("BookedDT")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("MovieId")
-                        .HasColumnType("UniqueIdentifier");
-
                     b.Property<string>("PaymentStatus")
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("UniqueIdentifier");
+
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("UniqueIdentifier");

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Movie.BO.Services.Models.User
+namespace Movie.Services.Models
 {
     public class RegisterModel
     {
