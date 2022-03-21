@@ -1,13 +1,18 @@
 ﻿
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
 using Movie.Services.Models;
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Movie.Services.Implementations
+namespace Movie.Web.Services.Implementations
 {
     public class AccountService : IAccountService
     {
@@ -48,31 +53,56 @@ namespace Movie.Services.Implementations
                 //    _logger.LogInformation("User created a new account with password.");
                 //}
             }
-                return result.Errors;
+            return result.Errors;
         }
 
-        public async Task<(SignInStatus Status, string Email)> LoginAsync(LogInModel model)
+        public async Task<SignInStatus> LoginAsync(LogInModel model, HttpContext httpContext)
         {
             IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
-
             if (user != null)
             {
                 var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
                 if (signInResult.Succeeded)
                 {
-                    return (SignInStatus.Success, user.Email);
+                    var claims = new[] {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.Role, "User"),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.NameIdentifier, user.Id)
+                    };
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    await httpContext.SignInAsync(
+                                             CookieAuthenticationDefaults.AuthenticationScheme,
+                                             new ClaimsPrincipal(identity),
+                                             new AuthenticationProperties
+                                             {
+                                                 IsPersistent = model.RememberMe   //remember me
+                                             });
+
+                    return SignInStatus.Success;
                 }
             }
 
 
-            return (SignInStatus.Failure, "");
+            return SignInStatus.Failure;
         }
 
-        public async Task LogOutAsync()
+        public async Task LogOutAsync(HttpContext httpContext)
         {
             await _signInManager.SignOutAsync();
+
+            await httpContext.SignOutAsync(
+                 CookieAuthenticationDefaults.AuthenticationScheme);
+
             _logger.LogInformation("User logged out.");
+        }
+
+        public async Task<IdentityUser> GetUserAsync(Guid id)
+        {
+            return await _userManager.FindByIdAsync(id.ToString());
         }
     }
 

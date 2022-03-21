@@ -16,7 +16,12 @@ namespace Movie.Data.EF.Repository
             _baseRepository = baseRepository;
         }
 
-        public async Task ChangeBookingStatus(Guid id, string bookingStatus)
+        public async Task BookRoomAsync(Booking bookingModel)
+        {
+            await _baseRepository.AddAsync(bookingModel);
+        }
+
+        public async Task ChangeBookingStatusAsync(Guid id, string bookingStatus)
         {
             var booking = await _baseRepository.Table.FirstOrDefaultAsync(booking => booking.Id == id);
             booking.Status = bookingStatus;
@@ -27,6 +32,16 @@ namespace Movie.Data.EF.Repository
         {
            return await _baseRepository.Table.Where(booking => booking.Status == "Active")
                                         .ToListAsync();
+        }
+
+        public async Task<List<Booking>> GetAllBookingsAsync()
+        {
+            return await _baseRepository.GetAllAsync();
+        }
+
+        public async Task<bool> IsExistAsync(Guid bookingId)
+        {
+            return await _baseRepository.AnyAsync(booking=>booking.Id == bookingId);
         }
     }
 }

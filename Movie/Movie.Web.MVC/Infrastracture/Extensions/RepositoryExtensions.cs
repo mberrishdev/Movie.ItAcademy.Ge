@@ -12,6 +12,7 @@ namespace Movie.Web.MVC.Infrastracture.Extensions
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }

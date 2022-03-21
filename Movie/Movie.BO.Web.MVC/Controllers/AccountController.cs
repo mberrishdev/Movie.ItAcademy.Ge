@@ -1,16 +1,8 @@
 ﻿using Mapster;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Account;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
-using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
@@ -59,32 +51,21 @@ namespace Movie.BO.Web.MVC.Controllers
                 return View();
 
 
-            (SignInStatus Status, string Email) result = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>());
+            SignInStatus status = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>(), HttpContext);
 
-            if (result.Status == SignInStatus.Success)
+            if (status == SignInStatus.Success)
                 return RedirectToAction("", "");
 
 
             ModelState.AddModelError("", "Username or password is incorrect");
-
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, model.UserName),
-                new Claim(ClaimTypes.Email, result.Email),
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                principal, new AuthenticationProperties() { IsPersistent = model.RememberMe });
 
             return View();
         }
 
         public async Task<IActionResult> LogOut()
         {
-            await _accountService.LogOutAsync();
+            await _accountService.LogOutAsync(HttpContext);
+
             return RedirectToAction("LogIn");
         }
     }

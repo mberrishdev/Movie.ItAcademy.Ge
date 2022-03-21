@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,20 @@ namespace Movie.BO.Web.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie(option =>
+             {
+                 option.LoginPath = new PathString("/Account/Login");
+                 option.AccessDeniedPath = new PathString("/Auth/AccessDenied");
+                 option.Events = new CookieAuthenticationEvents
+                 {
+                     OnSignedIn = async ctx =>
+                     {
+                         ctx.HttpContext.User = ctx.Principal;
+                     }
+                 };
+             });
+
             services.AddControllersWithViews();
             services.AddMvc();
 
@@ -69,7 +85,7 @@ namespace Movie.BO.Web.MVC
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

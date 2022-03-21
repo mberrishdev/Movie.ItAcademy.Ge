@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services;
 using Movie.BO.Services.Abstractions;
@@ -26,6 +27,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             List<Services.Models.Room> result = await _roomService.GetAllRoomsAsync();

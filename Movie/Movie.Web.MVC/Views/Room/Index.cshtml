@@ -1,0 +1,16 @@
+﻿@model IEnumerable<MovieSIViewModel>
+
+@foreach (var m in Model)
+{
+    <div class="col-sm-4 col-lg-4 col-md-4">
+        <div class="thumbnail">
+            <img src="@m.BannerUrl" alt="">
+            <div class="caption">
+                <h3>
+                    <a asp-controller="Room" asp-action="Details" asp-route-id="@m.Id" >@m.Name</a>
+                </h3>
+            </div>
+        </div>
+    </div>
+}
+

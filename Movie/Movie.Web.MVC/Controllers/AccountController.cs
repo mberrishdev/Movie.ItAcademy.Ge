@@ -1,21 +1,17 @@
 ﻿using Mapster;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
-using Movie.Services.Models;
-using System.Collections.Generic;
-using System.Security.Claims;
+using Movie.Web.MVC.Models.Account;
 using System.Threading.Tasks;
 
 namespace Movie.Web.MVC.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService) : base(accountService)
         {
             _accountService = accountService;
         }
@@ -37,7 +33,7 @@ namespace Movie.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _accountService.RegisterAsync(model.Adapt<Services.Models.RegisterModel>());
+            var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
 
             foreach (var error in result)
             {
@@ -55,32 +51,20 @@ namespace Movie.Web.MVC.Controllers
                 return View();
 
 
-            (SignInStatus Status, string Email) result = await _accountService.LoginAsync(model.Adapt<Services.Models.LogInModel>());
+            SignInStatus status = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>(), HttpContext);
 
-            if (result.Status == SignInStatus.Success)
+            if (status == SignInStatus.Success)
                 return RedirectToAction("", "");
 
 
             ModelState.AddModelError("", "Username or password is incorrect");
-
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, model.UserName),
-                new Claim(ClaimTypes.Email, result.Email),
-            };
-
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                principal, new AuthenticationProperties() { IsPersistent = model.RememberMe });
 
             return View();
         }
 
         public async Task<IActionResult> LogOut()
         {
-            await _accountService.LogOutAsync();
+            await _accountService.LogOutAsync(HttpContext);
             return RedirectToAction("LogIn");
         }
     }

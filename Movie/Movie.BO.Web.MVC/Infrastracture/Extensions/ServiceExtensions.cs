@@ -2,6 +2,8 @@
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Implementations;
 using Movie.BO.Web.MVC.Infrastracture.Mappings;
+using Movie.Services.Abstractions;
+
 namespace Movie.BO.Web.MVC.Infrastracture.Extensions
 {
     public static class ServiceExtensions

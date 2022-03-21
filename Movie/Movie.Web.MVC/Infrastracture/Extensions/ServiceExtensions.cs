@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Movie.Services.Abstractions;
-using Movie.Services.Implementations;
+using Movie.Web.Services.Implementations;
 using Movie.Web.MVC.Infrastracture.Mappings;
+using Movie.Web.Services.Abstractions;
 
 namespace Movie.Web.MVC.Infrastracture.Extensions
 {
@@ -11,6 +12,9 @@ namespace Movie.Web.MVC.Infrastracture.Extensions
         {
             services.RegisterMaps();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IPaymentService, PaymentService>();
 
             services.AddRepositories();
         }

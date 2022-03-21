@@ -1,14 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Infastracture\NewFolder\Extensions\" />
-    <Folder Include="Infastracture\NewFolder\Mappings\" />
-    <Folder Include="Infastracture\NewFolder\Middlewares\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Mapster" Version="7.3.0" />

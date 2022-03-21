@@ -20,7 +20,7 @@ namespace Movie.BO.Services.Implementations
 
         public async Task ChangeBookingStatus(Guid id, BookingStatus bookingStatus)
         {
-            await _bookingRepository.ChangeBookingStatus(id, bookingStatus.ToString());
+            await _bookingRepository.ChangeBookingStatusAsync(id, bookingStatus.ToString());
         }
 
         public async Task<List<Booking>> GetAlActiveBookingsAsync()
