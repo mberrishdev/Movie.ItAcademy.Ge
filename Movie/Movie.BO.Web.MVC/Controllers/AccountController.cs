@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Web.MVC.Models.Account;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
@@ -35,6 +36,9 @@ namespace Movie.BO.Web.MVC.Controllers
 
             var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
 
+            if (!result.Any())
+                return RedirectToAction("Login");
+
             foreach (var error in result)
             {
                 ModelState.AddModelError(string.Empty, error.Description);
@@ -62,11 +66,17 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LogOut()
+        public async Task<IActionResult> LogOut(string returnUrl = null)
         {
             await _accountService.LogOutAsync(HttpContext);
-
-            return RedirectToAction("LogIn");
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("LogOut");
+            }
         }
     }
 }

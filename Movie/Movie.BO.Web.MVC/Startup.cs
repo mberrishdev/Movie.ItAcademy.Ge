@@ -81,7 +81,7 @@ namespace Movie.BO.Web.MVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
+           // app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseRouting();
 

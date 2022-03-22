@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Account;
@@ -18,7 +19,7 @@ namespace Movie.BO.Web.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Services.Models.User.User> result = await _userService.GetMovieUsersAsync();
+            List<IdentityUser> result = await _userService.GetMovieUsersAsync();
 
             if (result == null)
                 return NotFound();

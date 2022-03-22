@@ -12,7 +12,7 @@ namespace Movie.BO.Services.Abstractions
         Task<Room> GetRoomAsync(Guid id);
         Task<Room> GetRoomWithMovieAsync(Guid id);
         Task<List<Room>> GetAllRoomsAsync();
-        Task AddRoomAsync(Room room);
+        Task<Guid> AddRoomAsync(Room room);
         Task UpdateRoomAsync(Room room);
         Task DeleteRoomAsync(Guid id);
         Task ChangeRoomStatusAsync(Guid id, RoomStatus newStatus);

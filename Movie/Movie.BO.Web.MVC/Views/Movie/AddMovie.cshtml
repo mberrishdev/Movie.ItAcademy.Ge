@@ -12,7 +12,7 @@
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="RoomId"></label>
-                    <input asp-for="RoomId" class="form-control" />
+                    <input asp-for="RoomId" class="form-control" value = "@ViewData["RoomId"]" readonly/>
                     <span asp-validation-for="RoomId" class="text-danger"></span>
                 </div>
                 <div class="form-group">

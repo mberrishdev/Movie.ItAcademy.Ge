@@ -1,4 +1,6 @@
-﻿using Movie.BO.Services.Models.User;
+﻿using Microsoft.AspNetCore.Identity;
+using Movie.BO.Services.Models.User;
+using Movie.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,6 +10,6 @@ namespace Movie.BO.Services.Abstractions
 {
     public interface IUserService
     {
-        Task<List<User>> GetMovieUsersAsync();
+        Task<List<IdentityUser>> GetMovieUsersAsync();
     }
 }

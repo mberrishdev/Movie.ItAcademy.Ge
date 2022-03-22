@@ -16,9 +16,9 @@ namespace Movie.Data.EF.Repository
             _baseRepository = baseRepository;
         }
 
-        public async Task AddRoomAsync(Room movie)
+        public async Task AddRoomAsync(Room room)
         {
-            await _baseRepository.AddAsync(movie);
+            await _baseRepository.AddAsync(room);
         }
 
         public async Task<Room> GetRoomWithMovieAsync(Guid id)
@@ -57,21 +57,19 @@ namespace Movie.Data.EF.Repository
             await _baseRepository.UpdateAsync(room);
         }
 
-        public async Task DeleteRoomAsync(Room movie)
+        public async Task<Room> GetRoomAsync(Guid id)
         {
-            await _baseRepository.RemoveAsync(movie);
+            return await _baseRepository.GetAsync(id);
         }
 
-
-        public Task<Room> GetRoomAsync(Guid id)
+        public async Task DeleteRoomAsync(Room room)
         {
-            throw new NotImplementedException();
+            await _baseRepository.RemoveAsync(room);
         }
 
-
-        public Task UpdateRoomAsync(Room movie)
+        public async Task UpdateRoomAsync(Room room)
         {
-            throw new NotImplementedException();
+            await _baseRepository.UpdateAsync(room);
         }
 
     }

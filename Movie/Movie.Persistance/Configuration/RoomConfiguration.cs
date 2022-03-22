@@ -18,7 +18,8 @@ namespace Movie.Persistance.Configuration
             builder.Property(x => x.Status).IsRequired();
 
             builder.HasOne(a => a.Movie).WithOne(b => b.Room)
-                .HasForeignKey<Domain.POCO.Movie>(e => e.RoomId);
+                .HasForeignKey<Domain.POCO.Movie>(e => e.RoomId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

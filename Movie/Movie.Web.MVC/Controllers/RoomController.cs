@@ -35,7 +35,7 @@ namespace Movie.Web.MVC.Controllers
             return View(movieSmallInfo);
         }
 
-        public async Task<IActionResult> RoomDetails(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
             Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
 

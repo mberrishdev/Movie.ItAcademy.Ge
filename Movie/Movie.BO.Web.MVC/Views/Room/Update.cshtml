@@ -1,0 +1,125 @@
+﻿@using Movie.BO.Web.MVC.Models.Room;
+@model RoomWithMovieViewModel;
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Update</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateRoomDetails" method="post">
+            <h4>Create a new account.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Id"></label>
+                <input asp-for="Id" class="form-control" type="text" value="@Model.Id" readonly/>
+                <span asp-validation-for="Id" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PremierTime"></label>
+                <input asp-for="PremierTime" class="form-control" type="text" value="@Model.PremierTime"/>
+                <span asp-validation-for="PremierTime" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoomUserCapacity"></label>
+                <input asp-for="RoomUserCapacity" class="form-control" type="number" value =@Model.RoomUserCapacity/>
+                <span asp-validation-for="RoomUserCapacity" class="text-danger" ></span>
+            </div> 
+            <div class="form-group">
+                <label asp-for="UserCount"></label>
+                <input asp-for="UserCount" class="form-control" type="number" value =@Model.UserCount/>
+                <span asp-validation-for="UserCount" class="text-danger" ></span>
+            </div>  
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" type="number" value =@Model.Price/>
+                <span asp-validation-for="Price" class="text-danger" ></span>
+            </div>  
+            <div class="form-group">
+                <label asp-for="Currency"></label>
+                <input asp-for="Currency" class="form-control" type="text" value =@Model.Currency/>
+                <span asp-validation-for="Currency" class="text-danger" ></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="Status"></label>
+                <input asp-for="Status" class="form-control" type="text" value="@Model.Status" readonly/>
+                <span asp-validation-for="Status" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.Name"></label>
+                <input asp-for="Movie.Name" class="form-control" type="text" value =@Model.Movie.Name/>
+                <span asp-validation-for="Movie.Name" class="text-danger" ></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="Movie.Gener"></label>
+                <input asp-for="Movie.Gener" class="form-control" type="text"  value =@Model.Movie.Gener/>
+                <span asp-validation-for="Movie.Gener" class="text-danger" ></span>
+            </div>            
+            <div class="form-group">
+                <label asp-for="Movie.Director"></label>
+                <input asp-for="Movie.Director" class="form-control" type="text"  value =@Model.Movie.Director/>
+                <span asp-validation-for="Movie.Director" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.IMDBReiting"></label>
+                <input asp-for="Movie.IMDBReiting" class="form-control" type="number"  value =@Model.Movie.IMDBReiting/>
+                <span asp-validation-for="Movie.IMDBReiting" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.Description"></label>
+                <input asp-for="Movie.Description" class="form-control" type="text"  value =@Model.Movie.Description/>
+                <span asp-validation-for="Movie.Description" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Movie.BannerUrl"></label>
+                <input asp-for="Movie.BannerUrl" class="form-control" type="text"  value =@Model.Movie.BannerUrl/>
+                <span asp-validation-for="Movie.BannerUrl" class="text-danger" ></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+<div>
+
+
+
+@*    <div class="col-sm-10 col-lg-10 col-md-10">
+    <div class="thumbnail">
+        <img src="@Model.Movie.BannerUrl" width="200px" height="350px" alt="">
+        <div class="caption">
+            <h3>
+                <a>@Model.Movie.Name</a>
+            </h3>
+            <h5>
+                <p>Premier Time: @Model.PremierTime</p>
+                <p>Max Users Capacity: @Model.RoomUserCapacity</p>
+                <p>Booked Places: @Model.UserCount</p>
+                <p>Price: @Model.Price @Model.Currency</p>
+                <p>Status: @Model.Status</p>
+                <p>Gener: @Model.Movie.Gener</p>
+                <p>Director: @Model.Movie.Director</p>
+                <p>IMDB Reiting: @Model.Movie.IMDBReiting</p>
+                <p>Description: @Model.Movie.Description</p>
+            </h5>
+                @if (Model.Status == "Active")
+                {
+                    <form method="post" asp-action="InActivateRoom" asp-controller="Room"asp-route-id="@Model.Id">
+                            <button class="btn btn-info">InActive Movie</button>
+                    </form>
+                }
+                else if (Model.Status != "Active")
+                {
+                    <form method="post" asp-action="ActivateRoom" asp-controller="Room" asp-route-id="@Model.Id">
+                            <button class="btn btn-info">Activate Movie</button>
+                    </form>
+                }
+                <form method="post" asp-action="DeleteRoom" asp-controller="Room" asp-route-id="@Model.Id">
+                            <button class="btn btn-info">Delete Movie</button>
+                </form>
+        </div>
+    </div>
+    <div>
+</div>
+</div>*@

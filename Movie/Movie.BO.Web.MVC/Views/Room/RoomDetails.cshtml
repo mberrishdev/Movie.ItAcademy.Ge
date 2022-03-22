@@ -1,4 +1,8 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using Movie.Services.Enums
+@inject SignInManager<IdentityUser> SignInManager
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Details";
@@ -24,6 +28,8 @@
                 <p>IMDB Reiting: @Model.Movie.IMDBReiting</p>
                 <p>Description: @Model.Movie.Description</p>
             </h5>
+            @if (User.FindFirst(ClaimTypes.Role).Value == Roles.Admin.ToString())
+            {
                 @if (Model.Status == "Active")
                 {
                     <form method="post" asp-action="InActivateRoom" asp-controller="Room"asp-route-id="@Model.Id">
@@ -36,9 +42,7 @@
                             <button class="btn btn-info">Activate Movie</button>
                     </form>
                 }
-                <form method="post" asp-action="DeleteRoom" asp-controller="Room" asp-route-id="@Model.Id">
-                            <button class="btn btn-info">Delete Movie</button>
-                </form>
+            }
         </div>
     </div>
     <div>

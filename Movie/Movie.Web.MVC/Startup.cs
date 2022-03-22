@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movie.Persistance.Context;
+using Movie.Services.Models;
 using Movie.Web.MVC.Infrastracture.Extensions;
 using Movie.Web.MVC.Infrastracture.Middlewares;
 
@@ -68,15 +69,16 @@ namespace Movie.Web.MVC
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
+            //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
+            app.UseExceptionHandler("/Error");
             app.UseRouting();
 
             app.UseAuthentication();

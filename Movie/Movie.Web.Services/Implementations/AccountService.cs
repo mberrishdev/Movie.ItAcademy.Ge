@@ -79,7 +79,7 @@ namespace Movie.Web.Services.Implementations
                                              new ClaimsPrincipal(identity),
                                              new AuthenticationProperties
                                              {
-                                                 IsPersistent = model.RememberMe   //remember me
+                                                 IsPersistent = model.RememberMe
                                              });
 
                     return SignInStatus.Success;

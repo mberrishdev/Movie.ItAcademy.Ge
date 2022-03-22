@@ -9,6 +9,7 @@ using Movie.BO.Services.Implementations;
 using Movie.BO.Services.Models.User;
 using Movie.BO.Web.MVC.Models;
 using Movie.BO.Web.MVC.Models.Account;
+using Movie.Services.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -34,7 +35,7 @@ namespace Movie.BO.Web.MVC.Controllers
         public async Task<IActionResult> Manage(string userId)
         {
             UserDTO user;
-            (User User, List<ManageUserRoles> ManageUserRole) result;
+            (IdentityUser User, List<ManageUserRoles> ManageUserRole) result;
 
             ViewBag.userId = userId;
 

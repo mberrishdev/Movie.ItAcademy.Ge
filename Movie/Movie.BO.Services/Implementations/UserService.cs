@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Models.User;
+using Movie.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,11 @@ namespace Movie.BO.Services.Implementations
             _userManager = userManager;
         }
 
-        public async Task<List<User>> GetMovieUsersAsync()
+        public async Task<List<IdentityUser>> GetMovieUsersAsync()
         {
             var users = await _userManager.GetUsersInRoleAsync("User");
 
-            return users.Select(user => new User()
+            return users.Select(user => new IdentityUser()
             {
                 UserName = user.UserName,
                 Id = user.Id,

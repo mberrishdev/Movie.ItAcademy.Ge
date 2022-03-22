@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
+using Movie.BO.Services.Exceptions;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
 using Movie.Services.Models;
@@ -58,6 +59,10 @@ namespace Movie.BO.Services.Implementations
         public async Task<SignInStatus> LoginAsync(LogInModel model, HttpContext httpContext)
         {
             IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
+            var userRoles = await GetUserRoles(user);
+
+            if (!userRoles.Contains(Roles.Admin.ToString()) || !userRoles.Contains(Roles.Moderator.ToString()))
+                throw new AccessDeniedException($"{user.UserName} doesn't have access to BackOffice");
 
             if (user != null)
             {
@@ -67,7 +72,7 @@ namespace Movie.BO.Services.Implementations
                 {
                     var claims = new[] {
                         new Claim(ClaimTypes.Name, user.UserName),
-                        //new Claim(ClaimTypes.Role, "User"),
+                        new Claim(ClaimTypes.Role, userRoles.Contains(Roles.Admin.ToString())? "Admin" : "Moderator"),
                         new Claim(ClaimTypes.Email,user.Email),
                         new Claim(ClaimTypes.NameIdentifier ,user.Id)
                     };
@@ -79,7 +84,7 @@ namespace Movie.BO.Services.Implementations
                                              new ClaimsPrincipal(identity),
                                              new AuthenticationProperties
                                              {
-                                                 IsPersistent = model.RememberMe   //remember me
+                                                 IsPersistent = model.RememberMe
                                              });
 
                     return SignInStatus.Success;
@@ -103,6 +108,11 @@ namespace Movie.BO.Services.Implementations
         public async Task<IdentityUser> GetUserAsync(Guid id)
         {
             return await _userManager.FindByIdAsync(id.ToString());
+        }
+
+        private async Task<List<string>> GetUserRoles(IdentityUser user)
+        {
+            return new List<string>(await _userManager.GetRolesAsync(user));
         }
     }
 

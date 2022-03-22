@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Exceptions;
 using Movie.BO.Services.Models.User;
+using Movie.Services.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,9 +40,9 @@ namespace Movie.BO.Services.Implementations
             return userRoles;
         }
 
-        public async Task<(User User, List<ManageUserRoles> ManageUserRole)> GetManageUserRolesAsync(string userId)
+        public async Task<(IdentityUser User, List<ManageUserRoles> ManageUserRole)> GetManageUserRolesAsync(string userId)
         {
-            User user;
+            IdentityUser user;
             try
             {
                 user = await FindUserAsync(userId);
@@ -101,7 +102,7 @@ namespace Movie.BO.Services.Implementations
             return new List<string>(await _userManager.GetRolesAsync(user));
         }
 
-        private async Task<User> FindUserAsync(string userId)
+        private async Task<IdentityUser> FindUserAsync(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -109,7 +110,7 @@ namespace Movie.BO.Services.Implementations
                 throw new NotFoundException($"User with Id = {userId} cannot be found");
             }
 
-            return new User()
+            return new IdentityUser()
             {
                 Email = user.Email,
                 UserName = user.UserName,

@@ -1,8 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Movie.BO.Services;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Room;
 using Movie.Services.Enums;
@@ -12,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
+    [Authorize(Roles = "Moderator")]
     public class RoomController : Controller
     {
         public readonly IRoomService _roomService;
@@ -21,15 +20,16 @@ namespace Movie.BO.Web.MVC.Controllers
             _roomService = roomService;
         }
 
-
         public IActionResult AddRoom()
         {
             return View();
         }
 
-        [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(RoomWithMovieDTO model = null)
         {
+            if (model.Id != Guid.Empty)
+                View(model);
+
             List<Services.Models.Room> result = await _roomService.GetAllRoomsAsync();
 
             if (result == null)
@@ -40,24 +40,6 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(rooms);
         }
 
-        //[Authorize(Roles = "Moderator")]
-        [HttpPost]
-        public async Task<IActionResult> AddRoom(RoomCreateModel room)
-        {
-            if (!ModelState.IsValid)
-                return View();
-
-            await _roomService.AddRoomAsync(new Services.Models.Room()
-            {
-                PremierTime = room.PremierTime,
-                RoomUserCapacity = room.RoomUserCapacity,
-                Price = room.Price,
-                Currency = room.Currency,
-            });
-
-            return RedirectToAction("AddMovie", "Movie");
-        }
-
         public async Task<IActionResult> RoomDetails(Guid id)
         {
             Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
@@ -65,13 +47,54 @@ namespace Movie.BO.Web.MVC.Controllers
             if (result == null)
                 return NotFound();
 
-            var roomWithMovie = result.Adapt<RoomWithMovieDTO>();
+            var roomWithMovie = result.Adapt<RoomWithMovieViewModel>();
 
             return View(roomWithMovie);
         }
 
+        public async Task<IActionResult> Update(Guid id)
+        {
+            Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
 
-        //[Authorize(Roles = "Admin")]
+            if (result == null)
+                return NotFound();
+
+            var roomWithMovie = result.Adapt<RoomWithMovieViewModel>();
+
+            return View(roomWithMovie);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRoom(RoomCreateModel room)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var roomId = await _roomService.AddRoomAsync(new Services.Models.Room()
+            {
+                PremierTime = room.PremierTime,
+                RoomUserCapacity = room.RoomUserCapacity,
+                Price = room.Price,
+                Currency = room.Currency,
+            });
+
+            return RedirectToAction("AddMovie", "Movie", new {
+                roomId = roomId
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateRoomDetails(RoomWithMovieDTO model)
+        {
+            await _roomService.UpdateRoomAsync(model.Adapt<Services.Models.Room>());
+
+            return RedirectToAction("RoomDetails", new
+            {
+                id = model.Id,
+            });
+        }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> ActivateRoom(Guid id)
         {
@@ -83,7 +106,7 @@ namespace Movie.BO.Web.MVC.Controllers
             });
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> InActivateRoom(Guid id)
         {
@@ -95,8 +118,7 @@ namespace Movie.BO.Web.MVC.Controllers
             });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteRoom(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             await _roomService.DeleteRoomAsync(id);
 

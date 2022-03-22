@@ -31,7 +31,7 @@ namespace Movie.Worker.Services.Implementations
                 if (activeBooking.PaymentStatus == PaymentStatus.Unpaid.ToString())
                 {
                     var room = rooms.FirstOrDefault(room => room.Id == activeBooking.RoomId);
-                    if (room != null && (room.PremierTime - DateTime.UtcNow).Seconds <= 3600)
+                    if (room != null && (room.PremierTime - DateTime.UtcNow).TotalSeconds <= 3600)
                         await _bookingRepository.ChangeBookingStatusAsync(activeBooking.Id, BookingStatus.CancelledByWorker.ToString());
                 }
             }

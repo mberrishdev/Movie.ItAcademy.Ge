@@ -18,11 +18,11 @@ namespace Movie.Web.MVC.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> BookRoom(Guid roomId)
+        public async Task<IActionResult> BookRoom(Guid id)
         {
             IdentityUser user = await GetUserAsync();
 
-            await _bookingService.BookRoomAsync(roomId, new Guid(user.Id));
+            await _bookingService.BookRoomAsync(id, new Guid(user.Id));
 
             return View();
         }

@@ -12,9 +12,9 @@ namespace Movie.Data
         Task<List<Room>> GetAllRoomsAsync();
         Task<List<Room>> GetAllActiveRoomsAsync();
         Task<List<Room>> GetAllRoomWithMovieAsync();
-        Task AddRoomAsync(Room movie);
-        Task UpdateRoomAsync(Room movie);
-        Task DeleteRoomAsync(Room movie);
+        Task AddRoomAsync(Room room);
+        Task UpdateRoomAsync(Room room);
+        Task DeleteRoomAsync(Room room);
         Task ChangeRoomStatusAsync(Guid id, string newStatus);
         Task<Room> GetRoomWithMovieAsync(Guid id);
         Task IncreaseUserCountAsync(Guid roomId);

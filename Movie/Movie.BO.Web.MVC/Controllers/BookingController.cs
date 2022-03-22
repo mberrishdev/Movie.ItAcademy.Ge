@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Movie.BO.Services.Models;
 namespace Movie.BO.Web.MVC.Controllers
 {
+    [Authorize(Roles = "Moderator")]
     public class BookingController : Controller
     {
         public readonly IBookingService _bookingService;

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Movie.BO.Web.MVC.Models.Room.RoomDTO>
 
-
+<a class="btn btn-primary" asp-controller="Room" asp-action="AddRoom">Add Room</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -38,10 +38,10 @@
                     <a class="btn btn-primary" asp-controller="Room" asp-action="RoomDetails" asp-route-id="@room.Id">Detail</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="Movie" asp-action="MovieDetails" asp-route-id="@room.Id">Delete</a>
+                    <a class="btn btn-primary" asp-controller="Room" asp-action="Delete" asp-route-id="@room.Id">Delete</a>
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="Movie" asp-action="MovieDetails" asp-route-id="@room.Id">Update</a>
+                    <a class="btn btn-primary" asp-controller="Room" asp-action="Update" asp-route-id="@room.Id">Update</a>
                 </td>
             </tr>
         }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
 using Movie.Web.MVC.Models.Account;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movie.Web.MVC.Controllers
@@ -26,6 +27,10 @@ namespace Movie.Web.MVC.Controllers
             return View();
         }
 
+        public IActionResult LogOut()
+        {
+            return View();
+        }
 
         [HttpPost]
         public async Task<IActionResult> Register([FromForm] RegisterModel model)
@@ -34,6 +39,9 @@ namespace Movie.Web.MVC.Controllers
                 return View();
 
             var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
+
+            if (!result.Any())
+                return RedirectToAction("Login");
 
             foreach (var error in result)
             {
@@ -44,7 +52,7 @@ namespace Movie.Web.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] LogInModel model)
+        public async Task<IActionResult> LogIn([FromForm] LogInModel model)
         {
 
             if (!ModelState.IsValid)
@@ -54,7 +62,7 @@ namespace Movie.Web.MVC.Controllers
             SignInStatus status = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>(), HttpContext);
 
             if (status == SignInStatus.Success)
-                return RedirectToAction("", "");
+                return RedirectToAction("Index", "Room");
 
 
             ModelState.AddModelError("", "Username or password is incorrect");
@@ -62,10 +70,19 @@ namespace Movie.Web.MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> LogOut()
+        [HttpPost]
+        public async Task<IActionResult> LogOut(string returnUrl = null)
         {
             await _accountService.LogOutAsync(HttpContext);
-            return RedirectToAction("LogIn");
+            if (returnUrl != null)
+            {
+                return LocalRedirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction("LogOut");
+            }
         }
+
     }
 }

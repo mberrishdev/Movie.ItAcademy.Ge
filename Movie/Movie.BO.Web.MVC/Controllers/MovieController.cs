@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
+    [Authorize(Roles = "Moderator")]
     public class MovieController : Controller
     {
         public readonly IMovieService _movieService;
@@ -19,12 +20,13 @@ namespace Movie.BO.Web.MVC.Controllers
             _movieService = movieService;
         }
 
-        public IActionResult AddMovie()
+        public IActionResult AddMovie(Guid roomId)
         {
+            ViewData["RoomId"] = roomId;
+
             return View();
         }
 
-        //[Authorize(Roles = "Moderator")]
         [HttpPost]
         public async Task<IActionResult> AddMovie(MovieCreateModel movie)
         {
@@ -32,17 +34,6 @@ namespace Movie.BO.Web.MVC.Controllers
                 return View();
 
             await _movieService.AddMovieAsync(movie.Adapt<Services.Models.Movie>());
-            return View(movie);
-        }
-
-        [Authorize(Roles = "Moderator")]
-        [HttpPost]
-        public async Task<IActionResult> UpdateMovie(MovieDTO movie)
-        {
-            if (!ModelState.IsValid)
-                return View();
-
-            await _movieService.UpdateMovieAsync(movie.Adapt<Services.Models.Movie>());
             return View(movie);
         }
     }

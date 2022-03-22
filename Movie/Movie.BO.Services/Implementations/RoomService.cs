@@ -19,12 +19,13 @@ namespace Movie.BO.Services.Implementations
         }
 
 
-        public async Task AddRoomAsync(Room room)
+        public async Task<Guid> AddRoomAsync(Room room)
         {
             room.Id = Guid.NewGuid();
             room.UserCount = 0;
             room.Status = RoomStatus.New.ToString();
             await _roomRepository.AddRoomAsync(room.Adapt<Domain.POCO.Room>());
+            return room.Id;
         }
 
         public async Task<Room> GetRoomWithMovieAsync(Guid id)
@@ -51,15 +52,16 @@ namespace Movie.BO.Services.Implementations
             var room = await _roomRepository.GetRoomAsync(id);
             await _roomRepository.DeleteRoomAsync(room);
         }
+        public async Task UpdateRoomAsync(Room room)
+        {
+            room.Movie.RoomId = room.Id;
+            await _roomRepository.UpdateRoomAsync(room.Adapt<Domain.POCO.Room>());
+        }
 
         public Task<Room> GetRoomAsync(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateRoomAsync(Room room)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

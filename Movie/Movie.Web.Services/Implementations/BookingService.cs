@@ -27,7 +27,7 @@ namespace Movie.Web.Services.Implementations
 
             int secondsInOneHour = 3600;
 
-            int timeDifferenceInSeconds = (room.PremierTime - DateTime.UtcNow).Seconds;
+            double timeDifferenceInSeconds = (room.PremierTime - DateTime.UtcNow).TotalSeconds;
 
             if (timeDifferenceInSeconds <= secondsInOneHour)
                 throw new BookingNotAvailableException("Booking not available");
