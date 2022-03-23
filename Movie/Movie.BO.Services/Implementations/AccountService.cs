@@ -61,10 +61,7 @@ namespace Movie.BO.Services.Implementations
             IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
             var userRoles = await GetUserRoles(user);
 
-            if (!userRoles.Contains(Roles.Admin.ToString()) || !userRoles.Contains(Roles.Moderator.ToString()))
-                throw new AccessDeniedException($"{user.UserName} doesn't have access to BackOffice");
-
-            if (user != null)
+            if (user != null && (userRoles.Contains(Roles.Admin.ToString()) || userRoles.Contains(Roles.Moderator.ToString())))
             {
                 var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
@@ -89,10 +86,11 @@ namespace Movie.BO.Services.Implementations
 
                     return SignInStatus.Success;
                 }
+
+                return SignInStatus.Failure;
             }
 
-
-            return SignInStatus.Failure;
+            throw new AccessDeniedException($"{user.UserName} doesn't have access to BackOffice");
         }
 
         public async Task LogOutAsync(HttpContext httpContext)

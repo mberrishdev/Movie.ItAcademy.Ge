@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services.Abstractions;
+using Movie.BO.Services.Implementations;
 using Movie.BO.Web.MVC.Models.Room;
 using Movie.Services.Enums;
 using System;

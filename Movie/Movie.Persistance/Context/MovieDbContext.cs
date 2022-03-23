@@ -17,6 +17,7 @@ namespace Movie.Persistance.Context
         public DbSet<Domain.POCO.Booking> Bookings { get; set; }
         public DbSet<Domain.POCO.Payment> Payments { get; set; }
         public DbSet<Domain.POCO.RoomArchive> RoomArchives { get; set; }
+        public DbSet<Domain.POCO.ServerOption> ServerOptions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

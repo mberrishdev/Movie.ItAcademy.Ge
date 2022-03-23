@@ -23,7 +23,7 @@ namespace Movie.Data.EF.Repository
 
         public async Task<Room> GetRoomWithMovieAsync(Guid id)
         {
-            return await _baseRepository.Table.Include(x => x.Movie).FirstAsync(r => r.Id == id);
+            return await _baseRepository.Table.Include(x => x.Movie).FirstOrDefaultAsync(r => r.Id == id);
         }
         public async Task<List<Room>> GetAllRoomsAsync()
         {

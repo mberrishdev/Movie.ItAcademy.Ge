@@ -41,10 +41,9 @@ namespace Movie.Web.MVC
 
 
             services.AddDbContext<MovieDBContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
-            });
-
+                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")), 
+                ServiceLifetime.Singleton);
+                
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<MovieDBContext>();
 

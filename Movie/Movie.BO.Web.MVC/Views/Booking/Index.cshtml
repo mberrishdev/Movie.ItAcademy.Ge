@@ -1,4 +1,5 @@
 ﻿@using Movie.BO.Web.MVC.Models;
+@using Movie.Services.Enums
 @model IEnumerable<BookingDTO>
 
 
@@ -29,7 +30,7 @@
                     <p class="pull-right">@booking.Status</p>
                 </td>
                 <td>
-                    <a class="btn btn-primary" asp-controller="User" asp-action="uSERDetails" asp-route-id="@booking.UserId">User Detail</a>
+                    <a class="btn btn-primary" asp-controller="User" asp-action="Index" asp-route-id="@booking.UserId">User Detail</a>
                 </td>
                 <td>
                     <a class="btn btn-primary" asp-controller="Room" asp-action="RoomDetails" asp-route-id="@booking.RoomId">Movie Detail</a>
@@ -37,10 +38,13 @@
                 <td>
                     <a class="btn btn-primary" asp-controller="Payment" asp-action="PaymentDetails" asp-route-id="@booking.Id">Payment Detail</a>
                 </td>
-                <td>
-                    <a class="btn btn-primary" asp-controller="Booking" asp-action="CancellBooking" asp-route-id="@booking.Id">Cancel booking</a>
-                </td>
-
+                @if (@booking.Status == BookingStatus.Active.ToString())
+                {
+                    <td>
+                        <a class="btn btn-primary" asp-controller="Booking" asp-action="CancellBooking" asp-route-id="@booking.Id">Cancel booking</a>
+                    </td>
+                }
+                <td></td>
             </tr>
         }
     </tbody>

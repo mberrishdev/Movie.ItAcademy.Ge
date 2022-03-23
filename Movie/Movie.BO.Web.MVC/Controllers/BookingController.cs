@@ -24,7 +24,7 @@ namespace Movie.BO.Web.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Booking> result = await _bookingService.GetAlActiveBookingsAsync();
+            List<Booking> result = await _bookingService.GetAllBookingsAsync();
 
             if (result == null)
                 return NotFound();

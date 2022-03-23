@@ -7,9 +7,10 @@ namespace Movie.Web.Services.Abstractions
 {
     public interface IRoomService
     {
-        Task<List<Room>> GetAllRoomWithMovieAsync();
-        Task<Room> GetRoomAsync(Guid id);
-        Task<Room> GetRoomWithMovieAsync(Guid id);
+        Task<List<Room>> GetAllRoomWithMovieAsync(bool forceReload = false);
+        Task<Room> GetRoomAsync(Guid id, bool forceReload = false);
+        Task<Room> GetRoomWithMovieAsync(Guid id, bool forceReload = false);
         Task IncreaseUserCountAsync(Guid roomId);
+        Task RelodeDataAsync();
     }
 }

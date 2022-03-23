@@ -23,9 +23,9 @@ namespace Movie.BO.Services.Implementations
             await _bookingRepository.ChangeBookingStatusAsync(id, bookingStatus.ToString());
         }
 
-        public async Task<List<Booking>> GetAlActiveBookingsAsync()
+        public async Task<List<Booking>> GetAllBookingsAsync()
         {
-            var result = await _bookingRepository.GetAlActiveBookingsAsync();
+            var result = await _bookingRepository.GetAllBookingsAsync();
 
             return result.Adapt<List<Booking>>();
         }

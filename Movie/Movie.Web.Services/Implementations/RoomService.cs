@@ -4,41 +4,55 @@ using Movie.Web.Services.Abstractions;
 using Movie.Web.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movie.Web.Services.Implementations
 {
     public class RoomService : IRoomService
     {
-        public readonly IRoomRepository _roomRepository;
+        private readonly IRoomRepository _roomRepository;
+        private Dictionary<Guid, Room> _RoomWithMovieData = new Dictionary<Guid, Room>();
+
+
         public RoomService(IRoomRepository roomRepository)
         {
             _roomRepository = roomRepository;
         }
 
-        public async Task<List<Room>> GetAllRoomWithMovieAsync()
+        public async Task<List<Room>> GetAllRoomWithMovieAsync(bool forceReload = false)
         {
-            List<Domain.POCO.Room> result = await _roomRepository.GetAllRoomWithMovieAsync();
+            if (forceReload || !_RoomWithMovieData.Any())
+                await RelodeDataAsync();
 
-            return result.Adapt<List<Room>>();
+            return _RoomWithMovieData.Select(rm => rm.Value).ToList();
         }
 
-        public async Task<Room> GetRoomAsync(Guid id)
+        public async Task<Room> GetRoomAsync(Guid id, bool forceReload = false)
         {
-            Domain.POCO.Room room = await _roomRepository.GetRoomAsync(id);
-            return room.Adapt<Room>();
+            if (forceReload || !_RoomWithMovieData.Any())
+                await RelodeDataAsync();
+
+            return _RoomWithMovieData.ContainsKey(id) ? _RoomWithMovieData[id] : null;
         }
 
-        public async Task<Room> GetRoomWithMovieAsync(Guid id)
+        public async Task<Room> GetRoomWithMovieAsync(Guid id, bool forceReload = false)
         {
-            Domain.POCO.Room result = await _roomRepository.GetRoomWithMovieAsync(id);
+            if (forceReload || !_RoomWithMovieData.ContainsKey(id))
+                await RelodeDataAsync();
 
-            return result.Adapt<Room>();
+            return _RoomWithMovieData.ContainsKey(id) ? _RoomWithMovieData[id] : null;
         }
 
         public async Task IncreaseUserCountAsync(Guid roomId)
         {
-           await _roomRepository.IncreaseUserCountAsync(roomId);
+            await _roomRepository.IncreaseUserCountAsync(roomId);
+        }
+
+        public async Task RelodeDataAsync()
+        {
+            List<Domain.POCO.Room> roomsWithMovie = await _roomRepository.GetAllRoomWithMovieAsync();
+            _RoomWithMovieData = roomsWithMovie.ToDictionary(room => room.Id, room => room.Adapt<Room>());
         }
     }
 }

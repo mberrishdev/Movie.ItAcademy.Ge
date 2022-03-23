@@ -1,5 +1,4 @@
 ﻿using Movie.BO.Services.Models;
-using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Movie.BO.Services.Abstractions
 {
-    public interface IBookingService
+    public interface IServerOptionService
     {
-        Task<List<Booking>> GetAllBookingsAsync();
-        Task ChangeBookingStatus(Guid id, BookingStatus bookingStatus);
+        Task<ServerOption> GetOptionAsync(string optionKey);
     }
 }
