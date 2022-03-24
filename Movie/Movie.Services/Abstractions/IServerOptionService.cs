@@ -1,10 +1,7 @@
-﻿using Movie.BO.Services.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Movie.Services.Models;
 using System.Threading.Tasks;
 
-namespace Movie.BO.Services.Abstractions
+namespace Movie.Services.Abstractions
 {
     public interface IServerOptionService
     {

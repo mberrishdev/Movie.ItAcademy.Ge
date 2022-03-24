@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Movie.Data.EF.Repository
 {
-    internal class ServerOptionRepository : IServerOptionRepository
+    public class ServerOptionRepository : IServerOptionRepository
     {
         private readonly IBaseRepository<ServerOption> _baseRepository;
 

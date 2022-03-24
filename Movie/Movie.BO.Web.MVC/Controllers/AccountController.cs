@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Web.MVC.Models.Account;
 using Movie.Services.Abstractions;
@@ -8,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IAntiforgery antiForgery):base(antiForgery)
         {
             _accountService = accountService;
         }

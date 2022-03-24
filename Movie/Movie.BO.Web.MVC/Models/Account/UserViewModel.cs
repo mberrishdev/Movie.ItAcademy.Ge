@@ -2,7 +2,7 @@
 
 namespace Movie.BO.Web.MVC.Models.Account
 {
-    public class UserDTO
+    public class UserViewModel
     {
         public string Id { get; set; }
         public string UserName { get; set; }

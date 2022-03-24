@@ -42,10 +42,12 @@ namespace Movie.BO.Services.Implementations
 
         public async Task<(IdentityUser User, List<ManageUserRoles> ManageUserRole)> GetManageUserRolesAsync(string userId)
         {
+            List<string> userRoles = new List<string>();
             IdentityUser user;
             try
             {
                 user = await FindUserAsync(userId);
+                userRoles = await GetUserRoles(user);
             }
             catch (NotFoundException ex)
             {
@@ -60,7 +62,7 @@ namespace Movie.BO.Services.Implementations
                     RoleId = role.Id,
                     RoleName = role.Name
                 };
-                if (await _userManager.IsInRoleAsync(user, role.Name))
+                if (userRoles.Contains(role.ToString()))
                 {
                     userRolesViewModel.Selected = true;
                 }

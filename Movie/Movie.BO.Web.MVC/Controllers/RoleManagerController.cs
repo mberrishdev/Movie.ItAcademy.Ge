@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 namespace Movie.BO.Web.MVC.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class RoleManagerController : Controller
+    public class RoleManagerController : BaseController
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        public RoleManagerController(RoleManager<IdentityRole> roleManager)
+        public RoleManagerController(RoleManager<IdentityRole> roleManager, IAntiforgery antiForgery) : base(antiForgery)
         {
             _roleManager = roleManager;
         }

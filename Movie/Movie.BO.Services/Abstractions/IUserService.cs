@@ -10,6 +10,9 @@ namespace Movie.BO.Services.Abstractions
 {
     public interface IUserService
     {
-        Task<List<IdentityUser>> GetMovieUsersAsync();
+        Task<List<User>> GetMovieUsersAsync();
+        Task<User> GetUserAsync(Guid id);
+        Task UpdateUserAsync(IdentityUser user);
+        Task DeleteUser(Guid id);
     }
 }

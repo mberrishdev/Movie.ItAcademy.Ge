@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services;
@@ -11,11 +12,11 @@ using System.Threading.Tasks;
 namespace Movie.BO.Web.MVC.Controllers
 {
     [Authorize(Roles = "Moderator")]
-    public class MovieController : Controller
+    public class MovieController : BaseController
     {
         public readonly IMovieService _movieService;
 
-        public MovieController(IMovieService movieService)
+        public MovieController(IMovieService movieService, IAntiforgery antiForgery) : base(antiForgery)
         {
             _movieService = movieService;
         }

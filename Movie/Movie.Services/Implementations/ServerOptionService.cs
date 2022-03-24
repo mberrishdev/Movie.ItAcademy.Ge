@@ -1,13 +1,10 @@
 ﻿using Mapster;
-using Movie.BO.Services.Abstractions;
-using Movie.BO.Services.Models;
 using Movie.Data;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Movie.Services.Abstractions;
+using Movie.Services.Models;
 using System.Threading.Tasks;
 
-namespace Movie.BO.Services.Implementations
+namespace Movie.Services.Implementations
 {
     public class ServerOptionService : IServerOptionService
     {

@@ -1,52 +1,47 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Exceptions;
 using Movie.BO.Services.Implementations;
 using Movie.BO.Services.Models.User;
-using Movie.BO.Web.MVC.Models;
 using Movie.BO.Web.MVC.Models.Account;
-using Movie.Services.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class UserRolesController : Controller
+    public class UserRolesController : BaseController
     {
         private readonly IUserRolesService _userRolesService;
 
-        public UserRolesController(IUserRolesService userRolesService)
+        public UserRolesController(IUserRolesService userRolesService, IAntiforgery antiForgery) : base(antiForgery)
         {
             _userRolesService = userRolesService;
         }
 
         public async Task<IActionResult> Index()
         {
-             List<UserRoles> result = await _userRolesService.GetUserRolesAsync();
+            List<UserRoles> result = await _userRolesService.GetUserRolesAsync();
 
             return View(result.Adapt<List<UserRolesViewModel>>());
         }
 
-        public async Task<IActionResult> Manage(string userId)
+        public async Task<IActionResult> Manage(Guid id)
         {
-            UserDTO user;
+            var userName = string.Empty;
             (IdentityUser User, List<ManageUserRoles> ManageUserRole) result;
 
-            ViewBag.userId = userId;
+            ViewBag.userId = id.ToString();
 
             try
             {
-                result = await _userRolesService.GetManageUserRolesAsync(userId);
-                user = new UserDTO()
-                {
-                    Email = result.User.Email,
-                    UserName = result.User.UserName,
-                };
+                result = await _userRolesService.GetManageUserRolesAsync(id.ToString());
+                userName = result.User.UserName;
             }
             catch (NotFoundException ex)
             {
@@ -54,19 +49,19 @@ namespace Movie.BO.Web.MVC.Controllers
                 return View("NotFound");
             }
 
-            ViewBag.UserName = user.UserName;
-            
+            ViewBag.UserName = userName;
+
             return View(result.ManageUserRole);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Manage(List<ManageUserRolesViewModel> model, string userId)
+        public async Task<IActionResult> Manage(List<ManageUserRolesViewModel> model, Guid id)
         {
             (UpdateRoleStatus Status, string Message) result;
 
             try
             {
-                result = await _userRolesService.UpdateUserRoleAsync(model.Adapt<List<ManageUserRoles>>(),userId);
+                result = await _userRolesService.UpdateUserRoleAsync(model.Adapt<List<ManageUserRoles>>(), id.ToString());
 
                 if (result.Status == UpdateRoleStatus.Failur)
                 {

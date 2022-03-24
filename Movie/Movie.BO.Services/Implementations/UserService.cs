@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Models.User;
-using Movie.Services.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Services.Implementations
@@ -18,16 +17,63 @@ namespace Movie.BO.Services.Implementations
             _userManager = userManager;
         }
 
-        public async Task<List<IdentityUser>> GetMovieUsersAsync()
+        public async Task<List<User>> GetMovieUsersAsync()
         {
-            var users = await _userManager.GetUsersInRoleAsync("User");
+            var users = await _userManager.Users.ToListAsync();
+            var userWithRoles = new List<User>();
 
-            return users.Select(user => new IdentityUser()
+            foreach (IdentityUser user in users)
             {
-                UserName = user.UserName,
+                userWithRoles.Add(new User
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Roles = await GetUserRoles(user)
+                });
+            }
+
+            return userWithRoles;
+        }
+
+        public async Task<User> GetUserAsync(Guid id)
+        {
+            IdentityUser user = await _userManager.FindByIdAsync(id.ToString());
+
+            if (user == null)
+                return null;
+
+            return new User()
+            {
                 Id = user.Id,
-                Email = user.Email
-            }).ToList();
+                UserName = user.UserName,
+                Email = user.Email,
+                Roles = await GetUserRoles(user)
+            };
+        }
+
+
+
+        public async Task UpdateUserAsync(IdentityUser user)
+        {
+            await _userManager.UpdateAsync(user);
+        }
+
+        public async Task DeleteUser(Guid id)
+        {
+            var user =  await GetIdentityUserAsync(id);
+            await _userManager.DeleteAsync(user);
+        }
+
+
+        private async Task<List<string>> GetUserRoles(IdentityUser user)
+        {
+            return new List<string>(await _userManager.GetRolesAsync(user));
+        }
+
+        private async Task<IdentityUser> GetIdentityUserAsync(Guid id)
+        {
+            return await _userManager.FindByIdAsync(id.ToString());
         }
     }
 }

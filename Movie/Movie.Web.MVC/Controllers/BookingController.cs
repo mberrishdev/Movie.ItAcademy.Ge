@@ -24,7 +24,7 @@ namespace Movie.Web.MVC.Controllers
 
             await _bookingService.BookRoomAsync(id, new Guid(user.Id));
 
-            return View();
+            return RedirectToAction("Index","Room");
         }
 
     }

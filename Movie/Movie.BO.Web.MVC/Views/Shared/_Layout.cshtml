@@ -18,7 +18,7 @@
         <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:10%">
             <h3 class="w3-bar-item">Menu</h3>
             <a class="nav-link text-dark w3-bar-item w3-button" asp-area="" asp-controller="RoleManager" asp-action="Index">Role Manager</a>
-            <a class="nav-link text-dark w3-bar-item w3-button" asp-area="" asp-controller="UserRoles" asp-action="Index">User Roles</a>
+            <a class="nav-link text-dark w3-bar-item w3-button" asp-area="" asp-controller="User" asp-action="Index">Users</a>
             <a class="nav-link text-dark w3-bar-item w3-button" asp-area="" asp-controller="Room" asp-action="Index">Rooms</a>
             <a class="nav-link text-dark w3-bar-item w3-button" asp-area="" asp-controller="Booking" asp-action="Index">Bookings</a>
         </div>
@@ -36,6 +36,7 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

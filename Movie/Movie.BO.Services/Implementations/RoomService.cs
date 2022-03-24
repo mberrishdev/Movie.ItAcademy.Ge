@@ -12,10 +12,13 @@ namespace Movie.BO.Services.Implementations
     public class RoomService : IRoomService
     {
         public readonly IRoomRepository _roomRepository;
+        public readonly IWebServices _webServices;
 
-        public RoomService(IRoomRepository roomRepository)
+
+        public RoomService(IRoomRepository roomRepository,IWebServices webServices)
         {
             _roomRepository = roomRepository;
+            _webServices = webServices;
         }
 
 
@@ -25,6 +28,9 @@ namespace Movie.BO.Services.Implementations
             room.UserCount = 0;
             room.Status = RoomStatus.New.ToString();
             await _roomRepository.AddRoomAsync(room.Adapt<Domain.POCO.Room>());
+
+            //Relode web data
+            await _webServices.RelodeWebData();
             return room.Id;
         }
 
@@ -45,17 +51,26 @@ namespace Movie.BO.Services.Implementations
         public async Task ChangeRoomStatusAsync(Guid id, RoomStatus newStatus)
         {
             await _roomRepository.ChangeRoomStatusAsync(id, newStatus.ToString());
+
+            //Relode web data
+            await _webServices.RelodeWebData();
         }
 
         public async Task DeleteRoomAsync(Guid id)
         {
             var room = await _roomRepository.GetRoomAsync(id);
             await _roomRepository.DeleteRoomAsync(room);
+
+            //Relode web data
+            await _webServices.RelodeWebData();
         }
         public async Task UpdateRoomAsync(Room room)
         {
             room.Movie.RoomId = room.Id;
             await _roomRepository.UpdateRoomAsync(room.Adapt<Domain.POCO.Room>());
+
+            //Relode web data
+            await _webServices.RelodeWebData();
         }
 
         public Task<Room> GetRoomAsync(Guid id)

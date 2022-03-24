@@ -3,6 +3,7 @@ using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Implementations;
 using Movie.BO.Web.MVC.Infrastracture.Mappings;
 using Movie.Services.Abstractions;
+using Movie.Services.Implementations;
 
 namespace Movie.BO.Web.MVC.Infrastracture.Extensions
 {
@@ -17,6 +18,14 @@ namespace Movie.BO.Web.MVC.Infrastracture.Extensions
             services.AddScoped<IUserRolesService, UserRolesService>();
             services.AddScoped<IRoleManagerService, RoleManagerService>();
             services.AddScoped<IAccountService, AccountService>();
+
+            services.AddScoped<IWebServices, WebServices>();
+            services.AddScoped<IServerOptionService, ServerOptionService>();
+            services.AddScoped<IHttpRequestServices, HttpRequestServices>();
+            services.AddScoped<IUserService, UserService>();
+
+
+
 
             services.AddRepositories();
         }

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Movie.BO.Services.Abstractions
+namespace Movie.Services.Abstractions
 {
     public interface IHttpRequestServices
     {

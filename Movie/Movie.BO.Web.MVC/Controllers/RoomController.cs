@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services.Abstractions;
@@ -12,11 +13,11 @@ using System.Threading.Tasks;
 namespace Movie.BO.Web.MVC.Controllers
 {
     [Authorize(Roles = "Moderator")]
-    public class RoomController : Controller
+    public class RoomController : BaseController
     {
         public readonly IRoomService _roomService;
 
-        public RoomController(IRoomService roomService)
+        public RoomController(IRoomService roomService, IAntiforgery antiForgery) : base(antiForgery)
         {
             _roomService = roomService;
         }
@@ -28,6 +29,7 @@ namespace Movie.BO.Web.MVC.Controllers
 
         public async Task<IActionResult> Index(RoomWithMovieDTO model = null)
         {
+
             if (model.Id != Guid.Empty)
                 View(model);
 
@@ -55,6 +57,7 @@ namespace Movie.BO.Web.MVC.Controllers
 
         public async Task<IActionResult> Update(Guid id)
         {
+
             Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
 
             if (result == null)
@@ -68,6 +71,7 @@ namespace Movie.BO.Web.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRoom(RoomCreateModel room)
         {
+
             if (!ModelState.IsValid)
                 return View();
 

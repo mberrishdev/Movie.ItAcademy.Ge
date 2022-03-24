@@ -10,14 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Movie.BO.Services.Models;
+using Microsoft.AspNetCore.Antiforgery;
+
 namespace Movie.BO.Web.MVC.Controllers
 {
     [Authorize(Roles = "Moderator")]
-    public class BookingController : Controller
+    public class BookingController : BaseController
     {
         public readonly IBookingService _bookingService;
 
-        public BookingController(IBookingService bookingService)
+        public BookingController(IBookingService bookingService, IAntiforgery antiForgery) : base(antiForgery)
         {
             _bookingService = bookingService;
         }
