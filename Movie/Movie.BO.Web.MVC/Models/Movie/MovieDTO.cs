@@ -1,19 +1,24 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Movie.BO.Web.MVC.Models.Movie
 {
     public class MovieDTO
     {
-        public Guid Id { get; set; }
+        [Required]
+        public Guid RoomId { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Gener { get; set; }
+        [Required]
         public string Director { get; set; }
+        [Required]
+        [Display(Name = "IMDB Reiting?")]
         public decimal IMDBReiting { get; set; }
-        public DateTime PremierTime { get; set; }
+        [Required]
         public string Description { get; set; }
-        public decimal Price { get; set; }
-        public string Currency { get; set; }
+        [Required]
         public string BannerUrl { get; set; }
-        public string Status { get; set; }
     }
 }

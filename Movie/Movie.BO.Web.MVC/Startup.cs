@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Movie.BO.Web.MVC.Infrastracture.Extensions;
 using Movie.BO.Web.MVC.Infrastracture.Middlewares;
 using Movie.Persistance.Context;
+using System;
 
 namespace Movie.BO.Web.MVC
 {
@@ -26,12 +28,6 @@ namespace Movie.BO.Web.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAntiforgery(options =>
-            {
-                options.FormFieldName = "MyAntiForgeryField";
-                options.HeaderName = "MyAntiForgeryHeader";
-                options.Cookie.Name = "MyAntiForgeryCookie";
-            });
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
              .AddCookie(option =>
@@ -47,8 +43,16 @@ namespace Movie.BO.Web.MVC
                  };
              });
 
-          //  services.AddControllersWithViews(options =>
-          //          options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
+            services.AddAntiforgery(options =>
+            {
+                // Set Cookie properties using CookieBuilder properties†.
+                options.FormFieldName = "AntiforgeryFieldname";
+                options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
+                options.SuppressXFrameOptionsHeader = false;
+            });
+
+            services.AddControllersWithViews(options =>
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
             services.AddMvc();
 
@@ -91,11 +95,28 @@ namespace Movie.BO.Web.MVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-           // app.UseMiddleware<ExceptionHandlerMiddleware>();
+            //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseRouting();
-
             app.UseAuthentication();
+
+            var antiforgery = app.ApplicationServices.GetRequiredService<IAntiforgery>();
+
+            //app.Use(async (context, next) =>
+            //{
+            //    var requestPath = context.Request.Path.Value;
+
+            //    if (string.Equals(requestPath, "/", StringComparison.OrdinalIgnoreCase)
+            //        || string.Equals(requestPath, "/index.html", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        var tokenSet = antiforgery.GetAndStoreTokens(context);
+            //        context.Response.Cookies.Append("XSRF-TOKEN", tokenSet.RequestToken!,
+            //            new CookieOptions { HttpOnly = false });
+            //    }
+
+            //    await next.Invoke();
+            //});
+
             app.UseAuthorization();
 
 

@@ -8,6 +8,7 @@ using Movie.BO.Services.Models.User;
 using Movie.BO.Web.MVC.Models.Account;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
@@ -34,6 +35,11 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(users);
         }
 
+        public async Task<IActionResult> RegisterUser()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> Update(Guid id)
         {
 
@@ -58,6 +64,25 @@ namespace Movie.BO.Web.MVC.Controllers
             });
 
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register([FromForm] RegisterDTO model)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _userService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
+
+            if (!result.Any())
+                return RedirectToAction("Index");
+
+            foreach (var error in result)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View();
         }
 
         public async Task<IActionResult> Delete(Guid id)

@@ -1,5 +1,13 @@
 ﻿using Mapster;
 using Microsoft.Extensions.DependencyInjection;
+using Movie.BO.Services.Models;
+using Movie.BO.Services.Models.User;
+using Movie.BO.Web.MVC.Models;
+using Movie.BO.Web.MVC.Models.Account;
+using Movie.BO.Web.MVC.Models.Movie;
+using Movie.BO.Web.MVC.Models.Room;
+using Movie.Services.Models;
+
 
 namespace Movie.BO.Web.MVC.Infrastracture.Mappings
 {
@@ -7,24 +15,38 @@ namespace Movie.BO.Web.MVC.Infrastracture.Mappings
     {
         public static void RegisterMaps(this IServiceCollection service)
         {
-            TypeAdapterConfig<Models.Movie.MovieCreateModel, Services.Models.Movie>
+            //Account 
+            TypeAdapterConfig<RegisterDTO, RegisterModel>
             .NewConfig();
 
-            TypeAdapterConfig<Models.Movie.MovieDTO, Services.Models.Movie>
-            .NewConfig()
-            .TwoWays();
+            TypeAdapterConfig<LogInDTO, LogInModel>
+            .NewConfig();
 
-            TypeAdapterConfig<Services.Models.Movie, Domain.POCO.Movie>
-            .NewConfig()
-            .TwoWays();
+            //Booking
+            TypeAdapterConfig<Booking, BookingViewModel>
+            .NewConfig();
 
-            TypeAdapterConfig<Models.Account.UserRolesViewModel, Services.Models.User.UserRoles>
-            .NewConfig()
-            .TwoWays();
+            //Movie
+            TypeAdapterConfig<MovieDTO, Services.Models.Movie>
+            .NewConfig();
 
-            //TypeAdapterConfig<Models.UserDTO, Services.Models.User.User>
-            //.NewConfig()
-            //.TwoWays();
+            //Room
+            TypeAdapterConfig<Room, RoomViewModel>
+            .NewConfig();
+
+            TypeAdapterConfig<Room, RoomWithMovieViewModel>
+            .NewConfig();
+
+            TypeAdapterConfig<RoomDTO, Room>
+            .NewConfig();
+
+            TypeAdapterConfig<RoomWithMovieDTO, Room>
+            .NewConfig();
+
+            //User Role
+            TypeAdapterConfig<ManageUserDTO, ManageUserRoles>
+            .NewConfig();
+
         }
     }
 }

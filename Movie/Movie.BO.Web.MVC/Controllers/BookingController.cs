@@ -31,11 +31,10 @@ namespace Movie.BO.Web.MVC.Controllers
             if (result == null)
                 return NotFound();
 
-            var rooms = result.Adapt<List<BookingDTO>>();
+            var rooms = result.Adapt<List<BookingViewModel>>();
 
             return View(rooms);
         }
-
 
         public async Task<IActionResult> CancellBooking(Guid id)
         {
@@ -43,6 +42,5 @@ namespace Movie.BO.Web.MVC.Controllers
             return RedirectToAction("Index");
         }
 
-       
     }
 }

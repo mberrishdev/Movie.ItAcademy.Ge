@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace Movie.BO.Web.MVC.Models.Account
+namespace Movie.Web.API.Models.Account
 {
     public class RegisterModel
     {

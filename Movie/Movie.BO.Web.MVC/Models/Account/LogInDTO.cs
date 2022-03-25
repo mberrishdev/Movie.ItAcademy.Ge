@@ -2,7 +2,7 @@
 
 namespace Movie.BO.Web.MVC.Models.Account
 {
-    public class LogInModel
+    public class LogInDTO
     {
         [Required]
         public string UserName { get; set; }

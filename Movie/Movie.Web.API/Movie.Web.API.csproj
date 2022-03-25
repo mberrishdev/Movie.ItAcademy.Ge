@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.23" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Movie.Data.EF\Movie.Data.EF.csproj" />
+    <ProjectReference Include="..\Movie.Data\Movie.Data.csproj" />
+    <ProjectReference Include="..\Movie.Web.API.Services\Movie.Web.API.Services.csproj" />
+  </ItemGroup>
+
+
+</Project>

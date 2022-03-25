@@ -14,5 +14,6 @@ namespace Movie.BO.Services.Abstractions
         Task<User> GetUserAsync(Guid id);
         Task UpdateUserAsync(IdentityUser user);
         Task DeleteUser(Guid id);
+        Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel registerModel);
     }
 }

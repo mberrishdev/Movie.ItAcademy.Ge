@@ -55,7 +55,7 @@ namespace Movie.BO.Web.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Manage(List<ManageUserRolesViewModel> model, Guid id)
+        public async Task<IActionResult> Manage(List<ManageUserDTO> model, Guid id)
         {
             (UpdateRoleStatus Status, string Message) result;
 

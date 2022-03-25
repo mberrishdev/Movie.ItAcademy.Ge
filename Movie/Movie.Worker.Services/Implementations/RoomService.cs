@@ -43,6 +43,9 @@ namespace Movie.Worker.Services.Implementations
                         Description = room.Movie.Description,
                         BannerUrl = room.Movie.BannerUrl,
                     });
+
+                    //Delete room
+                    await _roomRepository.DeleteRoomAsync(await _roomRepository.GetRoomAsync(room.Id));
                 }
 
             }

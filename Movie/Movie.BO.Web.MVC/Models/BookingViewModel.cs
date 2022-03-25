@@ -2,7 +2,7 @@
 
 namespace Movie.BO.Web.MVC.Models
 {
-    public class BookingDTO
+    public class BookingViewModel
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }

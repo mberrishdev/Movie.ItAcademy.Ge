@@ -8,7 +8,9 @@ using Movie.BO.Web.MVC.Models.Room;
 using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using PagedList;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
@@ -27,20 +29,47 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Index(RoomWithMovieDTO model = null)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, RoomWithMovieDTO model = null)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "status_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "PremierTime_desc" : "PremierTime";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             if (model.Id != Guid.Empty)
                 View(model);
 
-            List<Services.Models.Room> result = await _roomService.GetAllRoomsAsync();
+            List<Services.Models.Room> result = await _roomService.GetAllRoomWithMovieAsync();
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(r => r.Movie.Name.Contains(searchString)).ToList();
+            }
 
             if (result == null)
                 return NotFound();
 
-            var rooms = result.Adapt<List<RoomDTO>>();
+            var rooms = result.Adapt<List<RoomViewModel>>();
 
-            return View(rooms);
+            rooms = sortOrder switch
+            {
+                "status_desc" => rooms.OrderByDescending(r => r.Status).ToList(),
+                "PremierTime" => rooms.OrderBy(s => s.PremierTime).ToList(),
+                "PremierTime_desc" => rooms.OrderByDescending(s => s.PremierTime).ToList(),
+                _ => rooms.OrderBy(s => s.Status).ToList(),
+            };
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(rooms.ToPagedList(pageNumber, pageSize));
         }
 
         public async Task<IActionResult> RoomDetails(Guid id)
@@ -69,7 +98,7 @@ namespace Movie.BO.Web.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRoom(RoomCreateModel room)
+        public async Task<IActionResult> AddRoom(RoomDTO room)
         {
 
             if (!ModelState.IsValid)

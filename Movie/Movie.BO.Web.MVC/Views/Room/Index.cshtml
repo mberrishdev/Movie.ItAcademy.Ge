@@ -1,14 +1,26 @@
-﻿@model IEnumerable<Movie.BO.Web.MVC.Models.Room.RoomDTO>
+﻿@*@model Tuple<PagedList.IPagedList<Movie.BO.Web.MVC.Models.Room.RoomViewModel>, IEnumerable<Movie.BO.Web.MVC.Models.Room.RoomViewModel>>*@
+@*@model IEnumerable<Movie.BO.Web.MVC.Models.Room.RoomViewModel>;*@
+@model PagedList.IPagedList<Movie.BO.Web.MVC.Models.Room.RoomViewModel>;
+@using PagedList.Mvc;
+@using PagedList;
+
+@using (Html.BeginForm("Index", "Rooms", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
 
 <a class="btn btn-primary" asp-controller="Room" asp-action="AddRoom">Add Room</a>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>PremierTime</th>
+            <th>@Html.ActionLink("Premier Date", "Index", new { sortOrder = ViewBag.DateSortParm })</th>
             <th>Max Users Capacity</th>
             <th>Booked Places</th>
             <th>Price</th>
-            <th>Status</th>
+            <th>@Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm })</th>
             <th>Detail</th>
             <th>Delete</th>
             <th>Update</th>
@@ -47,4 +59,8 @@
         }
     </tbody>
 </table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@*@Html.PagedListPager(Model.Item1, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
 

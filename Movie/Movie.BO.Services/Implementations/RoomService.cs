@@ -41,9 +41,9 @@ namespace Movie.BO.Services.Implementations
             return result.Adapt<Room>();
         }
 
-        public async Task<List<Room>> GetAllRoomsAsync()
+        public async Task<List<Room>> GetAllRoomWithMovieAsync()
         {
-            List<Domain.POCO.Room> result = await _roomRepository.GetAllRoomsAsync();
+            List<Domain.POCO.Room> result = await _roomRepository.GetAllRoomWithMovieAsync();
 
             return result.Adapt<List<Room>>();
         }

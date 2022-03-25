@@ -22,13 +22,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Web.MVC", "Movie.Web.MVC\Movie.Web.MVC.csproj", "{198CB34D-7976-4019-9363-E9AE96E12845}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Web.MVC", "Movie.Web.MVC\Movie.Web.MVC.csproj", "{198CB34D-7976-4019-9363-E9AE96E12845}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Web.Services", "Movie.Web.Services\Movie.Web.Services.csproj", "{7B729DB8-D4F7-4BC4-A11B-F5E2A6E2F33C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Web.Services", "Movie.Web.Services\Movie.Web.Services.csproj", "{7B729DB8-D4F7-4BC4-A11B-F5E2A6E2F33C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Worker", "Movie.Worker\Movie.Worker.csproj", "{58E9B601-41FF-474E-BC52-748FFFF4D027}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Worker", "Movie.Worker\Movie.Worker.csproj", "{58E9B601-41FF-474E-BC52-748FFFF4D027}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Worker.Services", "Movie.Worker.Services\Movie.Worker.Services.csproj", "{78CBCE97-2BE7-4947-B9DF-27739C7B472A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.Worker.Services", "Movie.Worker.Services\Movie.Worker.Services.csproj", "{78CBCE97-2BE7-4947-B9DF-27739C7B472A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Web.API", "Movie.Web.API\Movie.Web.API.csproj", "{F478F320-9525-48AE-9780-32A9B4EBB78F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.Web.API.Services", "Movie.Web.API.Services\Movie.Web.API.Services.csproj", "{7EEC232C-A3F9-47FC-A756-30EA9ECE8030}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +84,14 @@ Global
 		{78CBCE97-2BE7-4947-B9DF-27739C7B472A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78CBCE97-2BE7-4947-B9DF-27739C7B472A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78CBCE97-2BE7-4947-B9DF-27739C7B472A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F478F320-9525-48AE-9780-32A9B4EBB78F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F478F320-9525-48AE-9780-32A9B4EBB78F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F478F320-9525-48AE-9780-32A9B4EBB78F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F478F320-9525-48AE-9780-32A9B4EBB78F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EEC232C-A3F9-47FC-A756-30EA9ECE8030}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EEC232C-A3F9-47FC-A756-30EA9ECE8030}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EEC232C-A3F9-47FC-A756-30EA9ECE8030}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EEC232C-A3F9-47FC-A756-30EA9ECE8030}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,7 +29,7 @@ namespace Movie.BO.Web.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddMovie(MovieCreateModel movie)
+        public async Task<IActionResult> AddMovie(MovieDTO movie)
         {
             if (!ModelState.IsValid)
                 return View();

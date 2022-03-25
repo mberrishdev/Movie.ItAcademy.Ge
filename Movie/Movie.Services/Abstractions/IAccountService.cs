@@ -10,7 +10,7 @@ namespace Movie.Services.Abstractions
 {
     public interface IAccountService
     {
-        Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model);
+        Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model, Roles role = Roles.User);
         Task<SignInStatus> LoginAsync(LogInModel model, HttpContext httpContext);
         Task LogOutAsync(HttpContext httpContext);
         Task<IdentityUser> GetUserAsync(Guid id);

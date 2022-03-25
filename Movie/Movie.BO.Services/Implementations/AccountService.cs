@@ -30,9 +30,8 @@ namespace Movie.BO.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model)
+        public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model, Roles role = Roles.Moderator)
         {
-
             string userName = model.UserName;
             var user = new IdentityUser
             {
@@ -43,7 +42,7 @@ namespace Movie.BO.Services.Implementations
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
-                await _userManager.AddToRoleAsync(user, Roles.Moderator.ToString());
+                await _userManager.AddToRoleAsync(user, role.ToString());
 
                 //var user = new IdentityUser { UserName = model.UserName, Email = model.Email };
                 //var result = await _userManager.CreateAsync(user, model.Password);

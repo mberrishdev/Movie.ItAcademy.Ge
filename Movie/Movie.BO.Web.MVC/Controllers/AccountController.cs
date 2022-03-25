@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class AccountController : BaseController
     {
         private readonly IAccountService _accountService;
@@ -17,12 +18,14 @@ namespace Movie.BO.Web.MVC.Controllers
         {
             _accountService = accountService;
         }
-
+        
+        [IgnoreAntiforgeryToken]
         public IActionResult Register()
         {
             return View();
         }
 
+        [IgnoreAntiforgeryToken]
         public IActionResult LogIn()
         {
             return View();
@@ -30,12 +33,12 @@ namespace Movie.BO.Web.MVC.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromForm] RegisterModel model)
+        public async Task<IActionResult> Register([FromForm] RegisterDTO model)
         {
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
+            var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>(), Roles.Moderator);
 
             if (!result.Any())
                 return RedirectToAction("Login");
@@ -48,8 +51,9 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
+        //[ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Login([FromForm] LogInModel model)
+        public async Task<IActionResult> Login([FromForm] LogInDTO model)
         {
 
             if (!ModelState.IsValid)

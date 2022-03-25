@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Models.User;
+using Movie.Services.Abstractions;
+using Movie.Services.Enums;
+using Movie.Services.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,10 +14,13 @@ namespace Movie.BO.Services.Implementations
     public class UserService : IUserService
     {
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IAccountService _accountService;
 
-        public UserService(UserManager<IdentityUser> userManager)
+
+        public UserService(UserManager<IdentityUser> userManager,IAccountService accountService)
         {
             _userManager = userManager;
+            _accountService = accountService;
         }
 
         public async Task<List<User>> GetMovieUsersAsync()
@@ -52,8 +58,6 @@ namespace Movie.BO.Services.Implementations
             };
         }
 
-
-
         public async Task UpdateUserAsync(IdentityUser user)
         {
             await _userManager.UpdateAsync(user);
@@ -65,7 +69,6 @@ namespace Movie.BO.Services.Implementations
             await _userManager.DeleteAsync(user);
         }
 
-
         private async Task<List<string>> GetUserRoles(IdentityUser user)
         {
             return new List<string>(await _userManager.GetRolesAsync(user));
@@ -74,6 +77,11 @@ namespace Movie.BO.Services.Implementations
         private async Task<IdentityUser> GetIdentityUserAsync(Guid id)
         {
             return await _userManager.FindByIdAsync(id.ToString());
+        }
+
+        public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel registerModel)
+        {
+            return await _accountService.RegisterAsync(registerModel, Roles.User);
         }
     }
 }
