@@ -10,6 +10,8 @@ namespace Movie.BO.Web.MVC.Models.Room
         [Required]
         public DateTime PremierTime { get; set; }
         [Required]
+        public int DurationMinutes { get; set; }
+        [Required]
         public int RoomUserCapacity { get; set; }
         [Required]
         public int UserCount { get; set; }

@@ -22,7 +22,7 @@ namespace Movie.Worker.Services.Implementations
 
         }
 
-        public async void CheckAndCancellBookings()
+        public async Task CheckAndCancellBookings()
         {
             var activeBookings = await _bookingRepository.GetAlActiveBookingsAsync();
             var rooms = await _roomRepository.GetAllRoomsAsync();

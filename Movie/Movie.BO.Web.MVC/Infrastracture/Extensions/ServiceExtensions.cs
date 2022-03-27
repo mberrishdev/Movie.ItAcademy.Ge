@@ -20,12 +20,9 @@ namespace Movie.BO.Web.MVC.Infrastracture.Extensions
             services.AddScoped<IAccountService, AccountService>();
 
             services.AddScoped<IWebServices, WebServices>();
-            services.AddScoped<IServerOptionService, ServerOptionService>();
+            services.AddSingleton<IServerOptionService, ServerOptionService>();
             services.AddScoped<IHttpRequestServices, HttpRequestServices>();
             services.AddScoped<IUserService, UserService>();
-
-
-
 
             services.AddRepositories();
         }

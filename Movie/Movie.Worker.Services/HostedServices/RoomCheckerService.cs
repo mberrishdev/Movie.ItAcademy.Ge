@@ -2,32 +2,33 @@
 using Movie.Services.Abstractions;
 using Movie.Worker.Services.Abstractions;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Movie.Worker.Services.HostedServices
 {
-
-    public class BookingCancellerService : IHostedService, IDisposable
+    public class RoomCheckerService : IHostedService, IDisposable
     {
         private int UpdateTimeInSeconds { get; set; }
         private Timer _timer;
 
-        private readonly IBookingService _bookingService;
+        public readonly IRoomService _roomService;
         private readonly IServerOptionService _serverOptionService;
 
-        public BookingCancellerService(IBookingService bookingService, IServerOptionService serverOptionService)
+        public RoomCheckerService(IRoomService roomService, IServerOptionService serverOptionService)
         {
-            _bookingService = bookingService;
+            _roomService = roomService;
             _serverOptionService = serverOptionService;
-            GetUpdateTime();
         }
 
         public void GetUpdateTime()
         {
-            var option = _serverOptionService.GetOption("move.worker.booking.canceller.int.time.sec");
+            var option = _serverOptionService.GetOption("move.worker.room.checker.int.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }
+
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
@@ -37,7 +38,7 @@ namespace Movie.Worker.Services.HostedServices
 
         private void DoWork(object state)
         {
-            _bookingService.CheckAndCancellBookings();
+             _roomService.CheckIfRoomHasMovie();
         }
 
         public Task StopAsync(CancellationToken stoppingToken)

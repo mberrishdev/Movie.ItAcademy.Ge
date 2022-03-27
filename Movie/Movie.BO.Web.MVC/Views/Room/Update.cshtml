@@ -24,6 +24,11 @@
                 <span asp-validation-for="PremierTime" class="text-danger" ></span>
             </div>
             <div class="form-group">
+                <label asp-for="DurationMinutes"></label>
+                <input asp-for="DurationMinutes" class="form-control" type="text" value="@Model.DurationMinutes"/>
+                <span asp-validation-for="DurationMinutes" class="text-danger" ></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="RoomUserCapacity"></label>
                 <input asp-for="RoomUserCapacity" class="form-control" type="number" value =@Model.RoomUserCapacity/>
                 <span asp-validation-for="RoomUserCapacity" class="text-danger" ></span>

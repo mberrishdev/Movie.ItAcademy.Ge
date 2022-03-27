@@ -19,5 +19,10 @@ namespace Movie.Data.EF.Repository
         {
             return await _baseRepository.GetAsync(optionKey);
         }
+
+        public async Task<List<ServerOption>> LoadAllOptions()
+        {
+            return await _baseRepository.GetAllAsync();
+        }
     }
 }

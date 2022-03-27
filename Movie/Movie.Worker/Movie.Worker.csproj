@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Movie.Data.EF\Movie.Data.EF.csproj" />
     <ProjectReference Include="..\Movie.Worker.Services\Movie.Worker.Services.csproj" />
   </ItemGroup>
 </Project>

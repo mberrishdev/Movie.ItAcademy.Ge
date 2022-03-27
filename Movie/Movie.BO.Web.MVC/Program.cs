@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
+using System.IO;
 
 namespace Movie.BO.Web.MVC
 {
@@ -13,14 +10,34 @@ namespace Movie.BO.Web.MVC
     {
         public static void Main(string[] args)
         {
+            //Log.Logger = new LoggerConfiguration()
+            //    .Enrich.FromLogContext()
+            //    .WriteTo.File(@"bin\log.txt", rollingInterval: RollingInterval.Day)
+            //    .CreateLogger();
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.MSSqlServer(
+                connectionString: configuration.GetSection("ConnectionStrings:MovieDBContextConnection").Value,
+                tableName: configuration.GetSection("Serilog:TableName").Value,
+                appConfiguration: configuration,
+                autoCreateSqlTable: true,
+                columnOptionsSection: configuration.GetSection("Serilog:ColumnOptions"),
+                schemaName: configuration.GetSection("Serilog:SchemaName").Value)
+                .CreateLogger();
+
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                //.UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                }).UseSerilog();
     }
 }

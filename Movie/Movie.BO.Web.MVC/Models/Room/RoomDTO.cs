@@ -8,7 +8,9 @@ namespace Movie.BO.Web.MVC.Models.Room
         [Required]
         [Display(Name = "Premier Time?")]
         public DateTime PremierTime { get; set; }
-
+        [Required]
+        [Display(Name = "Duration in Minutes?")]
+        public int DurationMinutes { get; set; }
         [Required]
         [Display(Name = "Room User Capacity?")]
         public int RoomUserCapacity { get; set; }

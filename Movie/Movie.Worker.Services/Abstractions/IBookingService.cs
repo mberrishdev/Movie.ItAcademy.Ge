@@ -7,6 +7,6 @@ namespace Movie.Worker.Services.Abstractions
 {
     public interface IBookingService
     {
-        void CheckAndCancellBookings();
+        Task CheckAndCancellBookings();
     }
 }

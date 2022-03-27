@@ -17,10 +17,11 @@ namespace Movie.BO.Services.Implementations
 
         public async Task RelodeWebData()
         {
-            var option = await _serverOptionService.GetOptionAsync("move.web.mvc.domain");
-            var domain = option.Value;
+            var urlMVC = _serverOptionService.GetOption("move.web.mvc.domain.relode");
+            var urlAPI = _serverOptionService.GetOption("move.web.api.domain.relode");
 
-            await _httpRequestServices.Post($"{domain}Web");
+            await _httpRequestServices.Post(urlMVC.Value);
+            await _httpRequestServices.Post(urlAPI.Value);
         }
     }
 }

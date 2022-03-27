@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Movie.Data.EF.Repository
 {
-    internal class RoomArchiveRepository : IRoomArchiveRepository
+    public class RoomArchiveRepository : IRoomArchiveRepository
     {
         private readonly IBaseRepository<RoomArchive> _baseRepository;
 

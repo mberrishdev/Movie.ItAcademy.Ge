@@ -5,6 +5,7 @@ namespace Movie.Services.Abstractions
 {
     public interface IServerOptionService
     {
-        Task<ServerOption> GetOptionAsync(string optionKey);
+        ServerOption GetOption(string optionKey);
+        Task LoadServerOptions();
     }
 }

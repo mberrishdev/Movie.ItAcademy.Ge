@@ -35,6 +35,9 @@
                     <p class="pull-right">@room.PremierTime</p>
                 </td>
                 <td>
+                    <p class="pull-right">@room.DurationMinutes</p>
+                </td>
+                <td>
                     <p class="pull-right">@room.RoomUserCapacity</p>
                 </td>
                 <td>
@@ -62,5 +65,5 @@
 <br />
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@*@Html.PagedListPager(Model.Item1, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
+@*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
 

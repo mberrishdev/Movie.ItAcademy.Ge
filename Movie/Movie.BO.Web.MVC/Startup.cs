@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Movie.BO.Web.MVC.Infrastracture.Extensions;
 using Movie.BO.Web.MVC.Infrastracture.Middlewares;
 using Movie.Persistance.Context;
+using Movie.Persistance.Seed;
 using System;
 
 namespace Movie.BO.Web.MVC
@@ -60,9 +61,8 @@ namespace Movie.BO.Web.MVC
 
 
             services.AddDbContext<MovieDBContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
-            });
+                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")),
+                ServiceLifetime.Singleton);
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<MovieDBContext>();
@@ -95,6 +95,8 @@ namespace Movie.BO.Web.MVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseServerOptionsLoaderMiddleware();
+
             //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseRouting();
@@ -119,6 +121,7 @@ namespace Movie.BO.Web.MVC
 
             app.UseAuthorization();
 
+            MovieSeed.Initialize(app.ApplicationServices);
 
             app.UseEndpoints(endpoints =>
             {

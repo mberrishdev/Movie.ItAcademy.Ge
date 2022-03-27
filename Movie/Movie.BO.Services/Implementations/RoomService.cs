@@ -2,6 +2,7 @@
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Models;
 using Movie.Data;
+using Movie.Services.Abstractions;
 using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,7 @@ namespace Movie.BO.Services.Implementations
         public readonly IRoomRepository _roomRepository;
         public readonly IWebServices _webServices;
 
-
-        public RoomService(IRoomRepository roomRepository,IWebServices webServices)
+        public RoomService(IRoomRepository roomRepository,IWebServices webServices, IServerOptionService optionService)
         {
             _roomRepository = roomRepository;
             _webServices = webServices;

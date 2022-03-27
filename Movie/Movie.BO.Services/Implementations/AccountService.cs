@@ -18,12 +18,12 @@ namespace Movie.BO.Services.Implementations
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<AccountService> _logger;
 
         public AccountService(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<AccountService> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;

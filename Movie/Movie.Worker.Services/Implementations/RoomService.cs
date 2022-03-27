@@ -4,6 +4,7 @@ using Movie.Worker.Services.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Movie.Worker.Services.Implementations
 {
@@ -19,7 +20,7 @@ namespace Movie.Worker.Services.Implementations
             _roomArchiveRepository = roomArchiveRepository;
         }
 
-        public async void CheckAndArchiveRoom()
+        public async Task CheckAndArchiveRoom()
         {
             var rooms = await _roomRepository.GetAllRoomWithMovieAsync();
 
@@ -49,6 +50,13 @@ namespace Movie.Worker.Services.Implementations
                 }
 
             }
+        }
+
+        public async Task CheckIfRoomHasMovie()
+        {
+            foreach (var room in await _roomRepository.GetAllRoomWithMovieAsync())
+                if (room.Movie == null)
+                    await _roomRepository.DeleteRoomAsync(await _roomRepository.GetRoomAsync(room.Id));
         }
     }
 }

@@ -9,5 +9,6 @@ namespace Movie.Data
     public interface IServerOptionRepository
     {
         Task<ServerOption> GetOptionAsync(string optionKey);
+        Task<List<ServerOption>> LoadAllOptions();
     }
 }

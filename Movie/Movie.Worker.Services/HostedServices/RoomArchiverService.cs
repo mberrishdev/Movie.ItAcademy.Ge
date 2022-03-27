@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
+using Movie.Services.Abstractions;
 using Movie.Worker.Services.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,28 @@ namespace Movie.Worker.Services.HostedServices
 {
     public class RoomArchiverService : IHostedService, IDisposable
     {
-        private readonly int _updateTimeInSeconds = 60;
+        private int UpdateTimeInSeconds { get; set; }
         private Timer _timer;
 
         public readonly IRoomService _roomService;
-        public RoomArchiverService(IRoomService roomService)
+        private readonly IServerOptionService _serverOptionService;
+
+        public RoomArchiverService(IRoomService roomService, IServerOptionService serverOptionService)
         {
             _roomService = roomService;
+            _serverOptionService = serverOptionService;
         }
+
+        public void GetUpdateTime()
+        {
+            var option = _serverOptionService.GetOption("move.worker.room.archiver.int.time.sec");
+            UpdateTimeInSeconds = int.Parse(option.Value);
+        }
+
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(_updateTimeInSeconds));
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(UpdateTimeInSeconds));
             return Task.CompletedTask;
         }
 
