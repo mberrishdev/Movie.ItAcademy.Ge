@@ -10,10 +10,6 @@ namespace Movie.BO.Web.MVC
     {
         public static void Main(string[] args)
         {
-            //Log.Logger = new LoggerConfiguration()
-            //    .Enrich.FromLogContext()
-            //    .WriteTo.File(@"bin\log.txt", rollingInterval: RollingInterval.Day)
-            //    .CreateLogger();
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
@@ -34,7 +30,6 @@ namespace Movie.BO.Web.MVC
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                //.UseSerilog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

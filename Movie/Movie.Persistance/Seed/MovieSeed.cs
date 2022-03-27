@@ -97,51 +97,69 @@ namespace Movie.Persistance.Seed
             {
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.worker.room.archiver.int.time.sec",
-                    Value="60",
+                    Id = Guid.NewGuid(),
+                    Key = "move.worker.room.archiver.int.time.sec",
+                    Value = "60",
                 },
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.web.mvc.relode",
-                    Value="https://localhost:44355/Web",
+                    Id = Guid.NewGuid(),
+                    Key = "move.booking.time.to.cancel.sec",
+                    Value = "3600",
                 },
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.web.api.domain",
-                    Value="https://localhost:44355/",
+                    Id = Guid.NewGuid(),
+                    Key = "movie.logs.archiver.time.sec",
+                    Value = "604800",
                 },
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.worker.web.data.relode.int.time.sec",
-                    Value="https://3600:44355/",
+                    Id = Guid.NewGuid(),
+                    Key = "move.worker.log.archiver.int.time.sec",
+                    Value = "604800",
                 },
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.web.api.relode",
-                    Value="https://localhost:44355/api/Web",
+                    Id = Guid.NewGuid(),
+                    Key = "move.web.mvc.relode",
+                    Value = "https://localhost:44355/Web",
                 },
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.worker.room.checker.int.time.sec",
-                    Value="50",
+                    Id = Guid.NewGuid(),
+                    Key = "move.web.api.domain",
+                    Value = "https://localhost:44355/",
                 },
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.web.mvc.domain",
-                    Value="https://localhost:44344/",
+                    Id = Guid.NewGuid(),
+                    Key = "move.worker.web.data.relode.int.time.sec",
+                    Value = "https://3600:44355/",
                 },
                 new ServerOption()
                 {
-                    Id=Guid.NewGuid(),
-                    Key="move.worker.booking.canceller.int.time.sec",
-                    Value="5",
+                    Id = Guid.NewGuid(),
+                    Key = "move.web.api.relode",
+                    Value = "https://localhost:44355/api/Web",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "move.worker.room.checker.int.time.sec",
+                    Value = "50",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "move.web.mvc.domain",
+                    Value = "https://localhost:44344/",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "move.worker.booking.canceller.int.time.sec",
+                    Value = "5",
                 },
             };
 

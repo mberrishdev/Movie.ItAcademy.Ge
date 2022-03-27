@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Movie.Data;
+using Movie.Data.EF.LogRepository;
 using Movie.Data.EF.Repository;
+using Movie.Data.LogRepository;
 
 namespace Movie.Worker.Extensions
 {
@@ -11,6 +13,10 @@ namespace Movie.Worker.Extensions
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IRoomArchiveRepository, RoomArchiveRepository>();
+            services.AddScoped<IBOWebLogRepository, BOWebLogRepository>();
+            services.AddScoped<IMVCWebLogRepository, MVCWebLogRepository>();
+            services.AddScoped<IAPIWebLogRepository, APIWebLogRepository>();
+
         }
     }
 }

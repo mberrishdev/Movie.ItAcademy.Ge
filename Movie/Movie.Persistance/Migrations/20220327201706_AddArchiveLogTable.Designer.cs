@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movie.Persistance.Context;
 
 namespace Movie.Persistance.Migrations
 {
     [DbContext(typeof(MovieDBContext))]
-    partial class MovieDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220327201706_AddArchiveLogTable")]
+    partial class AddArchiveLogTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,7 +268,7 @@ namespace Movie.Persistance.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ArchiveLogs", "log");
+                    b.ToTable("ArchiveLog", "log");
                 });
 
             modelBuilder.Entity("Movie.Domain.POCO.BOWebLog", b =>
