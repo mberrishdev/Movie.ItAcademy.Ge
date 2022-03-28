@@ -12,16 +12,20 @@ namespace Movie.Worker.Extensions
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddSingleton<IServerOptionService, ServerOptionService>();
+            services.AddScoped<IServerOptionService, ServerOptionService>();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IWebServices, WebServices>();
             services.AddScoped<IHttpRequestServices, HttpRequestServices>();
+            services.AddScoped<IMessageSenderService, Services.Implementations.MessageSenderService>();
+            services.AddScoped<IEmailService, EmailService>();
 
             services.AddHostedService<BookingCancellerService>();
             services.AddHostedService<RoomArchiverService>();
             services.AddHostedService<RoomCheckerService>();
             services.AddHostedService<WebDataRelodeService>();
+            services.AddHostedService<LogsArchiverService>();
+            services.AddHostedService<Services.HostedServices.MessageSenderService>();
 
             services.AddRepositories();
         }

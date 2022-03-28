@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Movie.Persistance.Context;
 using Movie.Worker.Extensions;
 using Serilog;
 using System;
@@ -12,14 +15,16 @@ namespace Movie.Worker
 {
     public class Program
     {
+        static IConfiguration Configuration { get; set; }
         public static void Main(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
+            Configuration = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json")
                .Build();
 
+
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
+                .ReadFrom.Configuration(Configuration)
                 .CreateLogger();
             try
             {
@@ -41,6 +46,11 @@ namespace Movie.Worker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddServices();
+                    services.AddIdentity<IdentityUser, IdentityRole>()
+                            .AddEntityFrameworkStores<MovieDBContext>();
+
+                    services.AddDbContext<MovieDBContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
                 })
                .UseSerilog();
     }

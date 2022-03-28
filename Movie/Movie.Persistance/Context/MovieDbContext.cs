@@ -22,8 +22,8 @@ namespace Movie.Persistance.Context
         public DbSet<Domain.POCO.MVCWebLog> MVCWebLogs { get; set; }
         public DbSet<Domain.POCO.BOWebLog> BOWebLogs { get; set; }
         public DbSet<Domain.POCO.ArchiveLog> ArchiveLogs { get; set; }
-
-
+        public DbSet<Domain.POCO.MessageQueue> MessageQueues { get; set; }
+        public DbSet<Domain.POCO.MessageLog> MessageLogs { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,6 +31,5 @@ namespace Movie.Persistance.Context
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(MovieDBContext).Assembly);
         }
-
     }
 }

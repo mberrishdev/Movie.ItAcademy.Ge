@@ -98,8 +98,50 @@ namespace Movie.Persistance.Seed
                 new ServerOption()
                 {
                     Id = Guid.NewGuid(),
+                    Key = "movie.email.smtp.address",
+                    Value = "smtp.gmail.com",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "movie.email.port.number",
+                    Value = "587",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "movie.email.enamble.ssl",
+                    Value = "true",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "movie.email.address",
+                    Value = "movieitacademy@gmail.com",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "movie.email.address.password",
+                    Value = "Academy1.",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
                     Key = "move.worker.room.archiver.int.time.sec",
                     Value = "60",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "move.worker.message.sender.time.sec",
+                    Value = "60",
+                },
+                new ServerOption()
+                {
+                    Id = Guid.NewGuid(),
+                    Key = "move.booking.time.to.remainder.email.sec",
+                    Value = "7200",
                 },
                 new ServerOption()
                 {

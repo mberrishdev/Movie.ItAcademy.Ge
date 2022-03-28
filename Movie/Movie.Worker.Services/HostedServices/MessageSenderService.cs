@@ -9,26 +9,26 @@ using System.Threading.Tasks;
 
 namespace Movie.Worker.Services.HostedServices
 {
-    public class LogsArchiverService : IHostedService, IDisposable
+    public class MessageSenderService : IHostedService, IDisposable
     {
         private int UpdateTimeInSeconds { get; set; }
         private Timer _timer;
 
-        public readonly ILogService _logService;
+        private readonly IMessageSenderService _messageSenderService;
         private readonly IServerOptionService _serverOptionService;
 
-        public LogsArchiverService(ILogService logService, IServerOptionService serverOptionService)
-        {
-            _logService = logService;
+        public MessageSenderService(IMessageSenderService messageSenderService, IServerOptionService serverOptionService)
+        { 
+            _messageSenderService = messageSenderService;
             _serverOptionService = serverOptionService;
+            GetUpdateTime();
         }
 
         public void GetUpdateTime()
         {
-            var option = _serverOptionService.GetOption("move.worker.log.archiver.int.time.sec");
+            var option = _serverOptionService.GetOption("move.worker.message.sender.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }
-
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
@@ -38,7 +38,7 @@ namespace Movie.Worker.Services.HostedServices
 
         private void DoWork(object state)
         {
-            _logService.CheckAndArchive();
+            _messageSenderService.CheckAndSend();
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
