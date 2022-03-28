@@ -1,6 +1,8 @@
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
+using Movie.BO.Web.MVC.Infrastracture;
 using Movie.BO.Web.MVC.Infrastracture.Extensions;
 using Movie.BO.Web.MVC.Infrastracture.Middlewares;
 using Movie.Persistance.Context;
@@ -43,6 +47,22 @@ namespace Movie.BO.Web.MVC
                      }
                  };
              });
+
+            //services.AddHealthChecks()
+            //.AddCheck<ExampleHealthCheck>(
+            //    "example_health_check",
+            //    failureStatus: HealthStatus.Degraded,
+            //    tags: new[] { "example" });
+
+
+            //services.AddHealthChecks();
+            //.AddSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
+            //services.AddHealthChecks();
+            //services.AddHealthChecksUI()
+             //   .AddSqlServerStorage(Configuration.GetConnectionString("MovieDBContextConnection"));
+            // .AddUrlGroup("")
+
+
 
             services.AddAntiforgery(options =>
             {
@@ -129,6 +149,14 @@ namespace Movie.BO.Web.MVC
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            //app.UseHealthChecks("/health", new HealthCheckOptions()
+            //{
+            //    Predicate = _ => true,
+            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+            //});
+
+            //app.UseHealthChecksUI();
         }
     }
 }

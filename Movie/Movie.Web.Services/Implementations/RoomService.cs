@@ -47,6 +47,7 @@ namespace Movie.Web.Services.Implementations
         public async Task IncreaseUserCountAsync(Guid roomId)
         {
             await _roomRepository.IncreaseUserCountAsync(roomId);
+            await RelodeDataAsync();
         }
 
         public async Task RelodeDataAsync()

@@ -11,18 +11,20 @@ namespace Movie.Worker.Extensions
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IServerOptionRepository, ServerOptionRepository>();
-            services.AddScoped<IBookingRepository, BookingRepository>();
-            services.AddScoped<IRoomRepository, RoomRepository>();
-            services.AddScoped<IRoomArchiveRepository, RoomArchiveRepository>();
-            services.AddScoped<IBOWebLogRepository, BOWebLogRepository>();
-            services.AddScoped<IMVCWebLogRepository, MVCWebLogRepository>();
-            services.AddScoped<IAPIWebLogRepository, APIWebLogRepository>();
-            services.AddScoped<IArchiveLogRepository, ArchiveLogRepository>();
-            services.AddScoped<IMessageQueueRepository, MessageQueueRepository>();
-            services.AddScoped<IMessageLogRepository, MessageLogRepository>();
+            services.AddSingleton<IServerOptionRepository, ServerOptionRepository>();
+            services.AddSingleton<IBookingRepository, BookingRepository>();
+            services.AddSingleton<IRoomRepository, RoomRepository>();
+            services.AddSingleton<IRoomArchiveRepository, RoomArchiveRepository>();
+            services.AddSingleton<IBOWebLogRepository, BOWebLogRepository>();
+            services.AddSingleton<IMVCWebLogRepository, MVCWebLogRepository>();
+            services.AddSingleton<IAPIWebLogRepository, APIWebLogRepository>();
+            services.AddSingleton<IArchiveLogRepository, ArchiveLogRepository>();
+            services.AddSingleton<IMessageQueueRepository, MessageQueueRepository>();
+            services.AddSingleton<IMessageLogRepository, MessageLogRepository>();
+            services.AddSingleton<IAspNetUserRepository, AspNetUserRepository>();
 
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+            services.AddSingleton(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
     }
 }

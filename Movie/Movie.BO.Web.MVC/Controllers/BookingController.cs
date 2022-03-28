@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Antiforgery;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
+    [AutoValidateAntiforgeryToken]
+    [ValidateAntiForgeryToken]
     [Authorize(Roles = "Moderator")]
     public class BookingController : BaseController
     {

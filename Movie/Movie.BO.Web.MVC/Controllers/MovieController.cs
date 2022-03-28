@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
+    [AutoValidateAntiforgeryToken]
+    [ValidateAntiForgeryToken]
     [Authorize(Roles = "Moderator")]
     public class MovieController : BaseController
     {

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace Movie.BO.Web.MVC.Controllers
 {
     [AutoValidateAntiforgeryToken]
+    [ValidateAntiForgeryToken]
     public class AccountController : BaseController
     {
         private readonly IAccountService _accountService;
@@ -18,14 +19,12 @@ namespace Movie.BO.Web.MVC.Controllers
         {
             _accountService = accountService;
         }
-        
-        [IgnoreAntiforgeryToken]
+
         public IActionResult Register()
         {
             return View();
         }
 
-        [IgnoreAntiforgeryToken]
         public IActionResult LogIn()
         {
             return View();
@@ -51,7 +50,6 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
-        //[ValidateAntiForgeryToken]
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LogInDTO model)
         {
@@ -71,6 +69,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> LogOut(string returnUrl = null)
         {
             await _accountService.LogOutAsync(HttpContext);

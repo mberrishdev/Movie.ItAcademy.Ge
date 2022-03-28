@@ -46,11 +46,9 @@ namespace Movie.Worker
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddServices();
-                    services.AddIdentity<IdentityUser, IdentityRole>()
-                            .AddEntityFrameworkStores<MovieDBContext>();
 
                     services.AddDbContext<MovieDBContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")), ServiceLifetime.Singleton);
                 })
                .UseSerilog();
     }

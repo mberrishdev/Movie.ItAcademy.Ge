@@ -26,6 +26,7 @@ namespace Movie.Worker.Services.HostedServices
 
         public void GetUpdateTime()
         {
+            //await _serverOptionService.LoadServerOptions();
             var option = _serverOptionService.GetOption("move.worker.message.sender.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }

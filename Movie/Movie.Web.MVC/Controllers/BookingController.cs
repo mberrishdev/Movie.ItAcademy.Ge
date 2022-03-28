@@ -17,9 +17,15 @@ namespace Movie.Web.MVC.Controllers
             _bookingService = bookingService;
         }
 
-        [Authorize]
         public async Task<IActionResult> BookRoom(Guid id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("LogIn", "Account", 
+                    new { id = id, returnAction = "BookRoom", returnController= "Booking" });
+            }
+
+
             IdentityUser user = await GetUserAsync();
 
             await _bookingService.BookRoomAsync(id, new Guid(user.Id));

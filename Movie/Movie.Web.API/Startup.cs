@@ -97,6 +97,7 @@ namespace Movie.Web.API
             app.UseSwagger();
             app.UseSwaggerUI();
 
+            app.UseServerOptionsLoaderMiddleware();
             app.UseMiddleware<Infrastracture.Middlewares.ExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();

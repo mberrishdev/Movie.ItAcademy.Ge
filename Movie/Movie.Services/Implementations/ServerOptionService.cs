@@ -24,6 +24,7 @@ namespace Movie.Services.Implementations
 
         public async Task LoadServerOptions()
         {
+
             var serverOptions = await _serverOptionRepository.LoadAllOptions();
             List<ServerOption> options = serverOptions.Adapt<List<ServerOption>>();
             serverOptins.Clear();
@@ -32,6 +33,7 @@ namespace Movie.Services.Implementations
             {
                 serverOptins.Add(option.Key, option);
             }
+
         }
     }
 }

@@ -5,11 +5,19 @@
     ViewData["Title"] = "Login";
 }
 
+@* ViewBag.RoomId = id;
+ViewBag.ReturnAction = returnAction;
+ViewBag.ReturnController = returnController;
+*@
+
 <h1>@ViewData["Title"]</h1>
 <div class="row">
     <div class="col-md-4">
         <section>
-            <form asp-action="Login" method="post">
+            <form asp-action="Login" 
+            asp-route-id = "@ViewBag.RoomId" 
+            asp-route-returnAction = "@ViewBag.ReturnAction"
+            asp-route-returnController = "@ViewBag.ReturnController" method="post">
                 <h4>Use a local account to log in.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>

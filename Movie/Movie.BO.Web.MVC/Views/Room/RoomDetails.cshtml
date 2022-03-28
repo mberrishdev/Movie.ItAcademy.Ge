@@ -11,6 +11,7 @@
 <h2>Movie Details</h2>
 
 <div class="col-sm-10 col-lg-10 col-md-10">
+    @Html.AntiForgeryToken()
     <div class="thumbnail">
         <img src="@Model.Movie.BannerUrl" width="200px" height="350px" alt="">
         <div class="caption">

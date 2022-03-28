@@ -8,6 +8,7 @@
 <h2>Update</h2>
 
 <div class="row">
+    @Html.AntiForgeryToken()
     <div class="col-md-4">
         <form asp-action="Update" method="post">
             <h4>Create a new account.</h4>

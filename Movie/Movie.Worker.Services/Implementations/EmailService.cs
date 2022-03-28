@@ -14,19 +14,19 @@ namespace Movie.Worker.Services.Implementations
 {
     public class EmailService : IEmailService
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IAspNetUserRepository _aspNetUserRepository;
         public readonly IBookingRepository _bookingRepository;
         public readonly IRoomRepository _roomRepository;
         public readonly IMessageQueueRepository _messageQueueRepository;
         public readonly IServerOptionService _serverOptionService;
 
 
-        public EmailService(UserManager<IdentityUser> userManager, IBookingRepository bookingRepository,
+        public EmailService(IAspNetUserRepository aspNetUserRepository, IBookingRepository bookingRepository,
             IRoomRepository roomRepository,
             IMessageQueueRepository messageQueueRepository,
             IServerOptionService serverOptionService)
         {
-            _userManager = userManager;
+            _aspNetUserRepository = aspNetUserRepository;
             _bookingRepository = bookingRepository;
             _roomRepository = roomRepository;
             _messageQueueRepository = messageQueueRepository;
@@ -37,7 +37,7 @@ namespace Movie.Worker.Services.Implementations
         public async Task CheckAndSendEmail()
         {
             var activeBookings = await _bookingRepository.GetAlActiveBookingsAsync();
-            var users = await _userManager.GetUsersInRoleAsync(Roles.User.ToString());
+            var users = await _aspNetUserRepository.GetUsersAsync();
             var rooms = await _roomRepository.GetAllRoomsAsync();
 
             var timeToRemainBooking = int.Parse(_serverOptionService.GetOption("move.booking.time.to.remainder.email.sec").Value);

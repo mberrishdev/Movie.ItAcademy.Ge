@@ -23,8 +23,9 @@ namespace Movie.Worker.Services.HostedServices
             GetUpdateTime();
         }
 
-        public void GetUpdateTime()
+        public async void GetUpdateTime()
         {
+            await _serverOptionService.LoadServerOptions();
             var option = _serverOptionService.GetOption("move.worker.booking.canceller.int.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }

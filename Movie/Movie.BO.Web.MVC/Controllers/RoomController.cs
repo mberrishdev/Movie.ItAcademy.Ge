@@ -14,6 +14,8 @@ using PagedList;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
+    [AutoValidateAntiforgeryToken]
+    [ValidateAntiForgeryToken]
     [Authorize(Roles = "Moderator")]
     public class RoomController : BaseController
     {

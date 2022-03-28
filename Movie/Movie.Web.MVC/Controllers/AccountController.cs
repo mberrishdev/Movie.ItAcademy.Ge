@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
 using Movie.Web.MVC.Models.Account;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,8 +23,12 @@ namespace Movie.Web.MVC.Controllers
             return View();
         }
 
-        public IActionResult LogIn()
+        public IActionResult LogIn(Guid id, string returnAction, string returnController)
         {
+            ViewBag.RoomId = id;
+            ViewBag.ReturnAction = returnAction;
+            ViewBag.ReturnController = returnController;
+
             return View();
         }
 
@@ -52,7 +57,7 @@ namespace Movie.Web.MVC.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogIn([FromForm] LogInModel model)
+        public async Task<IActionResult> LogIn([FromForm] LogInModel model, Guid id, string returnAction, string returnController)
         {
 
             if (!ModelState.IsValid)
@@ -62,7 +67,14 @@ namespace Movie.Web.MVC.Controllers
             SignInStatus status = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>(), HttpContext);
 
             if (status == SignInStatus.Success)
+            {
+                if (id != Guid.Empty 
+                    && !string.IsNullOrEmpty(returnAction) 
+                    && !string.IsNullOrEmpty(returnController))
+                    return RedirectToAction(returnAction, returnController, new { id = id });
+
                 return RedirectToAction("Index", "Room");
+            }
 
 
             ModelState.AddModelError("", "Username or password is incorrect");

@@ -21,10 +21,12 @@ namespace Movie.Worker.Services.HostedServices
         {
             _logService = logService;
             _serverOptionService = serverOptionService;
+            GetUpdateTime();
         }
 
         public void GetUpdateTime()
         {
+            //await _serverOptionService.LoadServerOptions();
             var option = _serverOptionService.GetOption("move.worker.log.archiver.int.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }

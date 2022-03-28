@@ -2,24 +2,22 @@
 using Movie.Services.Abstractions;
 using Movie.Worker.Services.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Movie.Worker.Services.HostedServices
 {
-    public class WebDataRelodeService : IHostedService, IDisposable
+    public class EmailService : IHostedService, IDisposable
     {
         private int UpdateTimeInSeconds { get; set; }
         private Timer _timer;
 
-        public readonly IWebServices _webServices;
+        private readonly IEmailService _emailService;
         private readonly IServerOptionService _serverOptionService;
 
-        public WebDataRelodeService(IWebServices webServices, IServerOptionService serverOptionService)
+        public EmailService(IEmailService emailService, IServerOptionService serverOptionService)
         {
-            _webServices = webServices;
+            _emailService = emailService;
             _serverOptionService = serverOptionService;
             GetUpdateTime();
         }
@@ -27,10 +25,9 @@ namespace Movie.Worker.Services.HostedServices
         public void GetUpdateTime()
         {
             //await _serverOptionService.LoadServerOptions();
-            var option = _serverOptionService.GetOption("move.worker.web.data.relode.int.time.sec");
+            var option = _serverOptionService.GetOption("move.worker.message.sender.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }
-
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
@@ -40,7 +37,7 @@ namespace Movie.Worker.Services.HostedServices
 
         private void DoWork(object state)
         {
-            _webServices.RelodeWebData();
+            _emailService.CheckAndSendEmail();
         }
 
         public Task StopAsync(CancellationToken stoppingToken)
@@ -53,5 +50,6 @@ namespace Movie.Worker.Services.HostedServices
         {
             _timer?.Dispose();
         }
+
     }
 }

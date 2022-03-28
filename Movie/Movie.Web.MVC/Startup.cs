@@ -55,8 +55,6 @@ namespace Movie.Web.MVC
                     //policy.RequireClaim("Coding-Skill", "ASP.NET Core MVC");
                 });
             });
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,6 +73,7 @@ namespace Movie.Web.MVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseServerOptionsLoaderMiddleware();
             //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseExceptionHandler("/Error");
