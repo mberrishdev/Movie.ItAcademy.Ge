@@ -40,7 +40,8 @@ namespace Movie.Worker.Services.Implementations
             var users = await _aspNetUserRepository.GetUsersAsync();
             var rooms = await _roomRepository.GetAllRoomsAsync();
 
-            var timeToRemainBooking = int.Parse(_serverOptionService.GetOption("move.booking.time.to.remainder.email.sec").Value);
+            var option = await _serverOptionService.GetOptionAsync("move.booking.time.to.remainder.email.sec");
+            var timeToRemainBooking = int.Parse(option.Value);
 
             foreach (var activeBooking in activeBookings)
             {

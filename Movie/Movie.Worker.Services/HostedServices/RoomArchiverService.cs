@@ -2,8 +2,6 @@
 using Movie.Services.Abstractions;
 using Movie.Worker.Services.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,10 +22,10 @@ namespace Movie.Worker.Services.HostedServices
             GetUpdateTime();
         }
 
-        public void GetUpdateTime()
+        public async void GetUpdateTime()
         {
             //await _serverOptionService.LoadServerOptions();
-            var option = _serverOptionService.GetOption("move.worker.room.archiver.int.time.sec");
+            var option = await _serverOptionService.GetOptionAsync("move.worker.room.archiver.int.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }
 
@@ -40,7 +38,7 @@ namespace Movie.Worker.Services.HostedServices
 
         private void DoWork(object state)
         {
-             _roomService.CheckAndArchiveRoom();
+            _roomService.CheckAndArchiveRoom();
         }
 
         public Task StopAsync(CancellationToken stoppingToken)

@@ -1,6 +1,8 @@
-﻿using Movie.Domain.POCO;
+﻿using Microsoft.EntityFrameworkCore;
+using Movie.Domain.POCO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,7 +19,7 @@ namespace Movie.Data.EF.Repository
 
         public async Task<ServerOption> GetOptionAsync(string optionKey)
         {
-            return await _baseRepository.GetAsync(optionKey);
+            return _baseRepository.Table.FirstOrDefault(op=>op.Key == optionKey);
         }
 
         public async Task<List<ServerOption>> LoadAllOptions()

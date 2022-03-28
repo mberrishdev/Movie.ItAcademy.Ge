@@ -52,13 +52,18 @@ namespace Movie.Worker.Services.Implementations
             }
         }
 
-        private async Task SendEmailAsync(Domain.POCO.MessageQueue messageQueue)
+        private async Task SendEmailAsync(MessageQueue messageQueue)
         {
-            string smtpAddress = _serverOptionService.GetOption("movie.email.smtp.address").Value;
-            int portNumber = int.Parse(_serverOptionService.GetOption("movie.email.port.number").Value);
-            bool enableSSL = bool.Parse(_serverOptionService.GetOption("movie.email.enamble.ssl").Value);
-            string emailFromAddress = _serverOptionService.GetOption("movie.email.address").Value;
-            string password = _serverOptionService.GetOption("movie.email.address.password").Value;
+            var smtpAddressOption = await _serverOptionService.GetOptionAsync("movie.email.smtp.address");
+            string smtpAddress = smtpAddressOption.Value;
+            var portNumberOption = await _serverOptionService.GetOptionAsync("movie.email.port.number");
+            int portNumber = int.Parse(portNumberOption.Value);
+            var enableSSLOption = await _serverOptionService.GetOptionAsync("movie.email.enamble.ssl");
+            bool enableSSL = bool.Parse(enableSSLOption.Value);
+            var emailFromAddressOption = await _serverOptionService.GetOptionAsync("movie.email.address");
+            string emailFromAddress = emailFromAddressOption.Value;
+            var passwordOption = await _serverOptionService.GetOptionAsync("movie.email.address.password");
+            string password = passwordOption.Value;
 
             using MailMessage mail = new MailMessage();
             mail.From = new MailAddress(emailFromAddress);

@@ -29,7 +29,8 @@ namespace Movie.Worker.Services.Implementations
             var activeBookings = await _bookingRepository.GetAlActiveBookingsAsync();
             var rooms = await _roomRepository.GetAllRoomsAsync();
 
-            var timeToCancelBooking = int.Parse(_serverOptionService.GetOption("move.booking.time.to.cancel.sec").Value);
+            var option = await _serverOptionService.GetOptionAsync("move.booking.time.to.cancel.sec");
+            var timeToCancelBooking = int.Parse(option.Value);
 
             foreach (var activeBooking in activeBookings)
             {

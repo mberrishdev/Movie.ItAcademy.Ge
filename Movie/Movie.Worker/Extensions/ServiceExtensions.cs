@@ -24,7 +24,6 @@ namespace Movie.Worker.Extensions
             services.AddSingleton<IEmailService, Services.Implementations.EmailService>();
 
             services.AddHostedService<BookingCancellerService>();
-            Thread.Sleep(10000);
             services.AddHostedService<RoomArchiverService>();
             services.AddHostedService<RoomCheckerService>();
             services.AddHostedService<WebDataRelodeService>();

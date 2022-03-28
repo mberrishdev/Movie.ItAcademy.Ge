@@ -34,7 +34,8 @@ namespace Movie.Worker.Services.Implementations
             var mvcWebLogs = await _mvcWebLogRepository.GetAllAsync();
             var apiWebLogs = await _apiWebLogRepository.GetAllAsync();
 
-            int logsArchiverTime = int.Parse(_serverOptionService.GetOption("movie.logs.archiver.time.sec").Value);
+            var option = await _serverOptionService.GetOptionAsync("movie.logs.archiver.time.sec");
+            int logsArchiverTime = int.Parse(option.Value);
             foreach (var boWebLog in boWebLogs)
             {
                 if ((boWebLog.Timestamp - DateTime.UtcNow).TotalSeconds <= logsArchiverTime)

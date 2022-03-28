@@ -22,16 +22,29 @@ namespace Movie.Services.Implementations
             return serverOptins.ContainsKey(optionKey) ? serverOptins[optionKey] : null;
         }
 
+        public async Task<ServerOption> GetOptionAsync(string optionKey)
+        {
+            var result = await _serverOptionRepository.GetOptionAsync(optionKey);
+            return result.Adapt<ServerOption>();
+        }
+
         public async Task LoadServerOptions()
         {
-
-            var serverOptions = await _serverOptionRepository.LoadAllOptions();
-            List<ServerOption> options = serverOptions.Adapt<List<ServerOption>>();
-            serverOptins.Clear();
-
-            foreach (var option in options)
+            try
             {
-                serverOptins.Add(option.Key, option);
+                var serverOptions = await _serverOptionRepository.LoadAllOptions();
+                List<ServerOption> options = serverOptions.Adapt<List<ServerOption>>();
+                serverOptins.Clear();
+
+                foreach (var option in options)
+                {
+                    serverOptins.Add(option.Key, option);
+                }
+            }
+            catch (System.Exception ex)
+            {
+
+                throw;
             }
 
         }

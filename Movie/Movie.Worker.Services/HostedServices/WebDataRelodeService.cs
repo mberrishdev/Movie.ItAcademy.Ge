@@ -24,10 +24,10 @@ namespace Movie.Worker.Services.HostedServices
             GetUpdateTime();
         }
 
-        public void GetUpdateTime()
+        public async void GetUpdateTime()
         {
             //await _serverOptionService.LoadServerOptions();
-            var option = _serverOptionService.GetOption("move.worker.web.data.relode.int.time.sec");
+            var option = await _serverOptionService.GetOptionAsync("move.worker.web.data.relode.int.time.sec");
             UpdateTimeInSeconds = int.Parse(option.Value);
         }
 

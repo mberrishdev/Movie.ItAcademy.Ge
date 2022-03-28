@@ -17,8 +17,9 @@ namespace Movie.Worker.Services.Implementations
 
         public async Task RelodeWebData()
         {
-            var urlMVC = _serverOptionService.GetOption("move.web.mvc.domain.relode");
-            var urlAPI = _serverOptionService.GetOption("move.web.api.domain.relode");
+
+            var urlMVC = await _serverOptionService.GetOptionAsync("move.web.mvc.relode");
+            var urlAPI = await _serverOptionService.GetOptionAsync("move.web.api.relode");
 
             await _httpRequestServices.Post(urlMVC.Value);
             await _httpRequestServices.Post(urlAPI.Value);
