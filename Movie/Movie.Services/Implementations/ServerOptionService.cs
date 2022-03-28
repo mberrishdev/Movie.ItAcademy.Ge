@@ -30,23 +30,15 @@ namespace Movie.Services.Implementations
 
         public async Task LoadServerOptions()
         {
-            try
+
+            var serverOptions = await _serverOptionRepository.LoadAllOptions();
+            List<ServerOption> options = serverOptions.Adapt<List<ServerOption>>();
+            serverOptins.Clear();
+
+            foreach (var option in options)
             {
-                var serverOptions = await _serverOptionRepository.LoadAllOptions();
-                List<ServerOption> options = serverOptions.Adapt<List<ServerOption>>();
-                serverOptins.Clear();
-
-                foreach (var option in options)
-                {
-                    serverOptins.Add(option.Key, option);
-                }
+                serverOptins.Add(option.Key, option);
             }
-            catch (System.Exception ex)
-            {
-
-                throw;
-            }
-
         }
     }
 }

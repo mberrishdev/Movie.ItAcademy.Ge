@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PagedList;
+using Movie.BO.Services.MVC;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
@@ -31,7 +32,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page, RoomWithMovieDTO model = null)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int page = 1,int roomPerPage = 3, RoomWithMovieDTO model = null)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "status_desc" : "";
@@ -51,27 +52,28 @@ namespace Movie.BO.Web.MVC.Controllers
 
             List<Services.Models.Room> result = await _roomService.GetAllRoomWithMovieAsync();
 
+            if (result == null)
+                return NotFound();
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 result = result.Where(r => r.Movie.Name.Contains(searchString)).ToList();
             }
 
-            if (result == null)
-                return NotFound();
-
             var rooms = result.Adapt<List<RoomViewModel>>();
+            var queryable = rooms.AsQueryable();
 
-            rooms = sortOrder switch
+            var mainResult = queryable.Paginate<RoomViewModel>(new DomainPagedQueryBase(page, roomPerPage));
+
+            mainResult.Items = sortOrder switch
             {
-                "status_desc" => rooms.OrderByDescending(r => r.Status).ToList(),
-                "PremierTime" => rooms.OrderBy(s => s.PremierTime).ToList(),
-                "PremierTime_desc" => rooms.OrderByDescending(s => s.PremierTime).ToList(),
-                _ => rooms.OrderBy(s => s.Status).ToList(),
+                "status_desc" => mainResult.Items.OrderByDescending(r => r.Status).ToList(),
+                "PremierTime" => mainResult.Items.OrderBy(s => s.PremierTime).ToList(),
+                "PremierTime_desc" => mainResult.Items.OrderByDescending(s => s.PremierTime).ToList(),
+                _ => mainResult.Items.OrderBy(s => s.Status).ToList(),
             };
 
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(rooms.ToPagedList(pageNumber, pageSize));
+            return View(mainResult.Items);
         }
 
         public async Task<IActionResult> RoomDetails(Guid id)

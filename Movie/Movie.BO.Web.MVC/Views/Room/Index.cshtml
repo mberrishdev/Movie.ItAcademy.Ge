@@ -1,6 +1,6 @@
 ﻿@*@model Tuple<PagedList.IPagedList<Movie.BO.Web.MVC.Models.Room.RoomViewModel>, IEnumerable<Movie.BO.Web.MVC.Models.Room.RoomViewModel>>*@
-@*@model IEnumerable<Movie.BO.Web.MVC.Models.Room.RoomViewModel>;*@
-@model PagedList.IPagedList<Movie.BO.Web.MVC.Models.Room.RoomViewModel>;
+@model IEnumerable<Movie.BO.Web.MVC.Models.Room.RoomViewModel>;
+@*@model PagedList.IPagedList<Movie.BO.Web.MVC.Models.Room.RoomViewModel>;*@
 @using PagedList.Mvc;
 @using PagedList;
 
@@ -64,7 +64,9 @@
     </tbody>
 </table>
 <br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+<p>@Html.ActionLink("Page" ,"Index", new { page = 1,roomPerPage = 3 })</p> 
+@*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
 
 @*@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))*@
 

@@ -30,7 +30,7 @@ namespace Movie.BO.Services.Implementations
             await _roomRepository.AddRoomAsync(room.Adapt<Domain.POCO.Room>());
 
             //Relode web data
-            await _webServices.RelodeWebData();
+            //await _webServices.RelodeWebData();
             return room.Id;
         }
 
