@@ -30,7 +30,7 @@
                 <p>IMDB Reiting: @Model.Movie.IMDBReiting</p>
                 <p>Description: @Model.Movie.Description</p>
             </h5>
-            @if (User.FindFirst(ClaimTypes.Role).Value == Roles.Admin.ToString())
+            @if (User.HasClaim(ClaimTypes.Role, Roles.Admin.ToString()))
             {
                 @if (Model.Status == "Active")
                 {

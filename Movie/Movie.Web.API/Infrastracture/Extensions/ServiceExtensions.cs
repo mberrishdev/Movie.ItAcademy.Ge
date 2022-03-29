@@ -3,6 +3,7 @@ using Movie.Services.Abstractions;
 using Movie.Web.Services.Implementations;
 using Movie.Web.Services.Abstractions;
 using Movie.Web.API.Infrastracture.Mappings;
+using Movie.Services.Implementations;
 
 namespace Movie.Web.API.Infrastracture.Extensions
 {
@@ -14,6 +15,7 @@ namespace Movie.Web.API.Infrastracture.Extensions
             services.AddSingleton<Services.Abstractions.IJwtService, Services.Implementations.JwtService>();
 
             services.AddScoped<Services.Abstractions.IAccountService, Services.Implementations.AccountService>();
+            services.AddSingleton<IServerOptionService, ServerOptionService>();
             services.AddSingleton<IRoomService, RoomService>();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IPaymentService, PaymentService>();

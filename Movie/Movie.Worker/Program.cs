@@ -48,7 +48,7 @@ namespace Movie.Worker
                     services.AddServices();
 
                     services.AddDbContext<MovieDBContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")), ServiceLifetime.Singleton);
+                    options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")),ServiceLifetime.Singleton);
                 })
                .UseSerilog();
     }

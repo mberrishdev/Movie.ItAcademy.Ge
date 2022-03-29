@@ -27,11 +27,13 @@ namespace Movie.BO.Web.MVC.Controllers
             _roomService = roomService;
         }
 
+        [IgnoreAntiforgeryToken]
         public IActionResult AddRoom()
         {
             return View();
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int page = 1,int roomPerPage = 3, RoomWithMovieDTO model = null)
         {
             ViewBag.CurrentSort = sortOrder;
@@ -76,6 +78,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(mainResult.Items);
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> RoomDetails(Guid id)
         {
             Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
@@ -88,6 +91,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(roomWithMovie);
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Update(Guid id)
         {
 
@@ -156,6 +160,7 @@ namespace Movie.BO.Web.MVC.Controllers
             });
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _roomService.DeleteRoomAsync(id);

@@ -7,6 +7,7 @@ using Movie.Web.API.Services.Exceptions;
 using Movie.Web.API.Services.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movie.Web.API.Services.Implementations
@@ -40,11 +41,11 @@ namespace Movie.Web.API.Services.Implementations
         {
             IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null)
-                throw new AuthenticateException($"username doesn't exist").AddApiError(400, $"username doesn't exist");
+                throw new AuthenticateException($"username doesn't exist").AddApiError(400);
             var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
             if (!signInResult.Succeeded)
-                throw new AuthenticateException($"username or password is not correct").AddApiError(400, $"username or password is not correct");
+                throw new AuthenticateException($"username or password is not correct").AddApiError(400);
 
             var userRoles = await GetUserRoles(user);
 
@@ -54,7 +55,7 @@ namespace Movie.Web.API.Services.Implementations
             return _jwtService.GenerateSecurityToken(model.UserName, Guid.Parse(user.Id), Roles.User);
         }
 
-        public async Task<Guid> RegisterAsync(RegisterModel model, Roles role = Roles.User)
+        public async Task<(List<IdentityError> , Guid)> RegisterAsync(RegisterModel model, Roles role = Roles.User)
         {
             string userName = model.UserName;
             var user = new IdentityUser
@@ -69,9 +70,12 @@ namespace Movie.Web.API.Services.Implementations
             {
                 _logger.LogInformation("User created a new account with password.");
                 await _userManager.AddToRoleAsync(user, role.ToString());
+                return (null, Guid.Parse(user.Id));
             }
+            
+            List<IdentityError> errors = result.Errors.ToList();
 
-            return Guid.Parse(user.Id);
+            return (errors, Guid.Empty);
         }
 
         private async Task<List<string>> GetUserRoles(IdentityUser user)

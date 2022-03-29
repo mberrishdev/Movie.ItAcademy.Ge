@@ -27,6 +27,7 @@ namespace Movie.BO.Web.MVC.Controllers
             _userRolesService = userRolesService;
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Index()
         {
             List<UserRoles> result = await _userRolesService.GetUserRolesAsync();
@@ -34,6 +35,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(result.Adapt<List<UserRolesViewModel>>());
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Manage(Guid id)
         {
             var userName = string.Empty;

@@ -23,7 +23,6 @@ namespace Movie.Worker.Extensions
             services.AddSingleton<IMessageLogRepository, MessageLogRepository>();
             services.AddSingleton<IAspNetUserRepository, AspNetUserRepository>();
 
-
             services.AddSingleton(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
     }

@@ -14,12 +14,12 @@ namespace Movie.Services.Exceptions
         public BaseException(string message, Exception exception)
             : base(message, exception) => ErrorMessage = message;
 
-        public BaseException AddApiError(int errorCode, string message)
+        public BaseException AddApiError(int errorCode)
         {
             ApiError = new ApiError
             {
                 Status = errorCode,
-                Detail = message
+                Detail = ErrorMessage
             };
             return this;
         }

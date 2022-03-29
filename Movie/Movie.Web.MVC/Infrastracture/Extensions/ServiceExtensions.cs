@@ -3,6 +3,7 @@ using Movie.Services.Abstractions;
 using Movie.Web.Services.Implementations;
 using Movie.Web.MVC.Infrastracture.Mappings;
 using Movie.Web.Services.Abstractions;
+using Movie.Services.Implementations;
 
 namespace Movie.Web.MVC.Infrastracture.Extensions
 {
@@ -13,6 +14,7 @@ namespace Movie.Web.MVC.Infrastracture.Extensions
             services.RegisterMaps();
             services.AddScoped<IAccountService, AccountService>();
             services.AddSingleton<IRoomService, RoomService>();
+            services.AddSingleton<IServerOptionService, ServerOptionService>();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IPaymentService, PaymentService>();
 

@@ -20,11 +20,13 @@ namespace Movie.BO.Web.MVC.Controllers
             _accountService = accountService;
         }
 
+        [IgnoreAntiforgeryToken]
         public IActionResult Register()
         {
             return View();
         }
 
+        [IgnoreAntiforgeryToken]
         public IActionResult LogIn()
         {
             return View();

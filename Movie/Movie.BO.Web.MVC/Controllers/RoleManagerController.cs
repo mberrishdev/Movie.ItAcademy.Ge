@@ -18,6 +18,8 @@ namespace Movie.BO.Web.MVC.Controllers
         {
             _roleManager = roleManager;
         }
+
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Index()
         {
             var roles = await _roleManager.Roles.ToListAsync();

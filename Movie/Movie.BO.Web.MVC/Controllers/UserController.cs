@@ -26,6 +26,7 @@ namespace Movie.BO.Web.MVC.Controllers
             _userService = userService;
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Index()
         {
             List<User> result = await _userService.GetMovieUsersAsync();
@@ -38,6 +39,7 @@ namespace Movie.BO.Web.MVC.Controllers
             return View(users);
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> RegisterUser()
         {
             return View();

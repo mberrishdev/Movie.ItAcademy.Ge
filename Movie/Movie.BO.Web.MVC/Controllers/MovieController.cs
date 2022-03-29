@@ -23,6 +23,8 @@ namespace Movie.BO.Web.MVC.Controllers
             _movieService = movieService;
         }
 
+        [IgnoreAntiforgeryToken]
+
         public IActionResult AddMovie(Guid roomId)
         {
             ViewData["RoomId"] = roomId;

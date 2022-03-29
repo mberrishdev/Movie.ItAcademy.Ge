@@ -38,7 +38,7 @@ namespace Movie.Web.API.Infrastracture.Middlewares
 
             context.Response.Clear();
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = error.Status.Value;
+            context.Response.StatusCode = error.Status.GetValueOrDefault();
 
             await context.Response.WriteAsync(result);
         }

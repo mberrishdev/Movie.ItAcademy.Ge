@@ -21,5 +21,11 @@ namespace Movie.Web.MVC.Controllers
             await _roomService.RelodeDataAsync();
             return Ok();
         }
+
+        [HttpPost("HealthCheck")]
+        public async Task<IActionResult> HealthCheck()
+        {
+            return Ok();
+        }
     }
 }

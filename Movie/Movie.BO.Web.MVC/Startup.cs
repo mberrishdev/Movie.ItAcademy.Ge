@@ -10,14 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
-using Movie.BO.Web.MVC.Infrastracture;
+using Movie.BO.Services.CustomHealthChecks;
 using Movie.BO.Web.MVC.Infrastracture.Extensions;
-using Movie.BO.Web.MVC.Infrastracture.Middlewares;
 using Movie.Persistance.Context;
 using Movie.Persistance.Seed;
-using System;
 
 namespace Movie.BO.Web.MVC
 {
@@ -48,25 +45,22 @@ namespace Movie.BO.Web.MVC
                  };
              });
 
-            //services.AddHealthChecks()
-            //.AddCheck<ExampleHealthCheck>(
-            //    "example_health_check",
-            //    failureStatus: HealthStatus.Degraded,
-            //    tags: new[] { "example" });
+            services.AddHealthChecks()
+                  .AddDbContextCheck<MovieDBContext>()
+                  .AddCheck<WebApiHC>("API Service");
 
+            services.AddHealthChecksUI(options =>
+            {
+                options.SetEvaluationTimeInSeconds(5);
+                options.MaximumHistoryEntriesPerEndpoint(60);
+                options.SetApiMaxActiveRequests(1);
+                options.AddHealthCheckEndpoint("Check App Health", "/healthz");
+            }).AddInMemoryStorage();
 
-            //services.AddHealthChecks();
-            //.AddSqlServer(Configuration.GetConnectionString("MovieDBContextConnection"));
-            //services.AddHealthChecks();
-            //services.AddHealthChecksUI()
-             //   .AddSqlServerStorage(Configuration.GetConnectionString("MovieDBContextConnection"));
-            // .AddUrlGroup("")
-
-
+            services.AddHealthChecks();
 
             services.AddAntiforgery(options =>
             {
-                // Set Cookie properties using CookieBuilder properties†.
                 options.FormFieldName = "AntiforgeryFieldname";
                 options.HeaderName = "X-CSRF-TOKEN-HEADERNAME";
                 options.SuppressXFrameOptionsHeader = false;
@@ -115,7 +109,7 @@ namespace Movie.BO.Web.MVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseServerOptionsLoaderMiddleware();
+            //app.UseServerOptionsLoaderMiddleware();
 
             //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
@@ -150,13 +144,18 @@ namespace Movie.BO.Web.MVC
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //app.UseHealthChecks("/health", new HealthCheckOptions()
-            //{
-            //    Predicate = _ => true,
-            //    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-            //});
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHealthChecks("/healthz", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
 
-            //app.UseHealthChecksUI();
+                endpoints.MapHealthChecksUI();
+
+                //endpoints.MapGet("/", async context => await context.Response.WriteAsync("Hello World!"));
+            });
         }
     }
 }

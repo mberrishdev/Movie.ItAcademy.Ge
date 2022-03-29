@@ -26,6 +26,7 @@ namespace Movie.BO.Web.MVC.Controllers
             _bookingService = bookingService;
         }
 
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Index()
         {
             List<Booking> result = await _bookingService.GetAllBookingsAsync();

@@ -18,7 +18,11 @@ namespace Movie.Web.API.Controllers
         public async Task<IActionResult> Register(RegisterModel model)
         {
             var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
-            return Ok(result);
+
+            if(result.Item1 != null)
+                return BadRequest(result.Item1);
+
+            return Ok(result.Item2);
         }
 
         [HttpPost("LogIn")]

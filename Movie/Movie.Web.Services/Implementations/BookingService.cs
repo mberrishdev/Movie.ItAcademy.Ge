@@ -30,10 +30,10 @@ namespace Movie.Web.Services.Implementations
             double timeDifferenceInSeconds = (room.PremierTime - DateTime.UtcNow).TotalSeconds;
 
             if (timeDifferenceInSeconds <= secondsInOneHour)
-                throw new BookingNotAvailableException("Booking not available");
+                throw new BookingNotAvailableException("Booking not available").AddApiError(403);
 
             if (room.RoomUserCapacity <= room.UserCount)
-                throw new RoomIsFullException($"Room Id:{roomId} is full");
+                throw new RoomIsFullException($"Room Id:{roomId} is full").AddApiError(403);
 
             //create Booking Model
             Booking bookingModel = new Booking()
