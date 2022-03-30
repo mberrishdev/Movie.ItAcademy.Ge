@@ -11,6 +11,6 @@ namespace Movie.Web.Services.Abstractions
         Task<Room> GetRoomAsync(Guid id, bool forceReload = false);
         Task<Room> GetRoomWithMovieAsync(Guid id, bool forceReload = false);
         Task IncreaseUserCountAsync(Guid roomId);
-        Task RelodeDataAsync();
+        Task<List<Room>> RelodeDataAsync();
     }
 }

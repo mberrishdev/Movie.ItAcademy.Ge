@@ -15,8 +15,8 @@ namespace Movie.Web.API.Infrastracture.Extensions
             services.AddSingleton<Services.Abstractions.IJwtService, Services.Implementations.JwtService>();
 
             services.AddScoped<Services.Abstractions.IAccountService, Services.Implementations.AccountService>();
-            services.AddSingleton<IServerOptionService, ServerOptionService>();
-            services.AddSingleton<IRoomService, RoomService>();
+            services.AddScoped<IServerOptionService, ServerOptionService>();
+            services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IPaymentService, PaymentService>();
 

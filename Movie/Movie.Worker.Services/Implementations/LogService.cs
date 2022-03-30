@@ -12,14 +12,14 @@ namespace Movie.Worker.Services.Implementations
         private readonly IBOWebLogRepository _boWebLogRepository;
         private readonly IMVCWebLogRepository _mvcWebLogRepository;
         private readonly IAPIWebLogRepository _apiWebLogRepository;
-        private readonly IServerOptionService _serverOptionService;
+        private readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
         private readonly IArchiveLogRepository _archiveLogRepository;
 
         public LogService(IBOWebLogRepository boWebLogRepository,
             IMVCWebLogRepository mvcWebLogRepository,
             IAPIWebLogRepository apiWebLogRepository,
             IArchiveLogRepository archiveLogRepository,
-            IServerOptionService serverOptionService)
+            Movie.Services.Abstractions.IServerOptionService serverOptionService)
         {
             _boWebLogRepository = boWebLogRepository;
             _mvcWebLogRepository = mvcWebLogRepository;

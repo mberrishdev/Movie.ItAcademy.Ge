@@ -10,12 +10,12 @@ namespace Movie.Web.MVC.Infrastracture.Extensions
         public static void AddRepositories(this IServiceCollection services)
         {
             services.AddScoped<IMovieRepository, MovieRepository>();
-            services.AddSingleton<IRoomRepository, RoomRepository>();
-            services.AddSingleton<IServerOptionRepository, ServerOptionRepository>();
+            services.AddScoped<IRoomRepository, RoomRepository>();
+            services.AddScoped<IServerOptionRepository, ServerOptionRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
 
-            services.AddSingleton(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
     }
 }

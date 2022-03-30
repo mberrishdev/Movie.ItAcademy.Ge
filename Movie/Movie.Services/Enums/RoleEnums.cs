@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Movie.Services.Enums
 {
-    public enum Roles
+    public enum Role
     {
         Admin,
         Moderator,

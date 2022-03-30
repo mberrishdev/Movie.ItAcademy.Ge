@@ -13,7 +13,7 @@ namespace Movie.Web.API.Services.Abstractions
 {
     public interface IAccountService
     {
-        Task<(List<IdentityError>, Guid)> RegisterAsync(RegisterModel model, Roles role = Roles.User);
+        Task<(List<IdentityError>, Guid)> RegisterAsync(RegisterModel model, Role role = Role.User);
         Task<JwtToken> LogInAsync(LogInModel model);
         Task<IdentityUser> GetUserAsync(string userName);
     }

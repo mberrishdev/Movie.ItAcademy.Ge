@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.Extensions.Caching.Memory;
 using Movie.Data;
 using Movie.Web.Services.Abstractions;
 using Movie.Web.Services.Models;
@@ -11,37 +12,43 @@ namespace Movie.Web.Services.Implementations
 {
     public class RoomService : IRoomService
     {
+        private readonly IMemoryCache _memoryCache;
         private readonly IRoomRepository _roomRepository;
-        private Dictionary<Guid, Room> _RoomWithMovieData = new Dictionary<Guid, Room>();
 
-
-        public RoomService(IRoomRepository roomRepository)
+        public RoomService(IRoomRepository roomRepository, IMemoryCache memoryCache)
         {
             _roomRepository = roomRepository;
+            _memoryCache = memoryCache;
         }
 
         public async Task<List<Room>> GetAllRoomWithMovieAsync(bool forceReload = false)
         {
-            if (forceReload || !_RoomWithMovieData.Any())
-                await RelodeDataAsync();
+            List<Room> rooms = new List<Room>();
 
-            return _RoomWithMovieData.Select(rm => rm.Value).ToList();
+            if (forceReload || !_memoryCache.TryGetValue("Rooms", out rooms))
+                rooms = await RelodeDataAsync();
+
+            return rooms;
         }
 
         public async Task<Room> GetRoomAsync(Guid id, bool forceReload = false)
         {
-            if (forceReload || !_RoomWithMovieData.Any())
-                await RelodeDataAsync();
+            List<Room> rooms = new List<Room>();
 
-            return _RoomWithMovieData.ContainsKey(id) ? _RoomWithMovieData[id] : null;
+            if (forceReload || !_memoryCache.TryGetValue("Rooms", out rooms))
+                rooms = await RelodeDataAsync();
+
+            return rooms.FirstOrDefault(room => room.Id == id);
         }
 
         public async Task<Room> GetRoomWithMovieAsync(Guid id, bool forceReload = false)
         {
-            if (forceReload || !_RoomWithMovieData.ContainsKey(id))
-                await RelodeDataAsync();
+            List<Room> rooms = new List<Room>();
 
-            return _RoomWithMovieData.ContainsKey(id) ? _RoomWithMovieData[id] : null;
+            if (forceReload || !_memoryCache.TryGetValue("Rooms", out rooms))
+                rooms = await RelodeDataAsync();
+
+            return rooms.FirstOrDefault(room => room.Id == id);
         }
 
         public async Task IncreaseUserCountAsync(Guid roomId)
@@ -50,10 +57,17 @@ namespace Movie.Web.Services.Implementations
             await RelodeDataAsync();
         }
 
-        public async Task RelodeDataAsync()
+        public async Task<List<Room>> RelodeDataAsync()
         {
             List<Domain.POCO.Room> roomsWithMovie = await _roomRepository.GetAllRoomWithMovieAsync();
-            _RoomWithMovieData = roomsWithMovie.ToDictionary(room => room.Id, room => room.Adapt<Room>());
+            var rooms = roomsWithMovie.Adapt<List<Room>>();
+
+            var cacheEntryOption = new MemoryCacheEntryOptions().
+                SetAbsoluteExpiration(TimeSpan.FromSeconds(1800));
+
+            _memoryCache.Set("Rooms", rooms, cacheEntryOption);
+
+            return rooms;
         }
     }
 }

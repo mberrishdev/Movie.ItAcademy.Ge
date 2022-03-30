@@ -13,8 +13,8 @@ namespace Movie.Web.MVC.Infrastracture.Extensions
         {
             services.RegisterMaps();
             services.AddScoped<IAccountService, AccountService>();
-            services.AddSingleton<IRoomService, RoomService>();
-            services.AddSingleton<IServerOptionService, ServerOptionService>();
+            services.AddScoped<IRoomService, RoomService>();
+            services.AddScoped<IServerOptionService, ServerOptionService>();
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IPaymentService, PaymentService>();
 

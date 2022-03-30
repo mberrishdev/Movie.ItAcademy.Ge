@@ -12,9 +12,9 @@ namespace Movie.BO.Web.MVC.Infrastracture.Extensions
             services.AddScoped<IMovieRepository, MovieRepository>();
             services.AddScoped<IRoomRepository, RoomRepository>();
             services.AddScoped<IBookingRepository, BookingRepository>();
-            services.AddSingleton<IServerOptionRepository, ServerOptionRepository>();
+            services.AddScoped<IServerOptionRepository, ServerOptionRepository>();
 
-            services.AddSingleton(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         }
     }
 }

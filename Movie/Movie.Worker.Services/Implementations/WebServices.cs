@@ -7,9 +7,9 @@ namespace Movie.Worker.Services.Implementations
     public class WebServices : IWebServices
     {
         public readonly IHttpRequestServices _httpRequestServices;
-        public readonly IServerOptionService _serverOptionService;
+        public readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
 
-        public WebServices(IHttpRequestServices httpRequestServices, IServerOptionService serverOptionService)
+        public WebServices(IHttpRequestServices httpRequestServices, Movie.Services.Abstractions.IServerOptionService serverOptionService)
         {
             _httpRequestServices = httpRequestServices;
             _serverOptionService = serverOptionService;

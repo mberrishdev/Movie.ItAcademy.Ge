@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Movie.Data\Movie.Data.csproj" />
+    <ProjectReference Include="..\Movie.Persistance\Movie.Persistance.csproj" />
     <ProjectReference Include="..\Movie.Services\Movie.Services.csproj" />
   </ItemGroup>
 

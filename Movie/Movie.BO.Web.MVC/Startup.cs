@@ -70,13 +70,12 @@ namespace Movie.BO.Web.MVC
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
             services.AddMvc();
-
+            services.AddMemoryCache();
             services.AddServices();
 
 
             services.AddDbContext<MovieDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")),
-                ServiceLifetime.Singleton);
+                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<MovieDBContext>();
@@ -110,7 +109,6 @@ namespace Movie.BO.Web.MVC
             app.UseStaticFiles();
 
             //app.UseServerOptionsLoaderMiddleware();
-
             //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseRouting();

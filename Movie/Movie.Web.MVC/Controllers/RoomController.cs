@@ -23,7 +23,7 @@ namespace Movie.Web.MVC.Controllers
             List<Services.Models.Room> result = await _roomService.GetAllRoomWithMovieAsync();
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             List<MovieSIViewModel> movieSmallInfo = result.Select(rm => new MovieSIViewModel()
             {
@@ -40,7 +40,7 @@ namespace Movie.Web.MVC.Controllers
             Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             var roomWithMovie = result.Adapt<RoomWithMovieViewModel>();
 

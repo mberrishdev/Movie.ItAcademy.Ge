@@ -55,7 +55,7 @@ namespace Movie.BO.Web.MVC.Controllers
             List<Services.Models.Room> result = await _roomService.GetAllRoomWithMovieAsync();
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -84,7 +84,7 @@ namespace Movie.BO.Web.MVC.Controllers
             Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             var roomWithMovie = result.Adapt<RoomWithMovieViewModel>();
 
@@ -98,7 +98,7 @@ namespace Movie.BO.Web.MVC.Controllers
             Services.Models.Room result = await _roomService.GetRoomWithMovieAsync(id);
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             var roomWithMovie = result.Adapt<RoomWithMovieViewModel>();
 

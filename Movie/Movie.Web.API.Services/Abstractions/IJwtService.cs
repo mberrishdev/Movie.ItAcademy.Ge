@@ -6,6 +6,6 @@ namespace Movie.Web.API.Services.Abstractions
 {
     public interface IJwtService
     {
-        JwtToken GenerateSecurityToken(string userName, Guid userId, Roles role);
+        JwtToken GenerateSecurityToken(string userName, Guid userId, Role role);
     }
 }

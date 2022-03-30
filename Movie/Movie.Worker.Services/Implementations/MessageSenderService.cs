@@ -13,13 +13,13 @@ namespace Movie.Worker.Services.Implementations
     public class MessageSenderService : IMessageSenderService
     {
         public readonly IMessageQueueRepository _messageQueueRepository;
-        private readonly IServerOptionService _serverOptionService;
+        private readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
         private readonly IMessageLogRepository _messageLogRepository;
 
 
 
-        public MessageSenderService(IMessageQueueRepository messageQueueRepository, 
-            IServerOptionService serverOptionService,
+        public MessageSenderService(IMessageQueueRepository messageQueueRepository,
+            Movie.Services.Abstractions.IServerOptionService serverOptionService,
             IMessageLogRepository messageLogRepository)
         {
             _messageQueueRepository = messageQueueRepository;

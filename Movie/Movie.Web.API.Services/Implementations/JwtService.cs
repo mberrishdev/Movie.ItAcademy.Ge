@@ -21,7 +21,7 @@ namespace Movie.Web.API.Services.Implementations
             _expDateInMinutes = options.Value.ExpirationInMinutes;
         }
 
-        public JwtToken GenerateSecurityToken(string userName, Guid userId, Roles role)
+        public JwtToken GenerateSecurityToken(string userName, Guid userId, Role role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_secret);

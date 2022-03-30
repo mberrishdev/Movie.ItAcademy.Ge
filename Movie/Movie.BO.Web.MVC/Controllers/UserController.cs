@@ -32,7 +32,7 @@ namespace Movie.BO.Web.MVC.Controllers
             List<User> result = await _userService.GetMovieUsersAsync();
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             var users = result.Adapt<List<UserViewModel>>();
 
@@ -51,7 +51,7 @@ namespace Movie.BO.Web.MVC.Controllers
             User result = await _userService.GetUserAsync(id);
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             var userViewModel = result.Adapt<UserViewModel>();
 

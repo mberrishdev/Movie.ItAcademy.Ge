@@ -58,5 +58,6 @@ namespace Movie.Worker.Services.Implementations
                 if (room.Movie == null)
                     await _roomRepository.DeleteRoomAsync(await _roomRepository.GetRoomAsync(room.Id));
         }
+
     }
 }

@@ -31,17 +31,19 @@ namespace Movie.Web.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers();
             services.AddIdentity<IdentityUser, IdentityRole>()
         .           AddEntityFrameworkStores<MovieDBContext>();
 
+            services.AddMemoryCache();
             services.AddServices();
+
 
             services.Configure<JwtConfiguration>(Configuration.GetSection(nameof(JwtConfiguration)));
 
             services.AddDbContext<MovieDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")),
-                ServiceLifetime.Singleton);
+                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
 
             services.AddSwaggerGen(config =>
             {
@@ -97,7 +99,7 @@ namespace Movie.Web.API
             app.UseSwagger();
             app.UseSwaggerUI();
 
-            app.UseServerOptionsLoaderMiddleware();
+            //app.UseServerOptionsLoaderMiddleware();
             app.UseMiddleware<Infrastracture.Middlewares.ExceptionHandlerMiddleware>();
 
             app.UseHttpsRedirection();

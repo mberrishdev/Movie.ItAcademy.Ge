@@ -49,13 +49,13 @@ namespace Movie.Web.API.Services.Implementations
 
             var userRoles = await GetUserRoles(user);
 
-            if (!userRoles.Contains(Roles.User.ToString()))
+            if (!userRoles.Contains(Role.User.ToString()))
                 return null;
 
-            return _jwtService.GenerateSecurityToken(model.UserName, Guid.Parse(user.Id), Roles.User);
+            return _jwtService.GenerateSecurityToken(model.UserName, Guid.Parse(user.Id), Role.User);
         }
 
-        public async Task<(List<IdentityError> , Guid)> RegisterAsync(RegisterModel model, Roles role = Roles.User)
+        public async Task<(List<IdentityError> , Guid)> RegisterAsync(RegisterModel model, Role role = Role.User)
         {
             string userName = model.UserName;
             var user = new IdentityUser

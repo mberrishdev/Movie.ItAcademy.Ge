@@ -32,7 +32,7 @@ namespace Movie.BO.Web.MVC.Controllers
             List<Booking> result = await _bookingService.GetAllBookingsAsync();
 
             if (result == null)
-                return NotFound();
+                return RedirectToAction("Index", "NotFound");
 
             var rooms = result.Adapt<List<BookingViewModel>>();
 

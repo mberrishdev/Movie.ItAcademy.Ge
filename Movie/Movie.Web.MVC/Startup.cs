@@ -36,13 +36,12 @@ namespace Movie.Web.MVC
             services.AddControllersWithViews();
 
             services.AddMvc();
-
+            services.AddMemoryCache();
             services.AddServices();
 
 
             services.AddDbContext<MovieDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")), 
-                ServiceLifetime.Singleton);
+                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
                 
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<MovieDBContext>();
@@ -73,7 +72,7 @@ namespace Movie.Web.MVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseServerOptionsLoaderMiddleware();
+            //app.UseServerOptionsLoaderMiddleware();
             //app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseExceptionHandler("/Error");

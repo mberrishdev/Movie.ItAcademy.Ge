@@ -18,13 +18,13 @@ namespace Movie.Worker.Services.Implementations
         public readonly IBookingRepository _bookingRepository;
         public readonly IRoomRepository _roomRepository;
         public readonly IMessageQueueRepository _messageQueueRepository;
-        public readonly IServerOptionService _serverOptionService;
+        public readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
 
 
         public EmailService(IAspNetUserRepository aspNetUserRepository, IBookingRepository bookingRepository,
             IRoomRepository roomRepository,
             IMessageQueueRepository messageQueueRepository,
-            IServerOptionService serverOptionService)
+            Movie.Services.Abstractions.IServerOptionService serverOptionService)
         {
             _aspNetUserRepository = aspNetUserRepository;
             _bookingRepository = bookingRepository;

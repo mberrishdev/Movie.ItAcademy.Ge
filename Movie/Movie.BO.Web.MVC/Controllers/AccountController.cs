@@ -21,6 +21,12 @@ namespace Movie.BO.Web.MVC.Controllers
         }
 
         [IgnoreAntiforgeryToken]
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        [IgnoreAntiforgeryToken]
         public IActionResult Register()
         {
             return View();

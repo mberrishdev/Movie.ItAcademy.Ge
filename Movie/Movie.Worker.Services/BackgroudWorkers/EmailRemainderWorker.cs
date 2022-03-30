@@ -12,10 +12,10 @@ namespace Movie.Worker.Services.BackgroudWorkers
     {
         private int UpdateTimeInSeconds { get; set; }
 
-        private readonly IServerOptionService _serverOptionService;
+        private readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
         private readonly IServiceProvider _serviceProvider;
 
-        public EmailRemainderWorker(IServerOptionService serverOptionService, IServiceProvider serviceProvider)
+        public EmailRemainderWorker(Movie.Services.Abstractions.IServerOptionService serverOptionService, IServiceProvider serviceProvider)
         {
             _serverOptionService = serverOptionService;
             _serviceProvider = serviceProvider;
