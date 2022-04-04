@@ -19,19 +19,8 @@ namespace Movie.Services.Implementations
         public async Task Post(string path)
         {
             var request = (HttpWebRequest)WebRequest.Create($"{path}");
-
-            // var postData = "thing1=" + Uri.EscapeDataString("hello");
-            // postData += "&thing2=" + Uri.EscapeDataString("world");
-            // var data = Encoding.ASCII.GetBytes(postData);
-
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
-            // request.ContentLength = data.Length;
-
-            // using (var stream = request.GetRequestStream())
-            // {
-            //     stream.Write(data, 0, data.Length);
-            // }
 
             var response = await request.GetResponseAsync();
         }

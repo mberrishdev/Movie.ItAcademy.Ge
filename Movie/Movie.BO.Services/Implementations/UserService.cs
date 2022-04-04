@@ -81,7 +81,7 @@ namespace Movie.BO.Services.Implementations
 
         public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel registerModel)
         {
-            return await _accountService.RegisterAsync(registerModel, Roles.User);
+            return await _accountService.RegisterAsync(registerModel, Role.User);
         }
     }
 }

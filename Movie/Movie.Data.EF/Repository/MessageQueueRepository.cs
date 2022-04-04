@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movie.Domain.POCO;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movie.Data.EF.Repository

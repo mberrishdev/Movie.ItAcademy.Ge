@@ -31,7 +31,7 @@ namespace Movie.Services.Implementations
 
             var option = options.FirstOrDefault(op => op.Key == optionKey);
 
-            if(option == null)
+            if (option == null)
                 options = await LoadServerOptions();
 
             return options.FirstOrDefault(op => op.Key == optionKey);

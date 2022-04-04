@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Movie.Domain.POCO;
 using Movie.Persistance.Context;
 using Movie.Services.Enums;
 using Movie.Worker.Services.Abstractions;
@@ -10,36 +10,43 @@ namespace Movie.Worker.Services.Implementations
 {
     public class BookingService : IBookingService
     {
+        private IBaseRepository _repository;
+
         public async Task CheckAndCancellBookings(MovieDBContext dBContext)
         {
-            var activeBookings = await dBContext.Bookings.Where(booking => booking.Status == "Active")
-                             .ToListAsync();
+            _repository = new BaseRepository(dBContext);
 
-            var rooms = await dBContext.Rooms.ToListAsync();
+            System.Collections.Generic.List<Booking> activeBookings = await _repository
+                .WhereAsync<Booking>(booking => booking.Status == "Active");
 
-            var option = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "move.booking.time.to.cancel.sec");
+            System.Collections.Generic.List<Room> rooms = await _repository
+                .GetAllAsync<Room>();
 
-            var timeToCancelBooking = int.Parse(option.Value);
+            ServerOption option = await _repository
+                .FirstOrDefaultAsync<ServerOption>(op => op.Key == "move.booking.time.to.cancel.sec");
 
-            foreach (var activeBooking in activeBookings)
+            int timeToCancelBooking = int.Parse(option.Value);
+
+            foreach (Booking activeBooking in activeBookings)
             {
                 if (activeBooking.PaymentStatus == PaymentStatus.Unpaid.ToString())
                 {
-                    var room = rooms.FirstOrDefault(room => room.Id == activeBooking.RoomId);
+                    Room room = rooms.FirstOrDefault(room => room.Id == activeBooking.RoomId);
                     if (room != null && (room.PremierTime - DateTime.UtcNow).TotalSeconds <= timeToCancelBooking)
-                        await ChangeBookingStatusAsync(activeBooking.Id, BookingStatus.CancelledByWorker.ToString(), dBContext);
+                    {
+                        await ChangeBookingStatusAsync(activeBooking.Id, BookingStatus.CancelledByWorker.ToString());
+                    }
                 }
             }
         }
 
-        private async Task ChangeBookingStatusAsync(Guid id, string bookingStatus, MovieDBContext dBContext)
+        private async Task ChangeBookingStatusAsync(Guid id, string bookingStatus)
         {
-            var booking = await dBContext.Bookings.FirstOrDefaultAsync(booking => booking.Id == id);
+            Booking booking = await _repository
+                .FirstOrDefaultAsync<Booking>(booking => booking.Id == id);
             booking.Status = bookingStatus;
 
-            dBContext.Bookings.Update(booking);
-
-            await dBContext.SaveChangesAsync();
+            await _repository.UpdateAsync<Booking>(booking);
         }
     }
 }

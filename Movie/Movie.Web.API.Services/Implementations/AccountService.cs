@@ -55,7 +55,7 @@ namespace Movie.Web.API.Services.Implementations
             return _jwtService.GenerateSecurityToken(model.UserName, Guid.Parse(user.Id), Role.User);
         }
 
-        public async Task<(List<IdentityError> , Guid)> RegisterAsync(RegisterModel model, Role role = Role.User)
+        public async Task<(List<IdentityError>, Guid)> RegisterAsync(RegisterModel model, Role role = Role.User)
         {
             string userName = model.UserName;
             var user = new IdentityUser
@@ -72,7 +72,7 @@ namespace Movie.Web.API.Services.Implementations
                 await _userManager.AddToRoleAsync(user, role.ToString());
                 return (null, Guid.Parse(user.Id));
             }
-            
+
             List<IdentityError> errors = result.Errors.ToList();
 
             return (errors, Guid.Empty);

@@ -12,10 +12,11 @@ namespace Movie.Worker
     public class Program
     {
         static IConfiguration Configuration { get; set; }
+
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("/bin/log.tixt")
+                .WriteTo.File("bin/log.txt", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
 
             Configuration = new ConfigurationBuilder()

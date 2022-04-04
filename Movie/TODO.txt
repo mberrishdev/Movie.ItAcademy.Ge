@@ -3,9 +3,3 @@
 exception ები არის გასაკეთებელი ყველა მეთოდი თავიდან ბოლომდე გასავლელია
 
 user role ბიდან როლები არ მოაქვსს
-
-worker ი არ ტვირთავს serverOption ებს
-
-worker ის ლოგი არის გასაკეთებელი და სხვა მეთოდებზე გაკეთბა იგივესს
-
-reference file ebi aris dasamtebeli 

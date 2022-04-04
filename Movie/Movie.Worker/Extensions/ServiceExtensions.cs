@@ -23,8 +23,6 @@ namespace Movie.Worker.Extensions
             services.AddSingleton<IMessageSenderService, MessageSenderService>();
             services.AddSingleton<IEmailService, EmailService>();
 
-            services.AddRepositories();
-
             services.AddHostedService<BookingCancellerWorker>();
             services.AddHostedService<EmailRemainderWorker>();
             services.AddHostedService<LogsArchiverWorker>();

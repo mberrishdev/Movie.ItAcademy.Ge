@@ -45,7 +45,7 @@ namespace Movie.BO.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>(), Roles.Moderator);
+            var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>(), Role.Moderator);
 
             if (!result.Any())
                 return RedirectToAction("Login");

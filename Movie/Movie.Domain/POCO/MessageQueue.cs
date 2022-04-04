@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Domain.POCO
 {
@@ -8,7 +6,7 @@ namespace Movie.Domain.POCO
     {
         public Guid Id { get; set; }
         public string Type { get; set; }
-        public string ContactAddress { get; set; } 
+        public string ContactAddress { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
         public DateTime Date { get; set; }

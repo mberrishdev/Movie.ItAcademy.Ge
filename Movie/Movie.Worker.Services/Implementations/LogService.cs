@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Movie.Data.LogRepository;
-using Movie.Domain.POCO;
+﻿using Movie.Domain.POCO;
 using Movie.Persistance.Context;
-using Movie.Services.Abstractions;
 using Movie.Worker.Services.Abstractions;
 using System;
 using System.Threading.Tasks;
@@ -11,20 +8,26 @@ namespace Movie.Worker.Services.Implementations
 {
     public class LogService : ILogService
     {
+        private IBaseRepository _repository;
+
         public async Task CheckAndArchive(MovieDBContext dBContext)
         {
-            var boWebLogs = await dBContext.BOWebLogs.ToListAsync();
-            var mvcWebLogs = await dBContext.MVCWebLogs.ToListAsync();
-            var apiWebLogs = await dBContext.APIWebLogs.ToListAsync();
+            _repository = new BaseRepository(dBContext);
 
-            var option = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "movie.logs.archiver.time.sec");
+            System.Collections.Generic.List<BOWebLog> boWebLogs = await _repository.GetAllAsync<BOWebLog>();
+            System.Collections.Generic.List<MVCWebLog> mvcWebLogs = await _repository.GetAllAsync<MVCWebLog>();
+            System.Collections.Generic.List<APIWebLog> apiWebLogs = await _repository.GetAllAsync<APIWebLog>();
+
+            ServerOption option = await _repository
+                .FirstOrDefaultAsync<ServerOption>(op => op.Key == "movie.logs.archiver.time.sec");
+
             int logsArchiverTime = int.Parse(option.Value);
 
-            foreach (var boWebLog in boWebLogs)
+            foreach (BOWebLog boWebLog in boWebLogs)
             {
                 if ((boWebLog.Timestamp - DateTime.UtcNow).TotalSeconds <= logsArchiverTime)
                 {
-                    await dBContext.ArchiveLogs.AddAsync(new ArchiveLog()
+                    await _repository.AddAsync<ArchiveLog>(new ArchiveLog()
                     {
                         Message = boWebLog.Message,
                         Level = boWebLog.Level,
@@ -32,16 +35,15 @@ namespace Movie.Worker.Services.Implementations
                         Exception = boWebLog.Exception,
                         LogEvent = boWebLog.LogEvent,
                     });
-                    dBContext.BOWebLogs.Remove(boWebLog);
-                    await dBContext.SaveChangesAsync();
+                    await _repository.RemoveAsync<BOWebLog>(boWebLog);
                 }
             }
 
-            foreach (var mvcWebLog in mvcWebLogs)
+            foreach (MVCWebLog mvcWebLog in mvcWebLogs)
             {
                 if ((mvcWebLog.Timestamp - DateTime.UtcNow).TotalSeconds <= logsArchiverTime)
                 {
-                    await dBContext.ArchiveLogs.AddAsync(new ArchiveLog()
+                    await _repository.AddAsync<ArchiveLog>(new ArchiveLog()
                     {
                         Message = mvcWebLog.Message,
                         Level = mvcWebLog.Level,
@@ -49,16 +51,15 @@ namespace Movie.Worker.Services.Implementations
                         Exception = mvcWebLog.Exception,
                         LogEvent = mvcWebLog.LogEvent,
                     });
-                    dBContext.MVCWebLogs.Remove(mvcWebLog);
-                    await dBContext.SaveChangesAsync();
+                    await _repository.RemoveAsync<MVCWebLog>(mvcWebLog);
                 }
             }
 
-            foreach (var apiWebLog in apiWebLogs)
+            foreach (APIWebLog apiWebLog in apiWebLogs)
             {
                 if ((apiWebLog.Timestamp - DateTime.UtcNow).TotalSeconds <= logsArchiverTime)
                 {
-                    await dBContext.ArchiveLogs.AddAsync(new ArchiveLog()
+                    await _repository.AddAsync<ArchiveLog>(new ArchiveLog()
                     {
                         Message = apiWebLog.Message,
                         Level = apiWebLog.Level,
@@ -66,8 +67,7 @@ namespace Movie.Worker.Services.Implementations
                         Exception = apiWebLog.Exception,
                         LogEvent = apiWebLog.LogEvent,
                     });
-                    dBContext.APIWebLogs.Remove(apiWebLog);
-                    await dBContext.SaveChangesAsync();
+                    await _repository.RemoveAsync<APIWebLog>(apiWebLog);
                 }
             }
         }

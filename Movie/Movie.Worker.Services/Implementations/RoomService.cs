@@ -9,15 +9,19 @@ namespace Movie.Worker.Services.Implementations
 {
     public class RoomService : IRoomService
     {
+        private IBaseRepository _repository;
+
         public async Task CheckAndArchiveRoom(MovieDBContext dBContext)
         {
-            var rooms = await dBContext.Rooms.Include(x => x.Movie).ToListAsync();
+            _repository = new BaseRepository(dBContext);
 
-            foreach (var room in rooms)
+            System.Collections.Generic.List<Room> rooms = await dBContext.Rooms.Include(x => x.Movie).ToListAsync();
+
+            foreach (Room room in rooms)
             {
                 if (room.PremierTime < DateTime.UtcNow)
                 {
-                    await dBContext.RoomArchives.AddAsync(new RoomArchive()
+                    await _repository.AddAsync<RoomArchive>(new RoomArchive()
                     {
                         Id = Guid.NewGuid(),
                         RoomId = room.Id,
@@ -35,8 +39,7 @@ namespace Movie.Worker.Services.Implementations
                     });
 
                     //Delete room
-                    dBContext.Rooms.Remove(await dBContext.Rooms.FirstAsync(rm => rm.Id == room.Id));
-                    await dBContext.SaveChangesAsync();
+                    await _repository.RemoveAsync<Room>(await _repository.FirstOrDefaultAsync<Room>(rm => rm.Id == room.Id));
                 }
 
             }
@@ -44,13 +47,13 @@ namespace Movie.Worker.Services.Implementations
 
         public async Task CheckIfRoomHasMovie(MovieDBContext dBContext)
         {
-            foreach (var room in await dBContext.Rooms.Include(x => x.Movie).ToListAsync())
+            _repository = new BaseRepository(dBContext);
+
+            foreach (Room room in await dBContext.Rooms.Include(x => x.Movie).ToListAsync())
             {
                 if (room.Movie == null)
                 {
-                    dBContext.Rooms.Remove(await dBContext.Rooms.FirstAsync(rm => rm.Id == room.Id));
-                    await dBContext.SaveChangesAsync();
-
+                    await _repository.RemoveAsync<Room>(await _repository.FirstOrDefaultAsync<Room>(rm => rm.Id == room.Id));
                 }
             }
         }

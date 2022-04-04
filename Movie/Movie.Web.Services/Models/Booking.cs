@@ -1,7 +1,5 @@
 ﻿using Movie.Services.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Web.Services.Models
 {

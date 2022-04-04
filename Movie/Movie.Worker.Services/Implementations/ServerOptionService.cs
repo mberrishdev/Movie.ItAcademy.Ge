@@ -9,9 +9,13 @@ namespace Movie.Worker.Services.Implementations
 {
     public class ServerOptionService : IServerOptionService
     {
-        public async Task<ServerOption> GetOptionAsync(string optionKey, MovieDBContext dbContext)
+        private IBaseRepository _repository;
+
+        public async Task<ServerOption> GetOptionAsync(string optionKey, MovieDBContext dBContext)
         {
-            var result = await dbContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == optionKey);
+            _repository = new BaseRepository(dBContext);
+
+            var result = await _repository.FirstOrDefaultAsync<Domain.POCO.ServerOption>(op => op.Key == optionKey);
             return result.Adapt<ServerOption>();
         }
     }

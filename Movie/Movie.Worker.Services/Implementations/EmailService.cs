@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Movie.Data;
+﻿using Microsoft.AspNetCore.Identity;
 using Movie.Domain.POCO;
 using Movie.Persistance.Context;
 using Movie.Services.Enums;
@@ -12,25 +11,33 @@ namespace Movie.Worker.Services.Implementations
 {
     public class EmailService : IEmailService
     {
+        private IBaseRepository _repository;
+
         public async Task CheckAndSendEmail(MovieDBContext dBContext)
         {
+            _repository = new BaseRepository(dBContext);
 
-            var activeBookings = await dBContext.Bookings.Where(booking => booking.Status == "Active").ToListAsync();
-            var users = await dBContext.Users.ToListAsync();
-            var rooms = await dBContext.Rooms.ToListAsync();
+            System.Collections.Generic.List<Booking> activeBookings = await _repository
+                .WhereAsync<Booking>(booking => booking.Status == "Active");
+            System.Collections.Generic.List<IdentityUser> users = await _repository
+                .GetAllAsync<IdentityUser>();
+            System.Collections.Generic.List<Room> rooms = await _repository
+                .GetAllAsync<Room>();
 
-            var option = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "move.booking.time.to.remainder.email.sec");
-            var timeToRemainBooking = int.Parse(option.Value);
+            ServerOption option = await _repository
+                .FirstOrDefaultAsync<ServerOption>(op => op.Key == "move.booking.time.to.remainder.email.sec");
 
-            foreach (var activeBooking in activeBookings)
+            int timeToRemainBooking = int.Parse(option.Value);
+
+            foreach (Booking activeBooking in activeBookings)
             {
                 if (activeBooking.PaymentStatus == PaymentStatus.Paid.ToString())
                 {
-                    var room = rooms.FirstOrDefault(room => room.Id == activeBooking.RoomId);
+                    Room room = rooms.FirstOrDefault(room => room.Id == activeBooking.RoomId);
                     if (room != null && (room.PremierTime - DateTime.UtcNow).TotalSeconds <= timeToRemainBooking)
                     {
-                        var userEmail = users.FirstOrDefault(user => user.Id == activeBooking.UserId.ToString()).Email;
-                        await dBContext.MessageQueues.AddAsync(new MessageQueue()
+                        string userEmail = users.FirstOrDefault(user => user.Id == activeBooking.UserId.ToString()).Email;
+                        await _repository.AddAsync<MessageQueue>(new MessageQueue()
                         {
                             Id = Guid.NewGuid(),
                             ContactAddress = userEmail,

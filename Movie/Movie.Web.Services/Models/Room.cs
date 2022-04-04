@@ -1,7 +1,5 @@
 ﻿using Movie.Services.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Web.Services.Models
 {
@@ -15,7 +13,7 @@ namespace Movie.Web.Services.Models
         public decimal Price { get; set; }
         public string Currency { get; set; }
         public RoomStatus Status { get; set; }
-        
+
         public Movie Movie { get; set; }
     }
 }

@@ -4,8 +4,6 @@ using Movie.Web.Services.Abstractions;
 using Movie.Web.Services.Exceptions;
 using Movie.Web.Services.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movie.Web.Services.Implementations
@@ -18,7 +16,7 @@ namespace Movie.Web.Services.Implementations
         public PaymentService(IPaymentRepository paymentRepository, IBookingService bookingService)
         {
             _paymentRepository = paymentRepository;
-            _bookingService = bookingService; 
+            _bookingService = bookingService;
         }
 
         public async Task CreatePaymentAsync(Guid bookingId, Guid userId)

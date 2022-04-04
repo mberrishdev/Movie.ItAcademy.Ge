@@ -6,6 +6,6 @@ namespace Movie.Worker.Services.Abstractions
 {
     public interface IServerOptionService
     {
-        Task<ServerOption> GetOptionAsync(string optionKey, MovieDBContext dbContext);
+        Task<ServerOption> GetOptionAsync(string optionKey, MovieDBContext dBContext);
     }
 }

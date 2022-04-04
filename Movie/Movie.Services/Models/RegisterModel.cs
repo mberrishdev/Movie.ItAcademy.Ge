@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Services.Models
+﻿namespace Movie.Services.Models
 {
     public class RegisterModel
     {

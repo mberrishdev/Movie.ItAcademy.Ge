@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Domain.POCO
 {
@@ -10,7 +8,7 @@ namespace Movie.Domain.POCO
         public Guid UserId { get; set; }
         public Guid RoomId { get; set; }
         public DateTime BookedDT { get; set; }
-        public string PaymentStatus { get; set; }   
+        public string PaymentStatus { get; set; }
         public string Status { get; set; }
 
         public Payment Payment { get; set; }

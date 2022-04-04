@@ -1,7 +1,4 @@
 ﻿using Movie.Domain.POCO;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movie.Data.EF.Repository
@@ -16,7 +13,7 @@ namespace Movie.Data.EF.Repository
         }
         public async Task AddRoomArchiveAsync(RoomArchive roomArchive)
         {
-           await _baseRepository.AddAsync(roomArchive);
+            await _baseRepository.AddAsync(roomArchive);
         }
     }
 }

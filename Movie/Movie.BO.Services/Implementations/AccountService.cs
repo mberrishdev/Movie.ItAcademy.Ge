@@ -30,7 +30,7 @@ namespace Movie.BO.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model, Roles role = Roles.Moderator)
+        public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model, Role role = Role.Moderator)
         {
             string userName = model.UserName;
             var user = new IdentityUser
@@ -60,7 +60,7 @@ namespace Movie.BO.Services.Implementations
             IdentityUser user = await _userManager.FindByNameAsync(model.UserName);
             var userRoles = await GetUserRoles(user);
 
-            if (user != null && (userRoles.Contains(Roles.Admin.ToString()) || userRoles.Contains(Roles.Moderator.ToString())))
+            if (user != null && (userRoles.Contains(Role.Admin.ToString()) || userRoles.Contains(Role.Moderator.ToString())))
             {
                 var signInResult = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, false);
 
@@ -68,7 +68,7 @@ namespace Movie.BO.Services.Implementations
                 {
                     var claims = new[] {
                         new Claim(ClaimTypes.Name, user.UserName),
-                        new Claim(ClaimTypes.Role, userRoles.Contains(Roles.Admin.ToString())? "Admin" : "Moderator"),
+                        new Claim(ClaimTypes.Role, userRoles.Contains(Role.Admin.ToString())? "Admin" : "Moderator"),
                         new Claim(ClaimTypes.Email,user.Email),
                         new Claim(ClaimTypes.NameIdentifier ,user.Id)
                     };

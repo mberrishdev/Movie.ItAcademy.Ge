@@ -30,8 +30,8 @@ namespace Movie.Data.EF.Repository
 
         public async Task<List<Booking>> GetAlActiveBookingsAsync()
         {
-           return await _baseRepository.Table.Where(booking => booking.Status == "Active")
-                                        .ToListAsync();
+            return await _baseRepository.Table.Where(booking => booking.Status == "Active")
+                                         .ToListAsync();
         }
 
         public async Task<List<Booking>> GetAllBookingsAsync()
@@ -41,7 +41,7 @@ namespace Movie.Data.EF.Repository
 
         public async Task<bool> IsExistAsync(Guid bookingId)
         {
-            return await _baseRepository.AnyAsync(booking=>booking.Id == bookingId);
+            return await _baseRepository.AnyAsync(booking => booking.Id == bookingId);
         }
     }
 }

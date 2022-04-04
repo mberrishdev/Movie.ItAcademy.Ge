@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Movie.Persistance.Context;
 using Movie.Worker.Services.Abstractions;
 using System;
@@ -13,14 +14,17 @@ namespace Movie.Worker.Services.BackgroudWorkers
     {
         private int UpdateTimeInSeconds { get; set; }
         private readonly IServiceProvider _serviceProvider;
+        private readonly ILogger<BookingCancellerWorker> _logger;
 
-        public BookingCancellerWorker(IServiceProvider serviceProvider)
+        public BookingCancellerWorker(IServiceProvider serviceProvider,ILogger<BookingCancellerWorker> logger)
         {
             _serviceProvider = serviceProvider;
+            _logger = logger;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            _logger.LogInformation("StartLogging");
             using IServiceScope mainScope = _serviceProvider.CreateScope();
             MovieDBContext dbContext = mainScope.ServiceProvider.GetRequiredService<MovieDBContext>();
 

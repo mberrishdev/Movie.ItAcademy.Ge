@@ -18,4 +18,19 @@
     <ProjectReference Include="..\Movie.Services\Movie.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="MovieBOMVCResources.Designer.cs">
+      <DependentUpon>MovieBOMVCResources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="MovieBOMVCResources.resx">
+      <LastGenOutput>MovieBOMVCResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

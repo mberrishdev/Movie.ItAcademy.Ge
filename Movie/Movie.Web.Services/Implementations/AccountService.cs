@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -30,7 +29,7 @@ namespace Movie.Web.Services.Implementations
             _logger = logger;
         }
 
-        public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model, Roles role = Roles.User)
+        public async Task<IEnumerable<IdentityError>> RegisterAsync(RegisterModel model, Role role = Role.User)
         {
 
             string userName = model.UserName;
