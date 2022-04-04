@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Movie.Persistance.Context;
 using System.Threading.Tasks;
 
 namespace Movie.Worker.Services.Abstractions
 {
     public interface IEmailService
     {
-        Task CheckAndSendEmail();
+        Task CheckAndSendEmail(MovieDBContext dBContext);
     }
 }

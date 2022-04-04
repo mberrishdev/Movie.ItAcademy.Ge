@@ -1,9 +1,12 @@
-﻿using Movie.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Movie.Data;
 using Movie.Domain.POCO;
+using Movie.Persistance.Context;
 using Movie.Services.Abstractions;
 using Movie.Services.Enums;
 using Movie.Worker.Services.Abstractions;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -12,34 +15,22 @@ namespace Movie.Worker.Services.Implementations
 {
     public class MessageSenderService : IMessageSenderService
     {
-        public readonly IMessageQueueRepository _messageQueueRepository;
-        private readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
-        private readonly IMessageLogRepository _messageLogRepository;
-
-
-
-        public MessageSenderService(IMessageQueueRepository messageQueueRepository,
-            Movie.Services.Abstractions.IServerOptionService serverOptionService,
-            IMessageLogRepository messageLogRepository)
+        public async Task CheckAndSend(MovieDBContext dBContext)
         {
-            _messageQueueRepository = messageQueueRepository;
-            _serverOptionService = serverOptionService;
-            _messageLogRepository = messageLogRepository;
-        }
+            var messageQueues = await dBContext.MessageQueues
+                .OrderBy(mq => mq.Date)
+                .ToListAsync();
 
-        public async Task CheckAndSend()
-        {
-            var messageQueues = await _messageQueueRepository.GetAllASCAsync();
             foreach (var messageQueue in messageQueues)
             {
                 if (messageQueue.Type == MessageType.Email.ToString())
-                    await SendEmailAsync(messageQueue);
+                    await SendEmailAsync(messageQueue, dBContext);
                 else if (messageQueue.Type == MessageType.Phone.ToString())
-                    await SendPhoneAsync(messageQueue);
+                    await SendPhoneAsync(messageQueue, dBContext);
 
-                await _messageQueueRepository.Delete(messageQueue);
-
-                await _messageLogRepository.AddAsync(new MessageLog()
+                dBContext.MessageQueues.Remove(messageQueue);
+                await dBContext.SaveChangesAsync();
+                await dBContext.MessageLogs.AddAsync(new MessageLog()
                 {
                     Id = messageQueue.Id,
                     Type = messageQueue.Type,
@@ -52,17 +43,17 @@ namespace Movie.Worker.Services.Implementations
             }
         }
 
-        private async Task SendEmailAsync(MessageQueue messageQueue)
+        private async Task SendEmailAsync(MessageQueue messageQueue, MovieDBContext dBContext)
         {
-            var smtpAddressOption = await _serverOptionService.GetOptionAsync("movie.email.smtp.address");
+            var smtpAddressOption = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "movie.email.smtp.address");
             string smtpAddress = smtpAddressOption.Value;
-            var portNumberOption = await _serverOptionService.GetOptionAsync("movie.email.port.number");
+            var portNumberOption = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "movie.email.port.number");
             int portNumber = int.Parse(portNumberOption.Value);
-            var enableSSLOption = await _serverOptionService.GetOptionAsync("movie.email.enamble.ssl");
+            var enableSSLOption = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "movie.email.enamble.ssl");
             bool enableSSL = bool.Parse(enableSSLOption.Value);
-            var emailFromAddressOption = await _serverOptionService.GetOptionAsync("movie.email.address");
+            var emailFromAddressOption = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "movie.email.address");
             string emailFromAddress = emailFromAddressOption.Value;
-            var passwordOption = await _serverOptionService.GetOptionAsync("movie.email.address.password");
+            var passwordOption = await dBContext.ServerOptions.FirstOrDefaultAsync(op => op.Key == "movie.email.address.password");
             string password = passwordOption.Value;
 
             using MailMessage mail = new MailMessage();
@@ -77,7 +68,7 @@ namespace Movie.Worker.Services.Implementations
             await smtp.SendMailAsync(mail);
         }
 
-        private Task SendPhoneAsync(Domain.POCO.MessageQueue messageQueue)
+        private Task SendPhoneAsync(MessageQueue messageQueue, MovieDBContext dBContext)
         {
             throw new NotImplementedException();
         }

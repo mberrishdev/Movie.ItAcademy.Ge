@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Movie.Services.Abstractions;
+using Movie.Persistance.Context;
 using Movie.Worker.Services.Abstractions;
 using System;
 using System.Threading;
@@ -11,32 +11,33 @@ namespace Movie.Worker.Services.BackgroudWorkers
     public class RoomArchiverWorker : BackgroundService
     {
         private int UpdateTimeInSeconds { get; set; }
-
-        private readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
         private readonly IServiceProvider _serviceProvider;
 
-        public RoomArchiverWorker(Movie.Services.Abstractions.IServerOptionService serverOptionService, IServiceProvider serviceProvider)
+        public RoomArchiverWorker(IServiceProvider serviceProvider)
         {
-            _serverOptionService = serverOptionService;
             _serviceProvider = serviceProvider;
-        }
-
-        public async Task GetUpdateTime()
-        {
-            var option = await _serverOptionService.GetOptionAsync("move.worker.room.archiver.int.time.sec");
-            UpdateTimeInSeconds = int.Parse(option.Value);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await GetUpdateTime();
+            using IServiceScope mainScope = _serviceProvider.CreateScope();
+            MovieDBContext dbContext = mainScope.ServiceProvider.GetRequiredService<MovieDBContext>();
+
+            Abstractions.IServerOptionService serverOptionSerice = mainScope.ServiceProvider
+                .GetRequiredService<IServerOptionService>();
+
+            Movie.Services.Models.ServerOption option = await serverOptionSerice
+                .GetOptionAsync("move.worker.room.archiver.int.time.sec", dbContext);
+
+            UpdateTimeInSeconds = int.Parse(option.Value);
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                using (var scope = _serviceProvider.CreateScope())
+                using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
-                    var service = scope.ServiceProvider.GetRequiredService<IRoomService>();
+                    IRoomService service = scope.ServiceProvider.GetRequiredService<IRoomService>();
 
-                    await service.CheckAndArchiveRoom();
+                    await service.CheckAndArchiveRoom(dbContext);
                 }
 
                 await Task.Delay(UpdateTimeInSeconds, stoppingToken);
@@ -44,4 +45,3 @@ namespace Movie.Worker.Services.BackgroudWorkers
         }
     }
 }
-      

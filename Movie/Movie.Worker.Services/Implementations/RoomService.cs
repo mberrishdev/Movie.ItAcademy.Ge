@@ -1,34 +1,23 @@
-﻿using Movie.Data;
+﻿using Microsoft.EntityFrameworkCore;
 using Movie.Domain.POCO;
+using Movie.Persistance.Context;
 using Movie.Worker.Services.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Movie.Worker.Services.Implementations
 {
     public class RoomService : IRoomService
     {
-        public readonly IRoomRepository _roomRepository;
-        public readonly IRoomArchiveRepository _roomArchiveRepository;
-
-
-        public RoomService(IRoomRepository roomRepository, IRoomArchiveRepository roomArchiveRepository)
+        public async Task CheckAndArchiveRoom(MovieDBContext dBContext)
         {
-            _roomRepository = roomRepository;
-            _roomArchiveRepository = roomArchiveRepository;
-        }
-
-        public async Task CheckAndArchiveRoom()
-        {
-            var rooms = await _roomRepository.GetAllRoomWithMovieAsync();
+            var rooms = await dBContext.Rooms.Include(x => x.Movie).ToListAsync();
 
             foreach (var room in rooms)
             {
-                if (room.PremierTime < DateTime.UtcNow) 
+                if (room.PremierTime < DateTime.UtcNow)
                 {
-                    await _roomArchiveRepository.AddRoomArchiveAsync(new RoomArchive()
+                    await dBContext.RoomArchives.AddAsync(new RoomArchive()
                     {
                         Id = Guid.NewGuid(),
                         RoomId = room.Id,
@@ -46,17 +35,24 @@ namespace Movie.Worker.Services.Implementations
                     });
 
                     //Delete room
-                    await _roomRepository.DeleteRoomAsync(await _roomRepository.GetRoomAsync(room.Id));
+                    dBContext.Rooms.Remove(await dBContext.Rooms.FirstAsync(rm => rm.Id == room.Id));
+                    await dBContext.SaveChangesAsync();
                 }
 
             }
         }
 
-        public async Task CheckIfRoomHasMovie()
+        public async Task CheckIfRoomHasMovie(MovieDBContext dBContext)
         {
-            foreach (var room in await _roomRepository.GetAllRoomWithMovieAsync())
+            foreach (var room in await dBContext.Rooms.Include(x => x.Movie).ToListAsync())
+            {
                 if (room.Movie == null)
-                    await _roomRepository.DeleteRoomAsync(await _roomRepository.GetRoomAsync(room.Id));
+                {
+                    dBContext.Rooms.Remove(await dBContext.Rooms.FirstAsync(rm => rm.Id == room.Id));
+                    await dBContext.SaveChangesAsync();
+
+                }
+            }
         }
 
     }

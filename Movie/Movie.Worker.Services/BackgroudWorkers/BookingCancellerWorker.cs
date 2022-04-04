@@ -21,19 +21,22 @@ namespace Movie.Worker.Services.BackgroudWorkers
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            using var mainScope = _serviceProvider.CreateScope();
-            var dbContext = mainScope.ServiceProvider.GetRequiredService<MovieDBContext>();
+            using IServiceScope mainScope = _serviceProvider.CreateScope();
+            MovieDBContext dbContext = mainScope.ServiceProvider.GetRequiredService<MovieDBContext>();
 
-            var serverOptionSerice = mainScope.ServiceProvider.GetRequiredService<IServerOptionService>();
+            IServerOptionService serverOptionSerice = mainScope.ServiceProvider
+                .GetRequiredService<IServerOptionService>();
 
-            var option = await serverOptionSerice.GetOptionAsync("move.worker.booking.canceller.int.time.sec", dbContext);
+            Movie.Services.Models.ServerOption option = await serverOptionSerice
+                .GetOptionAsync("move.worker.booking.canceller.int.time.sec", dbContext);
+
             UpdateTimeInSeconds = int.Parse(option.Value);
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                using (var scope = _serviceProvider.CreateScope())
+                using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
-                    var service = scope.ServiceProvider.GetRequiredService<IBookingService>();
+                    IBookingService service = scope.ServiceProvider.GetRequiredService<IBookingService>();
 
                     await service.CheckAndCancellBookings(dbContext);
                 }

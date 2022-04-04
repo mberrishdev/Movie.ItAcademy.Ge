@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Movie.Services.Abstractions;
+using Movie.Persistance.Context;
 using Movie.Worker.Services.Abstractions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,31 +12,33 @@ namespace Movie.Worker.Services.BackgroudWorkers
     {
         private int UpdateTimeInSeconds { get; set; }
 
-        private readonly Movie.Services.Abstractions.IServerOptionService _serverOptionService;
         private readonly IServiceProvider _serviceProvider;
 
-        public LogsArchiverWorker(Movie.Services.Abstractions.IServerOptionService serverOptionService, IServiceProvider serviceProvider)
+        public LogsArchiverWorker(IServiceProvider serviceProvider)
         {
-            _serverOptionService = serverOptionService;
             _serviceProvider = serviceProvider;
-        }
-
-        public async Task GetUpdateTime()
-        {
-            var option = await _serverOptionService.GetOptionAsync("move.worker.log.archiver.int.time.sec");
-            UpdateTimeInSeconds = int.Parse(option.Value);
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await GetUpdateTime();
+            using IServiceScope mainScope = _serviceProvider.CreateScope();
+            MovieDBContext dbContext = mainScope.ServiceProvider.GetRequiredService<MovieDBContext>();
+
+            IServerOptionService serverOptionSerice = mainScope.ServiceProvider
+                .GetRequiredService<IServerOptionService>();
+
+            Movie.Services.Models.ServerOption option = await serverOptionSerice
+                .GetOptionAsync("move.worker.log.archiver.int.time.sec", dbContext);
+
+            UpdateTimeInSeconds = int.Parse(option.Value);
+
             while (!stoppingToken.IsCancellationRequested)
             {
-                using (var scope = _serviceProvider.CreateScope())
+                using (IServiceScope scope = _serviceProvider.CreateScope())
                 {
-                    var service = scope.ServiceProvider.GetRequiredService<ILogService>();
+                    ILogService service = scope.ServiceProvider.GetRequiredService<ILogService>();
 
-                    await service.CheckAndArchive();
+                    await service.CheckAndArchive(dbContext);
                 }
 
                 await Task.Delay(UpdateTimeInSeconds, stoppingToken);

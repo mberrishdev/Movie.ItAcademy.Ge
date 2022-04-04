@@ -73,7 +73,6 @@ namespace Movie.BO.Web.MVC
             services.AddMemoryCache();
             services.AddServices();
 
-
             services.AddDbContext<MovieDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
 
@@ -85,7 +84,6 @@ namespace Movie.BO.Web.MVC
                 opts.AddPolicy("AspManager", policy =>
                 {
                     policy.RequireRole("Test");
-                    //policy.RequireClaim("Coding-Skill", "ASP.NET Core MVC");
                 });
             });
 
@@ -114,22 +112,7 @@ namespace Movie.BO.Web.MVC
             app.UseRouting();
             app.UseAuthentication();
 
-            var antiforgery = app.ApplicationServices.GetRequiredService<IAntiforgery>();
-
-            //app.Use(async (context, next) =>
-            //{
-            //    var requestPath = context.Request.Path.Value;
-
-            //    if (string.Equals(requestPath, "/", StringComparison.OrdinalIgnoreCase)
-            //        || string.Equals(requestPath, "/index.html", StringComparison.OrdinalIgnoreCase))
-            //    {
-            //        var tokenSet = antiforgery.GetAndStoreTokens(context);
-            //        context.Response.Cookies.Append("XSRF-TOKEN", tokenSet.RequestToken!,
-            //            new CookieOptions { HttpOnly = false });
-            //    }
-
-            //    await next.Invoke();
-            //});
+            IAntiforgery antiforgery = app.ApplicationServices.GetRequiredService<IAntiforgery>();
 
             app.UseAuthorization();
 
@@ -149,10 +132,7 @@ namespace Movie.BO.Web.MVC
                     Predicate = _ => true,
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
                 });
-
                 endpoints.MapHealthChecksUI();
-
-                //endpoints.MapGet("/", async context => await context.Response.WriteAsync("Hello World!"));
             });
         }
     }
