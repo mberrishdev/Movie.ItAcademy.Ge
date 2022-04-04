@@ -7,7 +7,9 @@ namespace Movie.BO.Services.MVC
     public static class Pagination
     {
         public static DomainPagedResult<T> Paginate<T>(this IQueryable<T> collection, DomainPagedQueryBase query)
-            => collection.Paginate(query.Page, query.Results);
+        {
+            return collection.Paginate(query.Page, query.Results);
+        }
 
         private static DomainPagedResult<T> Paginate<T>(this IQueryable<T> collection, int page = 1, int resultsPerPage = 10)
         {
@@ -19,16 +21,16 @@ namespace Movie.BO.Services.MVC
             {
                 resultsPerPage = 10;
             }
-            var isEmpty = collection.Any() == false;
+            bool isEmpty = collection.Any() == false;
 
             if (isEmpty)
             {
                 return DomainPagedResult<T>.Empty;
             }
 
-            var totalResults = collection.Count();
-            var totalPages = (int)Math.Ceiling((decimal)totalResults / resultsPerPage);
-            var data = collection.Limit(page, resultsPerPage).ToList();
+            int totalResults = collection.Count();
+            int totalPages = (int)Math.Ceiling((decimal)totalResults / resultsPerPage);
+            List<T> data = collection.Limit(page, resultsPerPage).ToList();
             return DomainPagedResult<T>.Create(data, page, resultsPerPage, totalPages, totalResults);
         }
 
@@ -42,8 +44,8 @@ namespace Movie.BO.Services.MVC
             {
                 resultsPerPage = 10;
             }
-            var skip = (page - 1) * resultsPerPage;
-            var data = collection.Skip(skip).Take(resultsPerPage);
+            int skip = (page - 1) * resultsPerPage;
+            IQueryable<T> data = collection.Skip(skip).Take(resultsPerPage);
             return data;
         }
     }
@@ -73,7 +75,10 @@ namespace Movie.BO.Services.MVC
             Items = items;
         }
         public static DomainPagedResult<T> Create(List<T> items, int currentPage, int resultsPerPage, int totalPages, long totalResults)
-            => new DomainPagedResult<T>(items, currentPage, resultsPerPage, totalPages, totalResults);
+        {
+            return new DomainPagedResult<T>(items, currentPage, resultsPerPage, totalPages, totalResults);
+        }
+
         public static DomainPagedResult<T> Empty => new DomainPagedResult<T>();
     }
 
