@@ -1,16 +1,14 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movie.BO.Services;
 using Movie.BO.Services.Abstractions;
+using Movie.BO.Services.Models;
 using Movie.BO.Web.MVC.Models;
-using Movie.BO.Web.MVC.Models.Room;
 using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Movie.BO.Services.Models;
-using Microsoft.AspNetCore.Antiforgery;
 
 namespace Movie.BO.Web.MVC.Controllers
 {

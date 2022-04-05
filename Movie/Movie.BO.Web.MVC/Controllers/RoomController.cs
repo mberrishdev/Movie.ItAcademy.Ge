@@ -3,15 +3,13 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services.Abstractions;
-using Movie.BO.Services.Implementations;
+using Movie.BO.Services.MVC;
 using Movie.BO.Web.MVC.Models.Room;
 using Movie.Services.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using PagedList;
-using Movie.BO.Services.MVC;
 
 namespace Movie.BO.Web.MVC.Controllers
 {
@@ -34,7 +32,7 @@ namespace Movie.BO.Web.MVC.Controllers
         }
 
         [IgnoreAntiforgeryToken]
-        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int page = 1,int roomPerPage = 3, RoomWithMovieDTO model = null)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int page = 1, int roomPerPage = 3, RoomWithMovieDTO model = null)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.StatusSortParm = String.IsNullOrEmpty(sortOrder) ? "status_desc" : "";
@@ -120,7 +118,8 @@ namespace Movie.BO.Web.MVC.Controllers
                 Currency = room.Currency,
             });
 
-            return RedirectToAction("AddMovie", "Movie", new {
+            return RedirectToAction("AddMovie", "Movie", new
+            {
                 roomId = roomId
             });
         }

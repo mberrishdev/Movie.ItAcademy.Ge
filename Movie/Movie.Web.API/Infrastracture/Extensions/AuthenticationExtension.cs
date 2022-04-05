@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Movie.Web.API.Infrastracture.Extensions
 {
-    public  static class AuthenticationExtension
+    public static class AuthenticationExtension
     {
         public static IServiceCollection AddTokenAuthentication(this IServiceCollection service, IConfiguration option)
         {

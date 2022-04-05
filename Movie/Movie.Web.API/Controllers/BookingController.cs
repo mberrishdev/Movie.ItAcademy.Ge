@@ -15,7 +15,7 @@ namespace Movie.Web.API.Controllers
     {
         public readonly IBookingService _bookingService;
 
-        public BookingController(IBookingService bookingService, IAccountService accountService) :base(accountService)
+        public BookingController(IBookingService bookingService, IAccountService accountService) : base(accountService)
         {
             _bookingService = bookingService;
         }

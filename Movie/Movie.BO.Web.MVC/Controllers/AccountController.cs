@@ -15,7 +15,7 @@ namespace Movie.BO.Web.MVC.Controllers
     {
         private readonly IAccountService _accountService;
 
-        public AccountController(IAccountService accountService, IAntiforgery antiForgery):base(antiForgery)
+        public AccountController(IAccountService accountService, IAntiforgery antiForgery) : base(antiForgery)
         {
             _accountService = accountService;
         }
@@ -66,7 +66,7 @@ namespace Movie.BO.Web.MVC.Controllers
                 return View();
 
 
-            SignInStatus status = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>(), HttpContext);
+            var status = await _accountService.LoginAsync(model.Adapt<Movie.Services.Models.LogInModel>(), HttpContext);
 
             if (status == SignInStatus.Success)
                 return RedirectToAction("", "");

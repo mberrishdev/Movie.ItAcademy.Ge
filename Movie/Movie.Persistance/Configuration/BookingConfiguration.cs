@@ -18,7 +18,7 @@ namespace Movie.Persistance.Configuration
 
 
             builder.HasOne(a => a.Payment).WithOne(b => b.Booking)
-                .HasForeignKey<Payment> (e => e.BookingId)
+                .HasForeignKey<Payment>(e => e.BookingId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

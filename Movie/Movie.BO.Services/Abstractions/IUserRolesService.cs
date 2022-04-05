@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Movie.BO.Services.Implementations;
 using Movie.BO.Services.Models.User;
-using Movie.Services.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

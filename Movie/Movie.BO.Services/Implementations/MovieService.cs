@@ -9,7 +9,7 @@ namespace Movie.BO.Services.Implementations
         public readonly IMovieRepository _movieRepository;
         public readonly IWebServices _webServices;
 
-        public MovieService(IMovieRepository movieRepository,IWebServices webServices)
+        public MovieService(IMovieRepository movieRepository, IWebServices webServices)
         {
             _movieRepository = movieRepository;
             _webServices = webServices;

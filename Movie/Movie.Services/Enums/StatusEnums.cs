@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Movie.Services.Enums
+﻿namespace Movie.Services.Enums
 {
     public enum SignInStatus
     {

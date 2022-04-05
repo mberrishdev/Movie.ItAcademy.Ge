@@ -68,8 +68,8 @@ namespace Movie.Web.MVC.Controllers
 
             if (status == SignInStatus.Success)
             {
-                if (id != Guid.Empty 
-                    && !string.IsNullOrEmpty(returnAction) 
+                if (id != Guid.Empty
+                    && !string.IsNullOrEmpty(returnAction)
                     && !string.IsNullOrEmpty(returnController))
                     return RedirectToAction(returnAction, returnController, new { id = id });
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace Movie.BO.Web.MVC.Models
 {
     public class ErrorViewModel

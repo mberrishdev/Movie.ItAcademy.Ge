@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Movie.Services.Abstractions;
-using Movie.Web.Services.Implementations;
+using Movie.Services.Implementations;
 using Movie.Web.MVC.Infrastracture.Mappings;
 using Movie.Web.Services.Abstractions;
-using Movie.Services.Implementations;
+using Movie.Web.Services.Implementations;
 
 namespace Movie.Web.MVC.Infrastracture.Extensions
 {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Movie.Services.Abstractions;
 using System.Threading.Tasks;
 
@@ -10,7 +9,7 @@ namespace Movie.Web.API.Infrastracture.Middlewares
         private readonly RequestDelegate _next;
         private readonly IServerOptionService _serverOptionService;
 
-        public ServerOptionsLoaderMiddleware(RequestDelegate next,IServerOptionService serverOptionService)
+        public ServerOptionsLoaderMiddleware(RequestDelegate next, IServerOptionService serverOptionService)
         {
             _next = next;
             _serverOptionService = serverOptionService;

@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Movie.Web.API.Services.Abstractions;
 using Movie.Web.API.Models;
+using Movie.Web.API.Services.Abstractions;
 using Movie.Web.Services.Abstractions;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Movie.Web.API.Controllers
     public class RoomController : BaseController
     {
         public readonly IRoomService _roomService;
-        public RoomController(IRoomService roomService, IAccountService accountService):base(accountService)
+        public RoomController(IRoomService roomService, IAccountService accountService) : base(accountService)
         {
             _roomService = roomService;
         }

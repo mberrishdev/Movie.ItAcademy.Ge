@@ -1,5 +1,4 @@
-﻿using Mapster;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Movie.Web.API.Infrastracture.Mappings
 {

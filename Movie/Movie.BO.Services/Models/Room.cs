@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.BO.Services.Models
 {
@@ -14,7 +12,7 @@ namespace Movie.BO.Services.Models
         public decimal Price { get; set; }
         public string Currency { get; set; }
         public string Status { get; set; }
-        
+
         public Movie Movie { get; set; }
     }
 }

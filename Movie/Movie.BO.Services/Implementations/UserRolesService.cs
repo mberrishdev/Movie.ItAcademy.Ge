@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Exceptions;
 using Movie.BO.Services.Models.User;
-using Movie.Services.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

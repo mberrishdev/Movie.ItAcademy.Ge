@@ -2,11 +2,9 @@
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Movie.BO.Services;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Movie;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers

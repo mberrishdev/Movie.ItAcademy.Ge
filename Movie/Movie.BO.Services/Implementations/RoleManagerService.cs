@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Movie.BO.Services.Abstractions;
-using Movie.Services.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Movie.Domain.POCO;
+﻿using Movie.Domain.POCO;
 using Movie.Persistance.Context;
 using Movie.Services.Abstractions;
 using Movie.Worker.Services.Abstractions;

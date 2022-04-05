@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Movie.Services.Abstractions;
-using Movie.Web.MVC.Models;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;

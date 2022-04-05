@@ -17,7 +17,7 @@ namespace Movie.BO.Services.Implementations
         private readonly IAccountService _accountService;
 
 
-        public UserService(UserManager<IdentityUser> userManager,IAccountService accountService)
+        public UserService(UserManager<IdentityUser> userManager, IAccountService accountService)
         {
             _userManager = userManager;
             _accountService = accountService;
@@ -65,7 +65,7 @@ namespace Movie.BO.Services.Implementations
 
         public async Task DeleteUser(Guid id)
         {
-            var user =  await GetIdentityUserAsync(id);
+            var user = await GetIdentityUserAsync(id);
             await _userManager.DeleteAsync(user);
         }
 

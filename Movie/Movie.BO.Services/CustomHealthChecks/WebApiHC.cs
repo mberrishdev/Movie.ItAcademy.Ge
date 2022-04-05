@@ -13,9 +13,10 @@ namespace Movie.BO.Services.CustomHealthChecks
         {
             var catUrl = "https://localhost:44355/api/Web/HealthCheck";
 
-            var client = new HttpClient();
-
-            client.BaseAddress = new Uri(catUrl);
+            var client = new HttpClient
+            {
+                BaseAddress = new Uri(catUrl)
+            };
 
             HttpResponseMessage response = await client.GetAsync("");
 

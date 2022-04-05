@@ -15,7 +15,7 @@ namespace Movie.BO.Services.Implementations
         public readonly IRoomRepository _roomRepository;
         public readonly IWebServices _webServices;
 
-        public RoomService(IRoomRepository roomRepository,IWebServices webServices, IServerOptionService optionService)
+        public RoomService(IRoomRepository roomRepository, IWebServices webServices, IServerOptionService optionService)
         {
             _roomRepository = roomRepository;
             _webServices = webServices;

@@ -1,21 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Movie.Persistance.Context;
 using Movie.Web.API.Infrastracture.Extensions;
 using Movie.Web.API.Services.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Movie.Web.API
 {
@@ -34,7 +28,7 @@ namespace Movie.Web.API
 
             services.AddControllers();
             services.AddIdentity<IdentityUser, IdentityRole>()
-        .           AddEntityFrameworkStores<MovieDBContext>();
+        .AddEntityFrameworkStores<MovieDBContext>();
 
             services.AddMemoryCache();
             services.AddServices();

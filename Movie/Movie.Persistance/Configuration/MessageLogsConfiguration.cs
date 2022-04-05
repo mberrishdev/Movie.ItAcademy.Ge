@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Movie.Domain.POCO;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Movie.Persistance.Configuration
 {

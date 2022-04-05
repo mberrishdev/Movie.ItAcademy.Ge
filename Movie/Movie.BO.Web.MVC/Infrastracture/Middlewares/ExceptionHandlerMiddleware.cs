@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Movie.BO.Services.Exceptions;
 using Movie.Services.Exceptions;
 using Newtonsoft.Json;
 using System;

@@ -19,7 +19,7 @@ namespace Movie.Web.API.Controllers
         {
             var result = await _accountService.RegisterAsync(model.Adapt<Movie.Services.Models.RegisterModel>());
 
-            if(result.Item1 != null)
+            if (result.Item1 != null)
                 return BadRequest(result.Item1);
 
             return Ok(result.Item2);

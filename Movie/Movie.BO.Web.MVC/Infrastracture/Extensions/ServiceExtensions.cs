@@ -11,7 +11,7 @@ namespace Movie.BO.Web.MVC.Infrastracture.Extensions
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.RegisterMaps(); 
+            services.RegisterMaps();
             services.AddScoped<IMovieService, MovieService>();
             services.AddScoped<IRoomService, RoomService>();
             services.AddScoped<IBookingService, BookingService>();

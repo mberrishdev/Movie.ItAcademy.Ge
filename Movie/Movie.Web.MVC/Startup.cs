@@ -8,9 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movie.Persistance.Context;
-using Movie.Services.Models;
 using Movie.Web.MVC.Infrastracture.Extensions;
-using Movie.Web.MVC.Infrastracture.Middlewares;
 
 namespace Movie.Web.MVC
 {
@@ -42,7 +40,7 @@ namespace Movie.Web.MVC
 
             services.AddDbContext<MovieDBContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
-                
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<MovieDBContext>();
 

@@ -8,7 +8,7 @@ namespace Movie.BO.Web.MVC.Controllers
     public class ErrorController : Controller
     {
         private readonly ILogger<ErrorController> _logger;
-        public ErrorController(ILogger<ErrorController> logger )
+        public ErrorController(ILogger<ErrorController> logger)
         {
             _logger = logger;
         }
@@ -35,7 +35,7 @@ namespace Movie.BO.Web.MVC.Controllers
         [Route("Error")]
         [AllowAnonymous]
         public IActionResult Error()
-        { 
+        {
             var exceptionDetails = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
             ViewBag.ExceptionPath = exceptionDetails.Path;

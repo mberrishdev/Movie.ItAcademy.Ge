@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Movie.Services.Abstractions;
 using Movie.Web.Services.Abstractions;
@@ -21,8 +20,8 @@ namespace Movie.Web.MVC.Controllers
         {
             if (!User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("LogIn", "Account", 
-                    new { id = id, returnAction = "BookRoom", returnController= "Booking" });
+                return RedirectToAction("LogIn", "Account",
+                    new { id = id, returnAction = "BookRoom", returnController = "Booking" });
             }
 
 
@@ -30,7 +29,7 @@ namespace Movie.Web.MVC.Controllers
 
             await _bookingService.BookRoomAsync(id, new Guid(user.Id));
 
-            return RedirectToAction("Index","Room");
+            return RedirectToAction("Index", "Room");
         }
 
     }

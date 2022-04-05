@@ -1,5 +1,4 @@
 ﻿using Mapster;
-using Microsoft.EntityFrameworkCore;
 using Movie.Persistance.Context;
 using Movie.Services.Models;
 using Movie.Worker.Services.Abstractions;

@@ -4,8 +4,6 @@ using Movie.Services.Implementations;
 using Movie.Worker.Services.Abstractions;
 using Movie.Worker.Services.BackgroudWorkers;
 using Movie.Worker.Services.Implementations;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Movie.Worker.Extensions
 {

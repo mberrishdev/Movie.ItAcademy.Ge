@@ -16,7 +16,7 @@ namespace Movie.Worker.Services.BackgroudWorkers
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<BookingCancellerWorker> _logger;
 
-        public BookingCancellerWorker(IServiceProvider serviceProvider,ILogger<BookingCancellerWorker> logger)
+        public BookingCancellerWorker(IServiceProvider serviceProvider, ILogger<BookingCancellerWorker> logger)
         {
             _serviceProvider = serviceProvider;
             _logger = logger;

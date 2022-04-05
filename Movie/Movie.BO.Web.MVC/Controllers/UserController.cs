@@ -64,7 +64,7 @@ namespace Movie.BO.Web.MVC.Controllers
             await _userService.UpdateUserAsync(new IdentityUser()
             {
                 Id = model.Id,
-                UserName = model.UserName,  
+                UserName = model.UserName,
                 Email = model.Email,
             });
 
