@@ -25,6 +25,7 @@ namespace Movie.Web.MVC.Controllers
         [HttpPost("HealthCheck")]
         public async Task<IActionResult> HealthCheck()
         {
+            await Task.Delay(10);
             return Ok();
         }
     }
