@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>dotnet-Movie.Worker-5B3DB026-2869-4AD6-829C-05F410FFE668</UserSecretsId>
   </PropertyGroup>
 
