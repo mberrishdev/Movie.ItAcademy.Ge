@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Movie.Domain.POCO
 {
     public class ServerOption
     {
+        [Key]
         public Guid Id { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }

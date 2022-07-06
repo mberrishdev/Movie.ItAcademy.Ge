@@ -1,12 +1,51 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace Movie.Persistance.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class MyMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "log");
+
+            migrationBuilder.CreateTable(
+                name: "APIWebLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogEvent = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_APIWebLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ArchiveLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogEvent = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ArchiveLogs", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -52,12 +91,105 @@ namespace Movie.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
-                    MovieId = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
-                    BookedDT = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    RoomId = table.Column<Guid>(type: "UniqueIdentifier", nullable: false),
+                    BookedDT = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentStatus = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bookings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BOWebLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogEvent = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BOWebLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessageLog",
+                schema: "log",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SendDate = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageLog", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MessageQueues",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContactAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MessageQueues", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MVCWebLogs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Level = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LogEvent = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MVCWebLogs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoomArchives",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PremieredTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RoomUserCapacity = table.Column<int>(type: "int", nullable: false),
+                    UserCount = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gener = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Director = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IMDBReiting = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BannerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomArchives", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,6 +198,7 @@ namespace Movie.Persistance.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     PremierTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DurationMinutes = table.Column<int>(type: "int", nullable: false),
                     RoomUserCapacity = table.Column<int>(type: "int", nullable: false),
                     UserCount = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -75,6 +208,23 @@ namespace Movie.Persistance.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Rooms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ServerOptions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Key = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Attribute1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Attribute2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Attribute3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Attribute4 = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServerOptions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -268,6 +418,12 @@ namespace Movie.Persistance.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "APIWebLogs");
+
+            migrationBuilder.DropTable(
+                name: "ArchiveLogs");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -283,10 +439,29 @@ namespace Movie.Persistance.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BOWebLogs");
+
+            migrationBuilder.DropTable(
+                name: "MessageLog",
+                schema: "log");
+
+            migrationBuilder.DropTable(
+                name: "MessageQueues");
+
+            migrationBuilder.DropTable(
                 name: "Movies");
 
             migrationBuilder.DropTable(
+                name: "MVCWebLogs");
+
+            migrationBuilder.DropTable(
                 name: "Payments");
+
+            migrationBuilder.DropTable(
+                name: "RoomArchives");
+
+            migrationBuilder.DropTable(
+                name: "ServerOptions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
