@@ -1,43 +1,30 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Movie.Persistance.Context;
 using Movie.Web.API.Infrastracture.Extensions;
 using Movie.Web.API.Services.Models;
 using System.Collections.Generic;
 
-namespace Movie.Web.API
+namespace Movie.Web.Api.Infrastracture.StartupConfiguration
 {
-    public class Startup
+    public static class ServiceConfiguration
     {
-        public Startup(IConfiguration configuration)
+        public static WebApplicationBuilder ConfigureService(this WebApplicationBuilder builder)
         {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+            IServiceCollection services = builder.Services;
+            var configuration = builder.Configuration;
 
             services.AddControllers();
             services.AddIdentity<IdentityUser, IdentityRole>()
-        .AddEntityFrameworkStores<MovieDBContext>();
+                    .AddEntityFrameworkStores<MovieDBContext>();
 
             services.AddMemoryCache();
             services.AddServices();
 
 
-            services.Configure<JwtConfiguration>(Configuration.GetSection(nameof(JwtConfiguration)));
-
-            services.AddDbContext<MovieDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("MovieDBContextConnection")));
+            services.Configure<JwtConfiguration>(configuration.GetSection(nameof(JwtConfiguration)));
 
             services.AddSwaggerGen(config =>
             {
@@ -79,34 +66,9 @@ namespace Movie.Web.API
                 });
             });
 
-            services.AddTokenAuthentication(Configuration);
-        }
+            services.AddTokenAuthentication(configuration);
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
-            //app.UseServerOptionsLoaderMiddleware();
-            app.UseMiddleware<Infrastracture.Middlewares.ExceptionHandlerMiddleware>();
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            return builder;
         }
     }
 }

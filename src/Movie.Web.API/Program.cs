@@ -1,38 +1,53 @@
-using Microsoft.AspNetCore.Hosting;
+
+
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Movie.Persistance.Context;
+using Movie.Web.Api.Infrastracture.StartupConfiguration;
 using Serilog;
-using System.IO;
+using System;
 
-namespace Movie.Web.API
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    //connectionString: configuration.GetSection("ConnectionStrings:MovieDBContextConnection").Value,
+    //tableName: configuration.GetSection("Serilog:TableName").Value,
+    //appConfiguration: configuration,
+    //autoCreateSqlTable: true,
+    //columnOptionsSection: configuration.GetSection("Serilog:ColumnOptions"),
+    //schemaName: configuration.GetSection("Serilog:SchemaName").Value)
+    .CreateLogger();
+try
 {
-    public class Program
+    Log.Information("Starting host");
+    var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddDbContext<MovieDBContext>(options =>
     {
-        public static void Main(string[] args)
-        {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
+        options.UseSqlServer(builder.Configuration.GetConnectionString("MovieDBContextConnection"));
+    });
 
-            Log.Logger = new LoggerConfiguration()
-                .WriteTo.MSSqlServer(
-                connectionString: configuration.GetSection("ConnectionStrings:MovieDBContextConnection").Value,
-                tableName: configuration.GetSection("Serilog:TableName").Value,
-                appConfiguration: configuration,
-                autoCreateSqlTable: true,
-                columnOptionsSection: configuration.GetSection("Serilog:ColumnOptions"),
-                schemaName: configuration.GetSection("Serilog:SchemaName").Value)
-                .CreateLogger();
+    Log.Information("Configuring web host");
+    builder.ConfigureHost();
 
-            CreateHostBuilder(args).Build().Run();
-        }
+    Log.Information("Configuring services");
+    builder.ConfigureService();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+    var app = builder.Build();
+    Log.Information("Configuring middleware");
+    app.ConfigureMiddleware();
+
+    Log.Information("Starting app");
+    app.Run();
+    Log.Information("Stopping host");
+    //return 0;
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Host terminated unexpecredly");
+}
+finally
+{
+    Log.CloseAndFlush();
 }
