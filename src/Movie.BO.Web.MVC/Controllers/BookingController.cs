@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Services.Models;
 using Movie.BO.Web.MVC.Models;
-using Movie.Services.Enums;
+using Movie.Domain.Booking.Commands;
+using Movie.Domain.Enums;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Movie.BO.Web.MVC.Controllers
@@ -27,7 +29,7 @@ namespace Movie.BO.Web.MVC.Controllers
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Index()
         {
-            List<Booking> result = await _bookingService.GetAllBookingsAsync();
+            List<Booking> result = await _bookingService.GetAllBookingsAsync(CancellationToken.None);
 
             if (result == null)
                 return RedirectToAction("Index", "NotFound");
@@ -39,7 +41,8 @@ namespace Movie.BO.Web.MVC.Controllers
 
         public async Task<IActionResult> CancellBooking(Guid id)
         {
-            await _bookingService.ChangeBookingStatus(id, BookingStatus.CancelledByModerator);
+            await _bookingService.ChangeBookingStatus(new ChangeBookingStatusCommand() { BookId = id, Status = BookingStatus.CancelledByModerator },
+                cancellationToken: CancellationToken.None);
             return RedirectToAction("Index");
         }
 

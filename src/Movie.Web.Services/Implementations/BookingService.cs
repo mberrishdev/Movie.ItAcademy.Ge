@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Movie.Data;
+using Movie.Domain.Enums;
 using Movie.Services.Enums;
 using Movie.Web.Services.Abstractions;
 using Movie.Web.Services.Exceptions;
@@ -46,7 +47,7 @@ namespace Movie.Web.Services.Implementations
                 Status = BookingStatus.Active
             };
 
-            await _bookingRepository.BookRoomAsync(bookingModel.Adapt<Domain.POCO.Booking>());
+            await _bookingRepository.BookRoomAsync(bookingModel.Adapt<Domain.Booking.Booking>());
 
             //Increase room user Count
             await _roomService.IncreaseUserCountAsync(roomId);

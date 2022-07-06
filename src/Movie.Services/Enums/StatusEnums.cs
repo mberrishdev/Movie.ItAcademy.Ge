@@ -5,20 +5,20 @@
         Success,
         Failure
     }
-    public enum RoomStatus
-    {
-        New,
-        Active,
-        InActive
-    }
+    //public enum RoomStatus
+    //{
+    //    New,
+    //    Active,
+    //    InActive
+    //}
 
-    public enum BookingStatus
-    {
-        Active,
-        CancelledByModerator,
-        CancelledByUser,
-        CancelledByWorker
-    }
+    //public enum BookingStatus
+    //{
+    //    Active,
+    //    CancelledByModerator,
+    //    CancelledByUser,
+    //    CancelledByWorker
+    //}
 
     public enum PaymentStatus
     {

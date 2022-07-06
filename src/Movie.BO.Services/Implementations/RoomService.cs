@@ -1,9 +1,8 @@
 ﻿using Mapster;
 using Movie.BO.Services.Abstractions;
-using Movie.BO.Services.Models;
 using Movie.Data;
-using Movie.Services.Abstractions;
-using Movie.Services.Enums;
+using Movie.Domain.Rooms;
+using Movie.Domain.Rooms.Commands;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,22 +11,20 @@ namespace Movie.BO.Services.Implementations
 {
     public class RoomService : IRoomService
     {
-        public readonly IRoomRepository _roomRepository;
+        private readonly IBaseRepository<Room> _baseRepository;
         public readonly IWebServices _webServices;
 
-        public RoomService(IRoomRepository roomRepository, IWebServices webServices, IServerOptionService optionService)
+        public RoomService(WebServices webServices, IBaseRepository<Room> baseRepository)
         {
-            _roomRepository = roomRepository;
             _webServices = webServices;
+            _baseRepository = baseRepository;
         }
 
 
-        public async Task<Guid> AddRoomAsync(Room room)
+        public async Task<int> AddRoomAsync(CreateRoomCommand command)
         {
-            room.Id = Guid.NewGuid();
-            room.UserCount = 0;
-            room.Status = RoomStatus.New.ToString();
-            await _roomRepository.AddRoomAsync(room.Adapt<Domain.POCO.Room>());
+            var room = new Room(command);
+            await _baseRepository.AddAsync(room);
 
             //Relode web data
             await _webServices.RelodeWebData();

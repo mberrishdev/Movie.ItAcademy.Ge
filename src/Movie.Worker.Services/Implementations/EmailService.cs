@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Movie.Domain.POCO;
+using Movie.Domain.POCO.Booking;
 using Movie.Persistance.Context;
 using Movie.Services.Enums;
 using Movie.Worker.Services.Abstractions;

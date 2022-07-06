@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Movie.Domain.POCO;
+using Movie.Domain.POCO.Booking;
 
 namespace Movie.Persistance.Configuration
 {

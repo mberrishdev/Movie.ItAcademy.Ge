@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movie.BO.Services.Abstractions;
 using Movie.BO.Web.MVC.Models.Movie;
+using Movie.Domain.Movie.Commands;
 using System;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace Movie.BO.Web.MVC.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            await _movieService.AddMovieAsync(movie.Adapt<Services.Models.Movie>());
+            await _movieService.AddMovieAsync(movie.Adapt<CreateMovieCommand>());
             return View(movie);
         }
     }

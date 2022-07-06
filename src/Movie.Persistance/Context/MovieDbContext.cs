@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Movie.Domain.POCO.Booking;
 
 namespace Movie.Persistance.Context
 {
@@ -11,7 +12,7 @@ namespace Movie.Persistance.Context
 
         public DbSet<Domain.POCO.Movie> Movies { get; set; }
         public DbSet<Domain.POCO.Room> Rooms { get; set; }
-        public DbSet<Domain.POCO.Booking> Bookings { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
         public DbSet<Domain.POCO.Payment> Payments { get; set; }
         public DbSet<Domain.POCO.RoomArchive> RoomArchives { get; set; }
         public DbSet<Domain.POCO.ServerOption> ServerOptions { get; set; }

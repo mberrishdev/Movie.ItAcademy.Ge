@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Movie.Domain.POCO;
+using Movie.Domain.Rooms;
 
 namespace Movie.Persistance.Configuration
 {
@@ -8,7 +8,6 @@ namespace Movie.Persistance.Configuration
     {
         public void Configure(EntityTypeBuilder<Room> builder)
         {
-            builder.HasKey(x => x.Id);
 
             builder.Property(x => x.PremierTime).IsRequired();
             builder.Property(x => x.RoomUserCapacity).IsRequired();

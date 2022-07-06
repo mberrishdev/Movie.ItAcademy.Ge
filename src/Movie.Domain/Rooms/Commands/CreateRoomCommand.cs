@@ -1,19 +1,13 @@
 ﻿using System;
 
-namespace Movie.Domain.POCO
+namespace Movie.Domain.Rooms.Commands
 {
-    public class Room
+    public class CreateRoomCommand
     {
-        public Guid Id { get; set; }
         public DateTime PremierTime { get; set; }
         public int DurationMinutes { get; set; }
         public int RoomUserCapacity { get; set; }
-        public int UserCount { get; set; }
         public decimal Price { get; set; }
         public string Currency { get; set; }
-        public string Status { get; set; }
-
-        public Movie Movie { get; set; }
-
     }
 }

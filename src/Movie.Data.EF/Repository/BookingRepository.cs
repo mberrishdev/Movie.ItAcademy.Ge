@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Movie.Domain.POCO;
+﻿using Movie.Domain.Bookings;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Movie.Data.EF.Repository
@@ -19,24 +16,6 @@ namespace Movie.Data.EF.Repository
         public async Task BookRoomAsync(Booking bookingModel)
         {
             await _baseRepository.AddAsync(bookingModel);
-        }
-
-        public async Task ChangeBookingStatusAsync(Guid id, string bookingStatus)
-        {
-            var booking = await _baseRepository.Table.FirstOrDefaultAsync(booking => booking.Id == id);
-            booking.Status = bookingStatus;
-            await _baseRepository.UpdateAsync(booking);
-        }
-
-        public async Task<List<Booking>> GetAlActiveBookingsAsync()
-        {
-            return await _baseRepository.Table.Where(booking => booking.Status == "Active")
-                                         .ToListAsync();
-        }
-
-        public async Task<List<Booking>> GetAllBookingsAsync()
-        {
-            return await _baseRepository.GetAllAsync();
         }
 
         public async Task<bool> IsExistAsync(Guid bookingId)

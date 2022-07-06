@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Movie.Data.EF
@@ -21,14 +22,15 @@ namespace Movie.Data.EF
 
         public IQueryable<T> Table => _dbSet;
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.ToListAsync(cancellationToken);
         }
 
-        public async Task<T> GetAsync(params object[] key)
+        public async Task<T> GetAsync(object key, CancellationToken cancellationToken = default)
         {
-            return await _dbSet.FindAsync(key);
+            var obj = new object[1] { key };
+            return await _dbSet.FindAsync(obj, cancellationToken: cancellationToken);
         }
 
         public async Task AddAsync(T entity)
@@ -37,14 +39,14 @@ namespace Movie.Data.EF
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
         {
             if (entity == null)
                 return;
 
             _dbSet.Update(entity);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
         public async Task RemoveAsync(T entity)
